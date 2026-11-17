@@ -1,26 +1,39 @@
-# Eastlake High School — Data Structures Unit 3 FRQ & Big-O Practice Studio
+# Eastlake High School — Wolves Data Structures Practice Studios (Unit 2 & Unit 3)
 
-An interactive, self-contained LeetCode-style web application for practicing Python 3 Free Response Questions (FRQs), static style rules, and Big-O complexity analysis for **EHS Data Structures Unit 3: Complexity, Recursion, and Backtracking** (`Decks 1–5`).
+Interactive, self-contained, GitHub Pages-ready "LeetCode-style" Python 3 web applications designed for Eastlake High School's **Data Structures** course.
 
-## Features
+## Studios Included
 
-1. **Split-Pane FRQ Practice Arena (17 Medium-Hard Problems)**
-   - **Left Pane**: Problem prompt, function signature, concrete input/output trace examples, **Course Style Warning Box**, **3 Progressive Collapsible Hints** (*Hint 1: Base Case*, *Hint 2: Recursive/Choose Step*, *Hint 3: Unchoose/Complexity*), and a hidden **Reference Solution & 5-Point EHS FRQ Rubric** tab with interactive self-scoring.
-   - **Right Pane**: Python 3 code editor with line numbers, **Exam Mode (No Autocomplete)** toggle to simulate handwritten FRQ exams, interactive **Big-O Complexity Verification** dropdown, **Automated EHS Style Grader**, and **6 `RR - Retake Required` Unit Tests** per problem (102 total tests).
-2. **In-Browser Python 3 Execution Engine + Pyodide Wasm Support**
-   - Runs all 17 FRQ problems and 102 `RR - Retake Required` unit tests directly in the browser with call-stack depth tracking (`RecursionError` on linear recursion for $10^8$) and step-limit protection (`TimeoutError` on naive $O(3^n)$ tree recursion).
-3. **Automated EHS Style Grader (Static AST / Regex Linter)**
-   - **Rule A (No Loops in Pure Recursion)**: Disallows `for`/`while` loops and comprehensions in pure recursive problems.
-   - **Rule B (No Arm's-Length Recursion)**: Enforces Deck 5 Slide 25 (*"Don't check for weight before your recursive call! Check weight in the base case instead."*).
-   - **Rule C (State Restoration Check)**: Verifies that in-place backtracking mutations (`.pop()`, `.append()`, `maze[r][c] = '@'`, `board[row][col] = 'Q'`) are paired with their corresponding Unchoose restorations (`.add()`, `.insert()`, `maze[r][c] = cell`, `board[row][col] = '.'`).
-4. **"Mini-Celebration" Quiz Mode (10 Questions)**
-   - Covers `insert_n_ones` ($O(n^2)$ hidden loop), `looped_search` ($O(m \log n)$), `mystery(11)` call-stack unwinding, `faster_power` redundant-call trap, `move_tower`, in-place `subset_sum_exists`, `additive_sequence` ($O(n)$ vs $O(2^n)$), `get_permutations1` ($O(n \cdot n!)$) vs `get_permutations2` ($O(n!)$), and Slide 25 Arm's-Length Recursion.
-5. **Curriculum Knowledge Base Tab (Decks 1–5)**
-   - Complete quick-reference cards extracted from all 5 lecture slide decks.
+### 1. Unit 2 Studio: Data Structures (`index.html` / `ehs_unit2_data_structures_studio.html`)
+Covers **Unit 2: Stacks, Queues, Maps (`dict`), Sets (`set`), and Maze Adventure (BFS)**:
+- **💻 Coding Problems (12 Problems, 48 Automated `_RR` Unit Tests)**
+  1. `[Lesson 1 - Easy]` Implement the Stack Interface (`UserStack` from `list`)
+  2. `[Lesson 1 - Easy - RR]` Palindrome Checker (`is_palindrome(text: str) -> bool`)
+  3. `[Lesson 1 - Medium - RR]` Parentheses & Bracket Checker (`check_brackets(expr: str) -> bool`)
+  4. `[Lesson 1 - Medium - RR]` Reverse Polish Notation Calculator (`eval_rpn(tokens: list[str]) -> float`)
+  5. `[Lesson 2 - Easy]` Reverse a Queue Using a Stack (`reverse_queue(q: Queue) -> Queue`)
+  6. `[Lesson 2 - Medium]` War Card Game Round Simulator (`play_war(p1_cards, p2_cards, max_rounds) -> str`)
+  7. `[Lesson 3 - Easy - RR]` Airport Codes Lookup & Updater (`manage_airports(codes, lookups, new_entries) -> list`)
+  8. `[Lesson 3 - Medium - RR]` Group Playing Cards by Rank (`group_cards_by_name(hand: list[Card]) -> dict[str, list[Card]]`)
+  9. `[Lesson 3 - Easy]` Letter Frequency Counter (`letter_frequency(words: list[str]) -> dict[str, int]`)
+  10. `[Lesson 4 - Medium - RR]` Unique Word Prefixes (`unique_prefixes(words: list[str], length: int) -> set[str]`)
+  11. `[Lesson 4 - Medium]` Restaurant Menu & Scorigami Set Operations (`analyze_sets(...) -> dict`)
+  12. `[Lesson 5 Project - Hard]` Maze Adventure Shortest Path Solver (`solve_maze(maze, start, end)` with BFS `Queue` of `Stack`s, `deepcopy`, and locked rooms + keys)
+- **🧠 Code Tracing & Concept Quiz (8 Questions)**: Warm-up tracing for `Stack` (`"busp"`), combined `Stack` & `Queue`, dictionary reassignments (`eeny`, `meeny`, `mo`, `miney`), nested structures (`movie_collection`), and `set` algebra (`vegetables | fruits`).
+- **📚 Study Guide & Cheat Sheet**: Complete reference for ADTs, LIFO vs. FIFO, custom `Stack`/`Queue` interfaces, `dict` (`.get()`, `.setdefault()`, `.items()`), `set` (`.add()`, `.update()`, `.discard()`, `&`, `|`, `-`), and the BFS Queue-of-Stacks Maze template.
+- **In-Browser Python 3 Execution (Pyodide v0.25.0)** with pre-loaded `Stack`, `Queue`, `Card`, `MazeRoom`, and `deepcopy`, plus `localStorage` persistence.
+
+---
+
+### 2. Unit 3 Studio: Complexity, Recursion & Backtracking (`ehs_unit3_frq_studio.html`)
+Covers **Unit 3: Big-O Complexity, Recursion, and Backtracking (`Decks 1–5`)**:
+- **17 Medium-Hard FRQ Problems** (102 `RR - Retake Required` unit tests)
+- **Automated EHS Style Grader** (Static AST / Regex Linter enforcing *Rule A: No Loops in Pure Recursion*, *Rule B: No Arm's-Length Recursion*, and *Rule C: State Restoration*)
+- **10-Question "Mini-Celebration" Quiz Mode** & **Curriculum Knowledge Base**
 
 ## Running Locally
 
-Open `index.html` directly in any modern browser, or serve locally:
+Open `index.html` (Unit 2) or `ehs_unit3_frq_studio.html` (Unit 3) directly in any modern browser, or serve locally:
 
 ```bash
 python3 -m http.server 8000

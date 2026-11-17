@@ -1,0 +1,2870 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wolves Data Structures Prep — Eastlake HS Unit 2 Studio (Stacks, Queues, Maps, Sets & BFS)</title>
+  <meta name="description" content="Interactive Python Practice Studio, Automated Unit Test Runner (Pyodide + Instant Engine), Code Tracing Quiz, and Study Guide for Eastlake High School Data Structures Unit 2 Celebration." />
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      background-color: #0b0d12;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .font-mono-code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      font-variant-ligatures: none;
+    }
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f1219;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    /* Editor styling */
+    #code-editor {
+      tab-size: 4;
+      -moz-tab-size: 4;
+      line-height: 1.6rem;
+      caret-color: #DC143C;
+    }
+    #line-numbers {
+      line-height: 1.6rem;
+      user-select: none;
+    }
+    .problem-pill-active {
+      background-color: #8B0000;
+      color: #ffffff;
+      border-color: #DC143C;
+      box-shadow: 0 0 10px rgba(220, 20, 60, 0.35);
+    }
+    .ehs-crimson-gradient {
+      background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#0b0d12] text-slate-100 antialiased selection:bg-[#DC143C]/30 selection:text-rose-200">
+
+  <!-- TOP NAVIGATION BAR (WOLVES DATA STRUCTURES PREP) -->
+  <header class="sticky top-0 z-30 border-b border-slate-800/90 bg-[#10131a]/95 backdrop-blur">
+    <div class="max-w-[1600px] mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <!-- Brand Title -->
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg ehs-crimson-gradient border border-rose-400/40 flex items-center justify-center text-white font-extrabold text-sm tracking-tighter shadow-md">
+          🐺
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-sm sm:text-base font-bold tracking-tight text-slate-100">
+              Wolves Data Structures Prep • Eastlake HS Unit 2 Studio
+            </h1>
+            <span class="hidden md:inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-[#8B0000]/40 text-rose-200 border border-[#DC143C]/50">
+              Unit 2 Celebration Prep
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 hidden sm:block">
+            ADTs, Stacks (LIFO), Queues (FIFO), Maps (<code class="text-rose-300">dict</code>), Sets (<code class="text-rose-300">set</code>) &amp; Maze BFS
+          </p>
+        </div>
+      </div>
+
+      <!-- 3 Main Navigation Tabs + Unit 3 Link -->
+      <nav class="flex items-center bg-[#0b0d12] p-1 rounded-lg border border-slate-800" aria-label="Main Views">
+        <button id="tab-btn-arena" onclick="switchMainTab('arena')" class="px-3 py-1.5 rounded-md text-xs font-semibold transition-all bg-[#DC143C] text-white shadow-sm">
+          💻 Coding Problems (12)
+        </button>
+        <button id="tab-btn-quiz" onclick="switchMainTab('quiz')" class="px-3 py-1.5 rounded-md text-xs font-semibold transition-all text-slate-300 hover:text-white">
+          🧠 Code Tracing &amp; Quiz (8)
+        </button>
+        <button id="tab-btn-study" onclick="switchMainTab('study')" class="px-3 py-1.5 rounded-md text-xs font-semibold transition-all text-slate-300 hover:text-white">
+          📚 Study Guide &amp; Cheat Sheet
+        </button>
+      </nav>
+
+      <!-- Progress, Unit Switcher & Pyodide Engine Status -->
+      <div class="flex items-center gap-2 text-xs">
+        <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800">
+          <span class="text-slate-400">Solved:</span>
+          <span id="nav-solved-count" class="font-mono-code font-bold text-emerald-400">0 / 12</span>
+        </div>
+        <div class="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800">
+          <span class="text-slate-400">Quiz:</span>
+          <span id="nav-quiz-count" class="font-mono-code font-bold text-rose-400">0 / 8</span>
+        </div>
+        <div id="engine-status-badge" class="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-950/50 border border-emerald-700/50 text-emerald-300" title="Runs real Python 3 code via Pyodide WebAssembly (with instant zero-latency fallback)">
+          <span id="engine-status-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span id="engine-status-text">Python 3 Engine Ready</span>
+        </div>
+        <a href="ehs_unit3_frq_studio.html" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 transition font-medium" title="Switch to Eastlake HS Unit 3 (Big-O, Recursion & Backtracking) Studio">
+          <span>Unit 3 Studio →</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- VIEW 1: CODING PROBLEMS (LEETCODE WORKSPACE - 12 PROBLEMS)                -->
+  <!-- ========================================================================= -->
+  <main id="view-arena" class="flex-1 flex flex-col max-w-[1600px] w-full mx-auto px-3 sm:px-4 py-3 gap-3">
+
+    <!-- Problem Selector Bar -->
+    <section class="bg-[#121621] border border-slate-800 rounded-xl p-2.5 flex flex-wrap items-center justify-between gap-2" aria-label="Problem Navigation">
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 max-w-full" id="problem-pills-container">
+        <!-- Populated dynamically by JS -->
+      </div>
+      <div class="flex items-center gap-1.5 shrink-0 ml-auto">
+        <button id="btn-prev-prob" onclick="navigateProblem(-1)" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition">
+          ← Prev
+        </button>
+        <select id="problem-select-dropdown" onchange="selectProblem(Number(this.value))" aria-label="Select Coding Problem" class="bg-slate-900 text-slate-100 text-xs rounded px-2.5 py-1 border border-slate-700 focus:outline-none focus:border-[#DC143C]">
+          <!-- Populated by JS -->
+        </select>
+        <button id="btn-next-prob" onclick="navigateProblem(1)" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition">
+          Next →
+        </button>
+      </div>
+    </section>
+
+    <!-- Main Split-Pane Container -->
+    <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-start">
+
+      <!-- LEFT PANE: Problem Selector Info, Description, Examples, Hints & Reference Solution (5 cols) -->
+      <section class="lg:col-span-5 bg-[#121621] border border-slate-800 rounded-xl flex flex-col overflow-hidden">
+        <!-- Left Pane Sub-Tabs -->
+        <div class="flex items-center justify-between px-3.5 py-2 bg-[#0d1017] border-b border-slate-800">
+          <div class="flex items-center gap-1.5">
+            <button id="left-tab-prompt" onclick="switchLeftTab('prompt')" class="px-3 py-1 rounded-md text-xs font-semibold bg-[#DC143C]/20 text-rose-300 border border-[#DC143C]/40">
+              Problem &amp; Hints
+            </button>
+            <button id="left-tab-rubric" onclick="switchLeftTab('rubric')" class="px-3 py-1 rounded-md text-xs font-semibold text-slate-400 hover:text-slate-200 border border-transparent">
+              Reference Solution &amp; Notes
+            </button>
+          </div>
+          <span id="left-problem-status" class="text-xs font-medium text-slate-400">Unsolved</span>
+        </div>
+
+        <!-- Sub-Tab 1: Problem Description, Signature, Helper Class Notice, Examples, Progressive Hints -->
+        <div id="left-pane-prompt-content" class="p-4 space-y-4 overflow-y-auto max-h-[780px]">
+          <!-- Title & Metadata Badges -->
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="prob-lesson-badge" class="px-2 py-0.5 rounded text-xs font-semibold bg-[#8B0000]/40 text-rose-200 border border-[#DC143C]/50">
+                Lesson 1
+              </span>
+              <span id="prob-diff-badge" class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-950 text-emerald-300 border border-emerald-800">
+                Easy
+              </span>
+              <span id="prob-rr-badge" class="hidden px-2 py-0.5 rounded text-xs font-bold bg-rose-950 text-rose-300 border border-rose-700" title="Retake Required (RR) mastery problem">
+                RR • Retake Required
+              </span>
+              <span id="prob-topic-badge" class="px-2 py-0.5 rounded text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
+                Stacks (LIFO)
+              </span>
+            </div>
+            <h2 id="prob-title" class="text-lg font-bold text-white tracking-tight">
+              1. Implement the Stack Interface
+            </h2>
+          </div>
+
+          <!-- Function / Class Signature Box -->
+          <div class="bg-[#0b0d12] border border-slate-800 rounded-lg p-3">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Target Signature</span>
+              <button onclick="copySignature()" id="btn-copy-sig" class="text-xs text-rose-400 hover:text-rose-300 font-medium">
+                Copy
+              </button>
+            </div>
+            <pre id="prob-signature" class="font-mono-code text-xs text-rose-300 overflow-x-auto whitespace-pre-wrap"></pre>
+          </div>
+
+          <!-- Problem Prompt Text -->
+          <div id="prob-description" class="text-sm text-slate-200 leading-relaxed space-y-2.5"></div>
+
+          <!-- Eastlake Course Convention / Tip Box -->
+          <div class="rounded-lg bg-[#8B0000]/20 border border-[#DC143C]/40 p-3.5 space-y-1.5">
+            <div class="flex items-center gap-2 text-rose-300 font-bold text-xs uppercase tracking-wide">
+              <svg class="w-4 h-4 shrink-0 text-[#DC143C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span id="prob-note-title">Eastlake Unit 2 Course Tip</span>
+            </div>
+            <p id="prob-note-desc" class="text-xs text-rose-100/90 leading-relaxed whitespace-pre-line"></p>
+          </div>
+
+          <!-- Examples Section -->
+          <div class="space-y-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Examples &amp; Trace Cases</h3>
+            <div id="prob-examples" class="space-y-2"></div>
+          </div>
+
+          <!-- 3 Expandable Hints -->
+          <div class="space-y-2 pt-1 border-t border-slate-800">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">
+                Progressive Hints (Click to Expand)
+              </h3>
+              <button onclick="unlockNextHint()" id="btn-unlock-hint" class="text-xs text-rose-400 hover:text-rose-300 font-semibold">
+                Reveal Next Hint
+              </button>
+            </div>
+
+            <!-- Hint 1 -->
+            <div class="border border-slate-800 rounded-lg bg-[#0d1017] overflow-hidden">
+              <button onclick="toggleHint(0)" class="w-full px-3 py-2 text-left flex items-center justify-between text-xs font-semibold text-slate-200 hover:bg-slate-800/50 transition">
+                <span>Hint 1: Core Approach &amp; Data Structure Setup</span>
+                <span id="hint-badge-0" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">Click to Reveal</span>
+              </button>
+              <div id="hint-body-0" class="hidden px-3 py-2.5 text-xs text-slate-300 border-t border-slate-800 bg-[#0b0d12] leading-relaxed"></div>
+            </div>
+
+            <!-- Hint 2 -->
+            <div class="border border-slate-800 rounded-lg bg-[#0d1017] overflow-hidden">
+              <button onclick="toggleHint(1)" class="w-full px-3 py-2 text-left flex items-center justify-between text-xs font-semibold text-slate-200 hover:bg-slate-800/50 transition">
+                <span>Hint 2: Step-by-Step Logic</span>
+                <span id="hint-badge-1" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">Click to Reveal</span>
+              </button>
+              <div id="hint-body-1" class="hidden px-3 py-2.5 text-xs text-slate-300 border-t border-slate-800 bg-[#0b0d12] leading-relaxed"></div>
+            </div>
+
+            <!-- Hint 3 -->
+            <div class="border border-slate-800 rounded-lg bg-[#0d1017] overflow-hidden">
+              <button onclick="toggleHint(2)" class="w-full px-3 py-2 text-left flex items-center justify-between text-xs font-semibold text-slate-200 hover:bg-slate-800/50 transition">
+                <span>Hint 3: Edge Cases (`_RR` Retake Eligibility Checks)</span>
+                <span id="hint-badge-2" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">Click to Reveal</span>
+              </button>
+              <div id="hint-body-2" class="hidden px-3 py-2.5 text-xs text-slate-300 border-t border-slate-800 bg-[#0b0d12] leading-relaxed"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-Tab 2: Toggleable Reference Solution & Walkthrough -->
+        <div id="left-pane-rubric-content" class="hidden p-4 space-y-4 overflow-y-auto max-h-[780px]">
+          <div id="rubric-locked-card" class="bg-[#0b0d12] border border-slate-800 rounded-xl p-6 text-center space-y-3">
+            <div class="w-10 h-10 rounded-full bg-[#DC143C]/15 border border-[#DC143C]/40 text-rose-400 flex items-center justify-center mx-auto font-bold">
+              🐺
+            </div>
+            <h3 class="text-sm font-bold text-white">Official Unit 2 Reference Solution</h3>
+            <p class="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
+              Give the problem a try first using the built-in <code class="text-rose-300">Stack</code>, <code class="text-rose-300">Queue</code>, <code class="text-rose-300">dict</code>, and <code class="text-rose-300">set</code> methods! Click below whenever you want to compare with the reference solution.
+            </p>
+            <button onclick="revealReferenceSolution()" class="px-4 py-2 rounded-lg ehs-crimson-gradient hover:opacity-95 text-white text-xs font-bold transition shadow">
+              Reveal Reference Solution
+            </button>
+          </div>
+
+          <div id="rubric-unlocked-content" class="hidden space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400">
+                Eastlake HS Reference Solution
+              </h3>
+              <button onclick="loadReferenceIntoEditor()" class="px-2.5 py-1 rounded bg-[#DC143C] hover:bg-[#b81032] text-white text-xs font-semibold transition">
+                Load into Editor
+              </button>
+            </div>
+            <pre id="prob-ref-solution" class="bg-[#0b0d12] border border-slate-800 rounded-lg p-3.5 font-mono-code text-xs text-emerald-300 overflow-x-auto leading-relaxed"></pre>
+
+            <!-- Key Takeaways / Rubric Checklist -->
+            <div class="space-y-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">
+                Celebration Grading Checklist
+              </h3>
+              <div id="prob-rubric-list" class="space-y-1.5"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT PANE: Code Editor & Automated Unit Test Runner Console (7 cols) -->
+      <section class="lg:col-span-7 flex flex-col gap-3.5">
+
+        <!-- Right Top Pane: Code Editor Card -->
+        <div class="bg-[#121621] border border-slate-800 rounded-xl overflow-hidden flex flex-col">
+          <!-- Editor Top Toolbar -->
+          <div class="px-3.5 py-2 bg-[#0d1017] border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="font-mono-code text-xs font-semibold text-slate-200 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-[#DC143C]"></span>
+                solution.py
+              </span>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800/80 text-slate-300 border border-slate-700 font-mono-code">
+                Pre-loaded: Stack, Queue, Card, MazeRoom, deepcopy
+              </span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2">
+              <button onclick="resetStarterCode()" class="px-2.5 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition">
+                Reset Code
+              </button>
+              <button id="btn-run-tests" onclick="runProblemTests()" class="px-3.5 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+                <span>Run Tests (Ctrl+Enter)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Method Insert Bar -->
+          <div id="autocomplete-bar" class="px-3 py-1.5 bg-[#0b0d12] border-b border-slate-800/80 flex items-center gap-1.5 overflow-x-auto text-xs">
+            <span class="text-[11px] text-slate-400 shrink-0 mr-1">Quick Insert:</span>
+            <button onclick="insertSnippet('Stack()')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">Stack()</button>
+            <button onclick="insertSnippet('Queue()')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">Queue()</button>
+            <button onclick="insertSnippet('.push()')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">.push()</button>
+            <button onclick="insertSnippet('.pop()')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">.pop()</button>
+            <button onclick="insertSnippet('.enqueue()')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">.enqueue()</button>
+            <button onclick="insertSnippet('.dequeue()')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">.dequeue()</button>
+            <button onclick="insertSnippet('.is_empty()')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">.is_empty()</button>
+            <button onclick="insertSnippet('.get(k, default)')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">.get()</button>
+            <button onclick="insertSnippet('.setdefault(k, v)')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">.setdefault()</button>
+            <button onclick="insertSnippet('deepcopy(path)')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">deepcopy()</button>
+          </div>
+
+          <!-- Code Editor Textarea with Synchronized Line Numbers -->
+          <div class="relative flex h-[340px] bg-[#080a0f]">
+            <div id="line-numbers" class="w-11 py-3 px-2 text-right font-mono-code text-xs text-slate-600 bg-[#0b0d12] border-r border-slate-800/80 overflow-hidden shrink-0">
+              1
+            </div>
+            <textarea
+              id="code-editor"
+              spellcheck="false"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              aria-label="Python 3 Code Editor"
+              class="w-full h-full py-3 px-3.5 bg-transparent text-slate-100 font-mono-code text-xs sm:text-[13px] resize-none focus:outline-none overflow-y-auto"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Right Bottom Pane: Test Runner Console -->
+        <div class="bg-[#121621] border border-slate-800 rounded-xl p-4 space-y-3.5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+              <span>Automated Unit Test Runner Console (<span class="text-rose-400 font-mono-code">_RR</span> Retake Eligibility Suite)</span>
+            </h3>
+            <span id="test-suite-summary" class="text-xs font-mono-code text-slate-400">
+              Ready to Run
+            </span>
+          </div>
+
+          <!-- Stdout / Print & Traceback Box (shown when student prints or errors occur) -->
+          <div id="console-stdout-box" class="hidden bg-[#080a0f] border border-slate-800 rounded-lg p-3 space-y-1">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Standard Output (`print`) / Execution Log</div>
+            <pre id="console-stdout-text" class="font-mono-code text-xs text-amber-200 whitespace-pre-wrap overflow-x-auto max-h-40"></pre>
+          </div>
+
+          <!-- Individual Test Case Cards -->
+          <div id="test-results-grid" class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- VIEW 2: CODE TRACING & CONCEPT QUIZ (8 WARM-UP QUESTIONS)                 -->
+  <!-- ========================================================================= -->
+  <main id="view-quiz" class="hidden flex-1 max-w-[1200px] w-full mx-auto px-4 py-5 space-y-5">
+    <div class="bg-[#121621] border border-slate-800 rounded-xl p-5 flex flex-wrap items-center justify-between gap-4">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-[#8B0000]/50 text-rose-200 border border-[#DC143C]/60">
+            Class Warm-Up Tracing &amp; Concept Check
+          </span>
+          <span class="text-xs text-slate-400">Lessons 1–5 Celebration Prep</span>
+        </div>
+        <h2 class="text-xl font-bold text-white">
+          🧠 Unit 2 Code Tracing &amp; Concept Quiz (8 Questions)
+        </h2>
+        <p class="text-xs text-slate-300 max-w-2xl">
+          Modeled directly after Eastlake High School class warm-ups: trace <code class="text-rose-300">Stack</code> push/pop/peek outputs, combined <code class="text-rose-300">Stack</code> &amp; <code class="text-rose-300">Queue</code> loops, dictionary key reassignments (<code class="text-rose-300">eeny, meeny, mo, miney</code>), nested structures (<code class="text-rose-300">movie_collection</code>), and <code class="text-rose-300">set</code> operations!
+        </p>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="bg-[#0b0d12] border border-slate-800 rounded-xl px-4 py-2.5 text-center">
+          <div class="text-[11px] uppercase tracking-wider text-slate-400">Quiz Score</div>
+          <div id="quiz-score-banner" class="text-lg font-mono-code font-bold text-emerald-400">0 / 8</div>
+        </div>
+        <button onclick="resetQuiz()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition">
+          Reset Quiz
+        </button>
+      </div>
+    </div>
+
+    <div id="quiz-questions-container" class="space-y-4">
+      <!-- Populated by JS -->
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- VIEW 3: STUDY GUIDE & CHEAT SHEET (UNIT 2 REFERENCE)                      -->
+  <!-- ========================================================================= -->
+  <main id="view-study" class="hidden flex-1 max-w-[1350px] w-full mx-auto px-4 py-5 space-y-5">
+    <div class="bg-[#121621] border border-slate-800 rounded-xl p-5 flex flex-wrap items-center justify-between gap-4">
+      <div class="space-y-1.5">
+        <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-[#8B0000]/50 text-rose-200 border border-[#DC143C]/60">
+          Wolves Unit 2 Reference Guide
+        </span>
+        <h2 class="text-xl font-bold text-white">
+          📚 Eastlake HS Unit 2 Data Structures Study Guide &amp; Cheat Sheet
+        </h2>
+        <p class="text-xs text-slate-300">
+          Everything you need for the Unit 2 Celebration: Abstract Data Types (ADTs), LIFO vs. FIFO, Eastlake custom <code class="text-rose-300">Stack</code> &amp; <code class="text-rose-300">Queue</code> classes, Python <code class="text-rose-300">dict</code> &amp; <code class="text-rose-300">set</code> methods, and the Maze Adventure BFS Queue-of-Stacks algorithm.
+        </p>
+      </div>
+    </div>
+
+    <!-- Top Row: Core Vocabulary & ADT Overview -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div class="bg-[#121621] border border-slate-800 rounded-xl p-4 space-y-2.5">
+        <h3 class="text-sm font-bold text-rose-400">1. Abstract Data Types (ADTs) vs. Atomic Types</h3>
+        <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4 leading-relaxed">
+          <li><strong>Abstract Data Type (ADT):</strong> Defined by its <em>behavior</em> (what operations it supports) rather than its underlying implementation. Provides <strong>simplicity</strong> and <strong>flexibility</strong>.</li>
+          <li><strong>Atomic Data Types:</strong> Basic building blocks like <code class="text-sky-300">int</code>, <code class="text-sky-300">float</code>, <code class="text-sky-300">bool</code>, <code class="text-sky-300">char</code> combined to construct larger collections.</li>
+        </ul>
+      </div>
+
+      <div class="bg-[#121621] border border-slate-800 rounded-xl p-4 space-y-2.5">
+        <h3 class="text-sm font-bold text-rose-400">2. Ordered Collection Types (Stacks &amp; Queues)</h3>
+        <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4 leading-relaxed">
+          <li><strong>Order Matters:</strong> Items are stored and processed based on the exact sequence of arrival/insertion.</li>
+          <li><strong>Stack (LIFO — Last In, First Out):</strong> Like a stack of plates or the function call stack. Last pushed is first popped.</li>
+          <li><strong>Queue (FIFO — First In, First Out):</strong> Like a line at a store or print queue. First enqueued is first dequeued.</li>
+        </ul>
+      </div>
+
+      <div class="bg-[#121621] border border-slate-800 rounded-xl p-4 space-y-2.5">
+        <h3 class="text-sm font-bold text-rose-400">3. Associative / "Unordered" Types (Maps &amp; Sets)</h3>
+        <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4 leading-relaxed">
+          <li><strong>Focus on Associations &amp; Membership:</strong> Not concerned with index position.</li>
+          <li><strong>Map / Dictionary (<code class="text-sky-300">dict</code>):</strong> Associates unique <strong>keys</strong> with <strong>values</strong>. Duplicate keys overwrite old values.</li>
+          <li><strong>Set (<code class="text-sky-300">set</code>):</strong> Unordered collection of <strong>unique</strong> items (no duplicates allowed) for fast <code class="text-emerald-300">in</code> / <code class="text-emerald-300">not in</code> membership checks.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Middle Row: The 4 Collection Types Detailed Cards -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+      <!-- Card A: Stacks -->
+      <div class="bg-[#121621] border border-slate-800 rounded-xl p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold text-rose-400">A. Stacks (LIFO — Last In, First Out)</h3>
+          <span class="px-2 py-0.5 rounded text-[11px] font-mono-code bg-slate-800 text-slate-300">Lesson 1</span>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          <strong>Common Use Cases:</strong> Reversing data order, symmetric pattern matching (palindromes, balanced parentheses <code class="text-sky-300">{[()]}</code>), Undo/Redo history, RPN postfix evaluation, and the <strong>Function Call Stack</strong> (infinite recursion causes <em>Stack Overflow</em>).
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400">
+                <th class="py-1.5 pr-2">Custom `Stack` Method</th>
+                <th class="py-1.5 px-2">Underlying `list` Implementation</th>
+                <th class="py-1.5 pl-2">Behavior</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 font-mono-code text-[11px]">
+              <tr>
+                <td class="py-1.5 pr-2 text-rose-300">s.push(item)</td>
+                <td class="py-1.5 px-2 text-sky-300">self._items.append(item)</td>
+                <td class="py-1.5 pl-2 font-sans text-slate-300">Adds `item` to the top of the stack.</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 pr-2 text-rose-300">s.pop()</td>
+                <td class="py-1.5 px-2 text-sky-300">self._items.pop()</td>
+                <td class="py-1.5 pl-2 font-sans text-slate-300">Removes &amp; returns the top item.</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 pr-2 text-rose-300">s.peek()</td>
+                <td class="py-1.5 px-2 text-sky-300">self._items[len(self._items) - 1]</td>
+                <td class="py-1.5 pl-2 font-sans text-slate-300">Returns top item without removing it.</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 pr-2 text-rose-300">s.is_empty()</td>
+                <td class="py-1.5 px-2 text-sky-300">len(self._items) == 0</td>
+                <td class="py-1.5 pl-2 font-sans text-slate-300">Returns `True` if stack has 0 items.</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 pr-2 text-rose-300">s.clear()</td>
+                <td class="py-1.5 px-2 text-sky-300">self._items.clear()</td>
+                <td class="py-1.5 pl-2 font-sans text-slate-300">Removes all items from the stack.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Card B: Queues -->
+      <div class="bg-[#121621] border border-slate-800 rounded-xl p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold text-rose-400">B. Queues (FIFO — First In, First Out)</h3>
+          <span class="px-2 py-0.5 rounded text-[11px] font-mono-code bg-slate-800 text-slate-300">Lesson 2</span>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          <strong>Common Use Cases:</strong> Call centers, online order fulfillment, printer queues, turn-based card games (War), and <strong>Breadth-First Search (BFS)</strong> level-by-level shortest path exploration.
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400">
+                <th class="py-1.5 pr-2">Custom `Queue` Method</th>
+                <th class="py-1.5 px-2">Underlying `list` Implementation</th>
+                <th class="py-1.5 pl-2">Behavior</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 font-mono-code text-[11px]">
+              <tr>
+                <td class="py-1.5 pr-2 text-rose-300">q.enqueue(item)</td>
+                <td class="py-1.5 px-2 text-sky-300">self._items.append(item)</td>
+                <td class="py-1.5 pl-2 font-sans text-slate-300">Adds `item` to the back of the line.</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 pr-2 text-rose-300">q.dequeue()</td>
+                <td class="py-1.5 px-2 text-sky-300">self._items.pop(0)</td>
+                <td class="py-1.5 pl-2 font-sans text-slate-300">Removes &amp; returns front item.</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 pr-2 text-rose-300">q.peek()</td>
+                <td class="py-1.5 px-2 text-sky-300">self._items[0]</td>
+                <td class="py-1.5 pl-2 font-sans text-slate-300">Returns front item without removing it.</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 pr-2 text-rose-300">q.is_empty()</td>
+                <td class="py-1.5 px-2 text-sky-300">len(self._items) == 0</td>
+                <td class="py-1.5 pl-2 font-sans text-slate-300">Returns `True` if queue is empty.</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 pr-2 text-rose-300">q.clear()</td>
+                <td class="py-1.5 px-2 text-sky-300">self._items.clear()</td>
+                <td class="py-1.5 pl-2 font-sans text-slate-300">Empties the queue.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Card C: Maps / Dictionaries -->
+      <div class="bg-[#121621] border border-slate-800 rounded-xl p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold text-rose-400">C. Maps / Dictionaries (`dict` — Key-Value Pairs)</h3>
+          <span class="px-2 py-0.5 rounded text-[11px] font-mono-code bg-slate-800 text-slate-300">Lesson 3</span>
+        </div>
+        <ul class="text-xs text-slate-300 space-y-1.5 list-disc pl-4 leading-relaxed">
+          <li><strong>Initialize:</strong> <code class="text-sky-300">d = {}</code> or <code class="text-sky-300">d = dict()</code> or <code class="text-sky-300">d = {"samus": "867-5309"}</code></li>
+          <li><strong>Safe Access (Preferred!):</strong> <code class="text-emerald-300">d.get("mario")</code> returns <code class="text-slate-400">None</code> (or a custom default like <code class="text-emerald-300">d.get("mario", "UNKNOWN")</code>) if missing, whereas <code class="text-rose-300">d["mario"]</code> raises a <code class="text-rose-300">KeyError</code>!</li>
+          <li><strong>Add / Update vs. Non-Overwriting Insert:</strong>
+            <br/>• <code class="text-sky-300">d["zelda"] = "432-8789"</code> overwrites any existing value for <code class="text-sky-300">"zelda"</code>.
+            <br/>• <code class="text-emerald-300">d.setdefault("zelda", "432-8789")</code> ONLY sets the key if it does <em>not</em> already exist in <code class="text-sky-300">d</code>!
+          </li>
+          <li><strong>Remove:</strong> <code class="text-sky-300">d.pop("pikachu", default_val)</code> (returns deleted value or <code class="text-sky-300">default_val</code>) or <code class="text-sky-300">del d["pikachu"]</code>.</li>
+          <li><strong>Efficient Iteration:</strong> Use <code class="text-emerald-300">for key, val in d.items():</code> to access both key and value without redundant lookups.</li>
+        </ul>
+      </div>
+
+      <!-- Card D: Sets -->
+      <div class="bg-[#121621] border border-slate-800 rounded-xl p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold text-rose-400">D. Sets (`set` — Unique Membership &amp; Algebra)</h3>
+          <span class="px-2 py-0.5 rounded text-[11px] font-mono-code bg-slate-800 text-slate-300">Lesson 4</span>
+        </div>
+        <ul class="text-xs text-slate-300 space-y-1.5 list-disc pl-4 leading-relaxed">
+          <li><strong>Empty Set Trap:</strong> <code class="text-emerald-300">s = set()</code> creates an empty set (<code class="text-rose-300">{}</code> creates an empty <code class="text-rose-300">dict</code>!). Non-empty: <code class="text-sky-300">s = {"Pizza", "Wings"}</code>.</li>
+          <li><strong>Add Single vs. Multiple:</strong> <code class="text-sky-300">s.add("Fries")</code> (one item) vs. <code class="text-sky-300">s.update(["Tacos", "Burger"])</code> (all items from an iterable).</li>
+          <li><strong>Safe Remove:</strong> <code class="text-emerald-300">s.discard("Pizza")</code> does nothing if missing; <code class="text-rose-300">s.remove("Pizza")</code> throws a <code class="text-rose-300">KeyError</code> if missing!</li>
+          <li><strong>Set Mathematical Operations:</strong>
+            <br/>• <strong>Intersection (in BOTH):</strong> <code class="text-emerald-300">set1 &amp; set2</code> or <code class="text-emerald-300">set1.intersection(set2)</code>
+            <br/>• <strong>Difference (in set1, NOT set2):</strong> <code class="text-amber-300">set1 - set2</code> or <code class="text-amber-300">set1.difference(set2)</code>
+            <br/>• <strong>Union (in EITHER set combined):</strong> <code class="text-sky-300">set1 | set2</code> or <code class="text-sky-300">set1.union(set2)</code>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Row: Unit 2 Capstone Concept - Maze Adventure (BFS Queue of Stacks) -->
+    <div class="bg-[#121621] border border-slate-800 rounded-xl p-5 space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <h3 class="text-base font-bold text-rose-400">
+          3. Unit 2 Capstone Architecture: Maze Adventure Shortest Path (BFS with Queue of Stacks)
+        </h3>
+        <span class="px-2.5 py-0.5 rounded text-xs font-mono-code bg-[#8B0000]/40 text-rose-200 border border-[#DC143C]/50">
+          Lesson 5 Project
+        </span>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+        <div class="lg:col-span-5 space-y-2 text-xs text-slate-300 leading-relaxed">
+          <p>
+            <strong>Why Breadth-First Search (BFS)?</strong> Unlike Depth-First Search (DFS), BFS explores rooms <em>level-by-level</em> using a <strong>Queue</strong>, which guarantees the first path to reach <code class="text-emerald-300">end</code> is the <strong>shortest path</strong>!
+          </p>
+          <ul class="list-disc pl-4 space-y-1.5">
+            <li><strong>Maze Representation:</strong> A <code class="text-sky-300">dict[str, MazeRoom]</code> mapping each room name to its <code class="text-sky-300">MazeRoom(adjacent_rooms, keys, locked)</code> object.</li>
+            <li><strong>Queue of Stacks:</strong> The BFS <code class="text-rose-300">Queue</code> holds <code class="text-rose-300">Stack</code> objects. Each <code class="text-rose-300">Stack</code> represents a path of room names from <code class="text-sky-300">start</code> (bottom) to the current room (<code class="text-sky-300">path.peek()</code> at the top).</li>
+            <li><strong>Why <code class="text-amber-300">deepcopy(path)</code> is Critical:</strong> Before pushing a neighbor onto a path, you MUST make a <code class="text-amber-300">deepcopy</code> so branching paths don't mutate the same <code class="text-rose-300">Stack</code> reference!</li>
+            <li><strong>Locked Rooms &amp; Keys:</strong> Visiting a room collects <code class="text-emerald-300">room.keys</code>. A locked room can only be entered once its room name is in your collected keys set!</li>
+          </ul>
+        </div>
+        <div class="lg:col-span-7">
+          <pre class="bg-[#080a0f] border border-slate-800 rounded-lg p-3.5 font-mono-code text-[11px] text-slate-200 overflow-x-auto leading-relaxed"># Standard Unit 2 BFS Queue-of-Stacks Template (Unlocked Rooms)
+def solve_simple_maze(maze: dict, start: str, end: str):
+    paths = Queue()
+    initial_path = Stack()
+    initial_path.push(start)
+    paths.enqueue(initial_path)
+    visited = {start} # Set of visited room names
+
+    while not paths.is_empty():
+        current_path = paths.dequeue()
+        current_room = current_path.peek()
+
+        if current_room == end:
+            return current_path.to_list() # Found shortest path!
+
+        for neighbor in maze[current_room].adjacent_rooms:
+            if neighbor not in visited and not maze[neighbor].locked:
+                visited.add(neighbor)
+                next_path = deepcopy(current_path) # CRITICAL: copy before pushing!
+                next_path.push(neighbor)
+                paths.enqueue(next_path)
+    return None</pre>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- APPLICATION JAVASCRIPT: PYODIDE + BUILT-IN ENGINE, 12 PROBLEMS, 8 QUIZZES -->
+  <!-- ========================================================================= -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js" async onload="initPyodideEngine()" onerror="handlePyodideError()"></script>
+  <script>
+    // =========================================================================
+    // 1. BUILT-IN COURSE HELPER CLASSES (PYTHON PREAMBLE FOR PYODIDE)
+    // =========================================================================
+    const PYTHON_COURSE_PREAMBLE = `
+from copy import deepcopy
+
+class Stack:
+    def __init__(self):
+        self._items = []
+    def push(self, item):
+        self._items.append(item)
+    def pop(self):
+        if self.is_empty():
+            raise IndexError("pop from empty stack")
+        return self._items.pop()
+    def peek(self):
+        if self.is_empty():
+            raise IndexError("peek from empty stack")
+        return self._items[len(self._items) - 1]
+    def is_empty(self):
+        return len(self._items) == 0
+    def clear(self):
+        self._items.clear()
+    def to_list(self):
+        return list(self._items) # bottom to top
+    def __repr__(self):
+        return f"Stack(bottom -> top: {self._items})"
+
+class Queue:
+    def __init__(self):
+        self._items = []
+    def enqueue(self, item):
+        self._items.append(item)
+    def dequeue(self):
+        if self.is_empty():
+            raise IndexError("dequeue from empty queue")
+        return self._items.pop(0)
+    def peek(self):
+        if self.is_empty():
+            raise IndexError("peek from empty queue")
+        return self._items[0]
+    def is_empty(self):
+        return len(self._items) == 0
+    def clear(self):
+        self._items.clear()
+    def to_list(self):
+        return list(self._items) # front to back
+    def __repr__(self):
+        return f"Queue(front -> back: {self._items})"
+
+class Card:
+    def __init__(self, rank_name, suit, code):
+        self.rank_name = rank_name
+        self.suit = suit
+        self.code = code
+    def get_card_name(self):
+        return self.rank_name
+    def __eq__(self, other):
+        return isinstance(other, Card) and self.code == other.code and self.rank_name == other.rank_name
+    def __repr__(self):
+        return self.code
+
+class MazeRoom:
+    def __init__(self, adjacent_rooms=None, keys=None, locked=False):
+        self.adjacent_rooms = adjacent_rooms or []
+        self.keys = keys or []
+        self.locked = locked
+`;
+
+    // =========================================================================
+    // 2. PYODIDE WEBASSEMBLY INITIALIZATION & FALLBACK PYTHON ENGINE
+    // =========================================================================
+    let pyodideReady = false;
+    let pyodide = null;
+
+    async function initPyodideEngine() {
+      const badge = document.getElementById('engine-status-badge');
+      const dot = document.getElementById('engine-status-dot');
+      const text = document.getElementById('engine-status-text');
+      try {
+        if (typeof loadPyodide === 'function') {
+          text.textContent = 'Loading Pyodide Python 3...';
+          dot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
+          pyodide = await loadPyodide({
+            indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+          });
+          pyodideReady = true;
+          dot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+          text.textContent = 'Pyodide Python 3.11 Ready';
+          badge.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-950/60 border border-emerald-700/60 text-emerald-300';
+        }
+      } catch (err) {
+        handlePyodideError();
+      }
+    }
+
+    function handlePyodideError() {
+      const dot = document.getElementById('engine-status-dot');
+      const text = document.getElementById('engine-status-text');
+      if (dot && text) {
+        dot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+        text.textContent = 'Local Python 3 Engine Ready';
+      }
+    }
+
+    // =========================================================================
+    // 3. LOCALSTORAGE STATE MANAGEMENT
+    // =========================================================================
+    const STORAGE_KEY_CODE = 'ehs_unit2_code_drafts_v1';
+    const STORAGE_KEY_SOLVED = 'ehs_unit2_solved_v1';
+    const STORAGE_KEY_QUIZ = 'ehs_unit2_quiz_v1';
+
+    let currentProblemIndex = 0;
+    let userCodeMap = {};
+    let solvedMap = {};
+    let quizAnswersMap = {};
+    let unlockedHintsMap = {};
+    let rubricRevealedMap = {};
+
+    function loadPersistedState() {
+      try {
+        const savedCode = localStorage.getItem(STORAGE_KEY_CODE);
+        if (savedCode) userCodeMap = JSON.parse(savedCode);
+        const savedSolved = localStorage.getItem(STORAGE_KEY_SOLVED);
+        if (savedSolved) solvedMap = JSON.parse(savedSolved);
+        const savedQuiz = localStorage.getItem(STORAGE_KEY_QUIZ);
+        if (savedQuiz) quizAnswersMap = JSON.parse(savedQuiz);
+      } catch (_) {}
+    }
+
+    function savePersistedState() {
+      try {
+        localStorage.setItem(STORAGE_KEY_CODE, JSON.stringify(userCodeMap));
+        localStorage.setItem(STORAGE_KEY_SOLVED, JSON.stringify(solvedMap));
+        localStorage.setItem(STORAGE_KEY_QUIZ, JSON.stringify(quizAnswersMap));
+      } catch (_) {}
+    }
+
+    // =========================================================================
+    // 4. ALL 12 REQUIRED UNIT 2 CODING PROBLEMS (WITH _RR TEST CASES)
+    // =========================================================================
+    const PROBLEMS = [
+      // -----------------------------------------------------------------------
+      // PROBLEM 1: Implement the Stack Interface (UserStack from list)
+      // -----------------------------------------------------------------------
+      {
+        id: 1,
+        slug: "user_stack",
+        title: "1. Implement the Stack Interface (`UserStack`)",
+        fnName: "UserStack",
+        signature: "class UserStack:\n    def __init__(self):\n    def push(self, val):\n    def pop(self):\n    def peek(self):\n    def is_empty(self) -> bool:\n    def clear(self):",
+        lesson: "Lesson 1: Stacks",
+        difficulty: "Easy",
+        isRR: false,
+        topic: "Stack ADT from Python list",
+        prompt: "In Eastlake High School's Data Structures course, a <strong>Stack</strong> is an Ordered Abstract Data Type (ADT) that follows <strong>LIFO (Last In, First Out)</strong> behavior.<br/><br/>Implement the custom class <code>UserStack</code> backed by an internal Python <code>list</code> (e.g., <code>self._items = []</code>) supporting all 5 core course operations:<br/>• <code>push(self, val)</code>: Adds <code>val</code> to the top of the stack (<code>list.append(val)</code>).<br/>• <code>pop(self)</code>: Removes and returns the top item from the stack (<code>list.pop()</code>). Raise an <code>IndexError</code> if empty.<br/>• <code>peek(self)</code>: Returns the top item without removing it (<code>self._items[len(self._items) - 1]</code>). Raise an <code>IndexError</code> if empty.<br/>• <code>is_empty(self)</code>: Returns <code>True</code> if the stack contains 0 items, otherwise <code>False</code>.<br/>• <code>clear(self)</code>: Removes all items from the stack.",
+        noteTitle: "Lesson 1 Key Concept: Why End of List = Top of Stack?",
+        noteDesc: "Using the end of a Python list (`append()` and `pop()`) as the top of the stack runs in O(1) constant time! If you used index 0 (`insert(0, x)` and `pop(0)`), every operation would have to shift all elements in memory.",
+        examples: [
+          {
+            input: "s = UserStack(); s.push('a'); s.push('b'); [s.peek(), s.pop(), s.is_empty(), s.pop(), s.is_empty()]",
+            output: "['b', 'b', False, 'a', True]",
+            note: "'b' was pushed last (LIFO), so peek() and the first pop() both return 'b'."
+          },
+          {
+            input: "s = UserStack(); s.push(10); s.push(20); s.clear(); s.is_empty()",
+            output: "True",
+            note: "clear() empties the underlying list."
+          }
+        ],
+        hints: [
+          "Hint 1: In `__init__(self):`, initialize `self._items = []` to store the stack elements from bottom (index 0) to top (last index).",
+          "Hint 2: Implement `push(self, val)` with `self._items.append(val)`, `is_empty(self)` with `return len(self._items) == 0`, and `clear(self)` with `self._items.clear()` (or `self._items = []`).",
+          "Hint 3: In `pop(self)` and `peek(self)`, check `if self.is_empty(): raise IndexError('empty stack')` before calling `return self._items.pop()` or `return self._items[len(self._items) - 1]`."
+        ],
+        starterCode: `class UserStack:
+    def __init__(self):
+        # Initialize your underlying Python list
+        self._items = []
+
+    def push(self, val):
+        # Add val to the top of the stack
+        pass
+
+    def pop(self):
+        # Remove and return the top item
+        pass
+
+    def peek(self):
+        # Return the top item without removing it
+        pass
+
+    def is_empty(self) -> bool:
+        # Return True if the stack has no items
+        pass
+
+    def clear(self):
+        # Remove all items from the stack
+        pass
+`,
+        referenceSolution: `class UserStack:
+    def __init__(self):
+        self._items = []
+
+    def push(self, val):
+        self._items.append(val)
+
+    def pop(self):
+        if self.is_empty():
+            raise IndexError("pop from empty stack")
+        return self._items.pop()
+
+    def peek(self):
+        if self.is_empty():
+            raise IndexError("peek from empty stack")
+        return self._items[len(self._items) - 1]
+
+    def is_empty(self) -> bool:
+        return len(self._items) == 0
+
+    def clear(self):
+        self._items.clear()
+`,
+        rubric: [
+          "Initializes `self._items = []` in `__init__`.",
+          "`push(val)` appends to the end of the list (`self._items.append(val)`).",
+          "`pop()` removes and returns the last element (`self._items.pop()`).",
+          "`peek()` returns `self._items[len(self._items) - 1]` without modifying the stack.",
+          "`is_empty()` and `clear()` accurately report and reset the stack state."
+        ],
+        tests: [
+          {
+            name: "test_lifo_push_pop_peek",
+            pyExpr: "(lambda s: (s.push('wolves'), s.push('crimson'), [s.peek(), s.pop(), s.peek(), s.pop(), s.is_empty()])[-1])(UserStack())",
+            inputDisplay: "push('wolves'), push('crimson') -> [peek(), pop(), peek(), pop(), is_empty()]",
+            expected: ["crimson", "crimson", "wolves", "wolves", true]
+          },
+          {
+            name: "test_is_empty_and_clear",
+            pyExpr: "(lambda s: (s.is_empty(), s.push(1), s.push(2), s.is_empty(), s.clear(), s.is_empty()))(UserStack())",
+            inputDisplay: "new UserStack() -> push(1), push(2) -> clear() -> check is_empty()",
+            expected: [true, null, null, false, null, true]
+          },
+          {
+            name: "test_interleaved_operations_RR",
+            pyExpr: "(lambda s: (s.push(10), s.push(20), s.pop(), s.push(30), [s.peek(), s.pop(), s.pop(), s.is_empty()])[-1])(UserStack())",
+            inputDisplay: "push(10), push(20), pop(), push(30) -> [peek(), pop(), pop(), is_empty()]",
+            expected: [30, 30, 10, true]
+          },
+          {
+            name: "test_empty_pop_raises_error_RR",
+            pyExpr: "(lambda s: ('IndexError' if (lambda: [s.pop() for _ in range(1)]) and False else 'ok'))(UserStack())",
+            customPyCheck: `
+s = UserStack()
+raised = False
+try:
+    s.pop()
+except IndexError:
+    raised = True
+__result__ = raised
+`,
+            inputDisplay: "UserStack().pop() on empty stack raises IndexError",
+            expected: true
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // PROBLEM 2: Palindrome Checker (is_palindrome) - RR
+      // -----------------------------------------------------------------------
+      {
+        id: 2,
+        slug: "is_palindrome",
+        title: "2. Stack Palindrome Checker (`is_palindrome`)",
+        fnName: "is_palindrome",
+        signature: "def is_palindrome(text: str) -> bool:",
+        lesson: "Lesson 1: Stacks",
+        difficulty: "Easy",
+        isRR: true,
+        topic: "Reversing Order with a Stack",
+        prompt: "A <strong>palindrome</strong> is a word or sequence that reads the exact same forwards and backwards (such as <code>\"dogod\"</code>, <code>\"goog\"</code>, or <code>\"racecar\"</code>).<br/><br/>Write a function <code>is_palindrome(text: str) -> bool</code> that uses the course <code>Stack</code> class to check whether <code>text</code> is a palindrome:<br/>1. Create a <code>Stack()</code> and <code>push</code> every character from <code>text</code> onto the stack.<br/>2. Pop characters off the stack one by one (which yields them in <strong>reverse</strong> order!) and compare them against the characters of <code>text</code> from left to right (or build the reversed string and compare).<br/>3. Return <code>True</code> if <code>text</code> matches its reversal, or <code>False</code> otherwise.",
+        noteTitle: "Retake Required (RR) Rule: Use a Stack!",
+        noteDesc: "On the Unit 2 Celebration, do NOT use `text[::-1]` slicing for stack problems! Show that you can push characters onto a `Stack()` and `.pop()` them off in LIFO order to reverse the sequence.",
+        examples: [
+          { input: "text = \"racecar\"", output: "True", note: "Popping from the stack yields 'r','a','c','e','c','a','r'." },
+          { input: "text = \"dogod\"", output: "True", note: "Symmetric odd-length palindrome." },
+          { input: "text = \"wolves\"", output: "False", note: "Reversed is 'sevlov' != 'wolves'." }
+        ],
+        hints: [
+          "Hint 1: Instantiate `s = Stack()` and loop `for ch in text: s.push(ch)`.",
+          "Hint 2: Loop `for ch in text:` again. Inside the loop, compare `if ch != s.pop(): return False`.",
+          "Hint 3: If the loop finishes without a mismatch (including for an empty string `\"\"` or single character `\"a\"`), return `True`."
+        ],
+        starterCode: `def is_palindrome(text: str) -> bool:
+    # Use the pre-loaded Stack class (push, pop, is_empty)
+    # to check if text reads the same forwards and backwards.
+    pass
+`,
+        referenceSolution: `def is_palindrome(text: str) -> bool:
+    s = Stack()
+    for ch in text:
+        s.push(ch)
+    
+    for ch in text:
+        if ch != s.pop():
+            return False
+    return True
+`,
+        rubric: [
+          "Instantiates a `Stack()` object.",
+          "Pushes all characters of `text` onto the stack using `.push()`.",
+          "Pops characters using `.pop()` to compare in reverse (LIFO) order.",
+          "Correctly handles even-length (`'goog'`), odd-length (`'dogod'`), empty (`''`), and non-palindrome strings."
+        ],
+        tests: [
+          {
+            name: "test_odd_and_even_palindromes",
+            pyExpr: "[is_palindrome('dogod'), is_palindrome('goog'), is_palindrome('racecar')]",
+            inputDisplay: "['dogod', 'goog', 'racecar']",
+            expected: [true, true, true]
+          },
+          {
+            name: "test_non_palindromes",
+            pyExpr: "[is_palindrome('eastlake'), is_palindrome('python'), is_palindrome('ab')]",
+            inputDisplay: "['eastlake', 'python', 'ab']",
+            expected: [false, false, false]
+          },
+          {
+            name: "test_near_miss_palindrome_RR",
+            pyExpr: "[is_palindrome('racecars'), is_palindrome('abca'), is_palindrome('madam')]",
+            inputDisplay: "['racecars', 'abca', 'madam']",
+            expected: [false, false, true]
+          },
+          {
+            name: "test_empty_and_single_char_RR",
+            pyExpr: "[is_palindrome(''), is_palindrome('x'), is_palindrome('aa')]",
+            inputDisplay: "['', 'x', 'aa']",
+            expected: [true, true, true]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // PROBLEM 3: Parentheses & Bracket Checker (check_brackets) - RR
+      // -----------------------------------------------------------------------
+      {
+        id: 3,
+        slug: "check_brackets",
+        title: "3. Parentheses & Bracket Checker (`check_brackets`)",
+        fnName: "check_brackets",
+        signature: "def check_brackets(expr: str) -> bool:",
+        lesson: "Lesson 1: Stacks",
+        difficulty: "Medium",
+        isRR: true,
+        topic: "Symmetric Pattern Matching (LIFO)",
+        prompt: "One of the most famous applications of a <strong>Stack</strong> is validating matching parentheses and brackets in code editors and compilers.<br/><br/>Write <code>check_brackets(expr: str) -> bool</code> that uses a <code>Stack</code> to check whether all <code>()</code>, <code>{}</code>, and <code>[]</code> brackets in <code>expr</code> are properly balanced and nested:<br/>• Whenever you see an <strong>opening bracket</strong> (<code>'('</code>, <code>'{'</code>, or <code>'['</code>), <code>push</code> it onto your stack.<br/>• Whenever you see a <strong>closing bracket</strong> (<code>')'</code>, <code>'}'</code>, or <code>']'</code>):<br/>&nbsp;&nbsp;1. If the stack <code>is_empty()</code>, there is no matching opener — return <code>False</code>!<br/>&nbsp;&nbsp;2. Otherwise, <code>pop()</code> the top opening bracket and check that it matches the closing bracket type (e.g., <code>'('</code> matches <code>')'</code>, <code>'{'</code> matches <code>'}'</code>, <code>'['</code> matches <code>']'</code>). If not, return <code>False</code>.<br/>• Ignore any non-bracket characters. At the very end, return <code>s.is_empty()</code> so leftover unclosed openers like <code>\"((()\"</code> return <code>False</code>!",
+        noteTitle: "Two Classic Retake (`_RR`) Traps to Watch Out For",
+        noteDesc: "Trap 1: Calling `s.pop()` when the stack is empty (e.g. `expr = \")(\"` or `\"()]\"`). Always check `if s.is_empty(): return False` BEFORE popping!\nTrap 2: Returning `True` at the end of the loop instead of `return s.is_empty()` (which fails on `\"((()\"`).",
+        examples: [
+          { input: "expr = \"{()}\"", output: "True", note: "Innermost '()' closes first, then '{}' closes." },
+          { input: "expr = \"{(})\"", output: "False", note: "')' is encountered while '{' is on top of '(' — improperly interleaved!" },
+          { input: "expr = \"((()\"", output: "False", note: "Stack still has '((' left over at the end (`s.is_empty()` is False)." }
+        ],
+        hints: [
+          "Hint 1: Create `s = Stack()` and a helper dictionary `pairs = {')': '(', '}': '{', ']': '['}` (or `openers = {'(': ')', '{': '}', '[': ']'}`).",
+          "Hint 2: Loop `for ch in expr:`. If `ch in '({[':`, call `s.push(ch)`. Elif `ch in ')}]'`: first check `if s.is_empty(): return False`, then check `if s.pop() != pairs[ch]: return False`.",
+          "Hint 3: After the loop completes, `return s.is_empty()` so that unclosed opening brackets return `False`."
+        ],
+        starterCode: `def check_brackets(expr: str) -> bool:
+    # Validate matching (), {}, and [] using a Stack.
+    pass
+`,
+        referenceSolution: `def check_brackets(expr: str) -> bool:
+    s = Stack()
+    matching = {")": "(", "}": "{", "]": "["}
+    
+    for ch in expr:
+        if ch in "({[":
+            s.push(ch)
+        elif ch in ")}]":
+            if s.is_empty():
+                return False
+            top = s.pop()
+            if top != matching[ch]:
+                return False
+                
+    return s.is_empty()
+`,
+        rubric: [
+          "Pushes opening brackets `(`, `{`, `[` onto a `Stack`.",
+          "Checks `if s.is_empty(): return False` before popping on a closing bracket.",
+          "Verifies the popped opener matches the exact type of the closing bracket.",
+          "Returns `s.is_empty()` after the loop to catch unclosed opening brackets."
+        ],
+        tests: [
+          {
+            name: "test_valid_nested_brackets",
+            pyExpr: "[check_brackets('{()}'), check_brackets('([]){}'), check_brackets('{[()()]}'), check_brackets('')]",
+            inputDisplay: "['{()}', '([]){}', '{[()()]}', '']",
+            expected: [true, true, true, true]
+          },
+          {
+            name: "test_mismatched_order",
+            pyExpr: "[check_brackets('{(})'), check_brackets('([)]'), check_brackets('(]')]",
+            inputDisplay: "['{(})', '([)]', '(]']",
+            expected: [false, false, false]
+          },
+          {
+            name: "test_unclosed_openers_RR",
+            pyExpr: "[check_brackets('((()'), check_brackets('{[()'), check_brackets('(')]",
+            inputDisplay: "['((()', '{[()', '(']",
+            expected: [false, false, false]
+          },
+          {
+            name: "test_closing_when_empty_RR",
+            pyExpr: "[check_brackets(')'), check_brackets('())'), check_brackets('}{')]",
+            inputDisplay: "[')', '())', '}{']",
+            expected: [false, false, false]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // PROBLEM 4: Reverse Polish Notation (RPN) Calculator (eval_rpn) - RR
+      // -----------------------------------------------------------------------
+      {
+        id: 4,
+        slug: "eval_rpn",
+        title: "4. Reverse Polish Notation Calculator (`eval_rpn`)",
+        fnName: "eval_rpn",
+        signature: "def eval_rpn(tokens: list[str]) -> float:",
+        lesson: "Lesson 1: Stacks",
+        difficulty: "Medium",
+        isRR: true,
+        topic: "Postfix Expression Evaluation",
+        prompt: "In <strong>Reverse Polish Notation (RPN)</strong> (also called <em>postfix notation</em>), operators follow their operands — completely eliminating the need for parentheses! For example, <code>[\"8.5\", \"4.4\", \"*\", \"6.9\", \"1.5\", \"/\", \"+\"]</code> computes <code>(8.5 * 4.4) + (6.9 / 1.5) = 37.4 + 4.6 = 42.0</code>.<br/><br/>Write <code>eval_rpn(tokens: list[str]) -> float</code> using a <code>Stack</code>:<br/>• Loop through each <code>token</code> in <code>tokens</code>:<br/>&nbsp;&nbsp;– If <code>token</code> is an operator (<code>\"+\"</code>, <code>\"-\"</code>, <code>\"*\"</code>, or <code>\"/\"</code>), <code>pop()</code> the top two numbers from the stack, apply the operator, and <code>push()</code> the result back onto the stack.<br/>&nbsp;&nbsp;– Otherwise, convert the token to a float using <code>float(token)</code> and <code>push()</code> it onto the stack.<br/>• After processing all tokens, <code>pop()</code> and return the final answer from the stack!",
+        noteTitle: "CRITICAL `_RR` Trap: Operand Pop Order for `-` and `/`!",
+        noteDesc: "When you evaluate `\"6.9\", \"1.5\", \"/\"`, `6.9` was pushed FIRST and `1.5` was pushed SECOND (on top). So the first `.pop()` is the RIGHT operand (`right = s.pop()`), and the second `.pop()` is the LEFT operand (`left = s.pop()`). Always compute `left - right` and `left / right`!",
+        examples: [
+          {
+            input: "tokens = [\"8.5\", \"4.4\", \"*\", \"6.9\", \"1.5\", \"/\", \"+\"]",
+            output: "42.0",
+            note: "(8.5 * 4.4) = 37.4, (6.9 / 1.5) = 4.6, 37.4 + 4.6 = 42.0."
+          },
+          {
+            input: "tokens = [\"10\", \"3\", \"-\"]",
+            output: "7.0",
+            note: "left = 10.0, right = 3.0 -> 10.0 - 3.0 = 7.0 (NOT 3.0 - 10.0!)."
+          }
+        ],
+        hints: [
+          "Hint 1: Create `s = Stack()`. Loop `for token in tokens:`. Check `if token in {'+', '-', '*', '/'}:`.",
+          "Hint 2: Inside the operator branch, pop in reverse order: `right = s.pop()` then `left = s.pop()`. Compute the result for `+`, `-`, `*`, or `/` and `s.push(result)`.",
+          "Hint 3: In the `else:` branch, call `s.push(float(token))`. After the loop ends, `return round(s.pop(), 6)` (or `return s.pop()`)."
+        ],
+        starterCode: `def eval_rpn(tokens: list[str]) -> float:
+    # Evaluate the postfix (RPN) expression using a Stack.
+    # Watch out for the order of operands when popping for '-' and '/'!
+    pass
+`,
+        referenceSolution: `def eval_rpn(tokens: list[str]) -> float:
+    s = Stack()
+    for token in tokens:
+        if token in ("+", "-", "*", "/"):
+            right = s.pop()
+            left = s.pop()
+            if token == "+":
+                s.push(left + right)
+            elif token == "-":
+                s.push(left - right)
+            elif token == "*":
+                s.push(left * right)
+            elif token == "/":
+                s.push(left / right)
+        else:
+            s.push(float(token))
+    return s.pop()
+`,
+        rubric: [
+          "Pushes numeric tokens onto the `Stack` as `float(token)`.",
+          "Pops two operands when encountering `+`, `-`, `*`, or `/`.",
+          "Correctly assigns first pop to `right` and second pop to `left` for non-commutative `-` and `/`.",
+          "Pushes intermediate results back onto the stack and returns the final popped value."
+        ],
+        tests: [
+          {
+            name: "test_class_warmup_rpn_42",
+            pyExpr: "round(eval_rpn(['8.5', '4.4', '*', '6.9', '1.5', '/', '+']), 4)",
+            inputDisplay: "['8.5', '4.4', '*', '6.9', '1.5', '/', '+']",
+            expected: 42.0
+          },
+          {
+            name: "test_subtraction_and_division_order_RR",
+            pyExpr: "[round(eval_rpn(['10', '3', '-']), 4), round(eval_rpn(['20', '4', '/']), 4)]",
+            inputDisplay: "[['10', '3', '-'], ['20', '4', '/']]",
+            expected: [7.0, 5.0]
+          },
+          {
+            name: "test_multi_step_chained_rpn_RR",
+            pyExpr: "round(eval_rpn(['5', '1', '2', '+', '4', '*', '+', '3', '-']), 4)",
+            inputDisplay: "['5', '1', '2', '+', '4', '*', '+', '3', '-'] -> 5 + ((1+2)*4) - 3",
+            expected: 14.0
+          },
+          {
+            name: "test_single_number_and_negatives_RR",
+            pyExpr: "[round(eval_rpn(['-7.5']), 4), round(eval_rpn(['-4', '2.5', '*']), 4)]",
+            inputDisplay: "[['-7.5'], ['-4', '2.5', '*']]",
+            expected: [-7.5, -10.0]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // PROBLEM 5: Reverse a Queue Using a Stack (reverse_queue)
+      // -----------------------------------------------------------------------
+      {
+        id: 5,
+        slug: "reverse_queue",
+        title: "5. Reverse a Queue Using a Stack (`reverse_queue`)",
+        fnName: "reverse_queue",
+        signature: "def reverse_queue(q: Queue) -> Queue:",
+        lesson: "Lesson 2: Queues",
+        difficulty: "Easy",
+        isRR: false,
+        topic: "Combining FIFO (Queue) & LIFO (Stack)",
+        prompt: "A <code>Queue</code> processes items in <strong>FIFO (First In, First Out)</strong> order (`enqueue`, `dequeue`, `peek`, `is_empty`), whereas a <code>Stack</code> processes items in <strong>LIFO (Last In, First Out)</strong> order.<br/><br/>Write a function <code>reverse_queue(q: Queue) -> Queue</code> that reverses the order of elements in <code>q</code> using a <code>Stack</code>:<br/>1. While <code>q</code> is not empty (<code>not q.is_empty()</code>), <code>dequeue()</code> each item from <code>q</code> and <code>push()</code> it onto a helper <code>Stack</code>.<br/>2. While the helper stack is not empty (<code>not s.is_empty()</code>), <code>pop()</code> each item from the stack and <code>enqueue()</code> it back into <code>q</code>.<br/>3. Return the reversed <code>Queue</code> <code>q</code>.",
+        noteTitle: "Why Does Queue -> Stack -> Queue Reverse the Order?",
+        noteDesc: "If `q` has front-to-back `[10, 20, 30]`, dequeuing and pushing onto a Stack puts `10` at the bottom and `30` at the top. Popping from the stack and enqueuing back into `q` enqueues `30` first, then `20`, then `10` -> `[30, 20, 10]`!",
+        examples: [
+          {
+            input: "q = Queue([10, 20, 30, 40]) -> reverse_queue(q)",
+            output: "Queue(front -> back: [40, 30, 20, 10])",
+            note: "40 moves to the front of the queue; 10 moves to the back."
+          }
+        ],
+        hints: [
+          "Hint 1: Create an empty helper stack `s = Stack()`.",
+          "Hint 2: Use a while loop: `while not q.is_empty(): s.push(q.dequeue())`.",
+          "Hint 3: Use a second while loop: `while not s.is_empty(): q.enqueue(s.pop())`, then `return q`."
+        ],
+        starterCode: `def reverse_queue(q: Queue) -> Queue:
+    # Use a Stack to reverse the elements of Queue q, then return q.
+    pass
+`,
+        referenceSolution: `def reverse_queue(q: Queue) -> Queue:
+    s = Stack()
+    while not q.is_empty():
+        s.push(q.dequeue())
+    while not s.is_empty():
+        q.enqueue(s.pop())
+    return q
+`,
+        rubric: [
+          "Uses `while not q.is_empty():` to drain the queue with `q.dequeue()`.",
+          "Pushes dequeued items onto a `Stack` with `s.push(...)`.",
+          "Uses `while not s.is_empty():` to pop items and `q.enqueue(s.pop())`.",
+          "Returns the reversed `Queue` object and works on empty or single-element queues."
+        ],
+        tests: [
+          {
+            name: "test_reverse_standard_queue",
+            customPyCheck: `
+q = Queue()
+for x in [10, 20, 30, 40]:
+    q.enqueue(x)
+res = reverse_queue(q)
+__result__ = res.to_list() if res is not None else q.to_list()
+`,
+            inputDisplay: "Queue([10, 20, 30, 40])",
+            expected: [40, 30, 20, 10]
+          },
+          {
+            name: "test_reverse_string_queue",
+            customPyCheck: `
+q = Queue()
+for x in ["eastlake", "wolves", "unit2"]:
+    q.enqueue(x)
+res = reverse_queue(q)
+__result__ = res.to_list() if res is not None else q.to_list()
+`,
+            inputDisplay: "Queue(['eastlake', 'wolves', 'unit2'])",
+            expected: ["unit2", "wolves", "eastlake"]
+          },
+          {
+            name: "test_reverse_single_item_queue_RR",
+            customPyCheck: `
+q = Queue()
+q.enqueue(99)
+res = reverse_queue(q)
+__result__ = res.to_list() if res is not None else q.to_list()
+`,
+            inputDisplay: "Queue([99])",
+            expected: [99]
+          },
+          {
+            name: "test_reverse_empty_queue_RR",
+            customPyCheck: `
+q = Queue()
+res = reverse_queue(q)
+__result__ = res.to_list() if res is not None else q.to_list()
+`,
+            inputDisplay: "Queue([])",
+            expected: []
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // PROBLEM 6: War Card Game Round Simulator (play_war)
+      // -----------------------------------------------------------------------
+      {
+        id: 6,
+        slug: "play_war",
+        title: "6. War Card Game Round Simulator (`play_war`)",
+        fnName: "play_war",
+        signature: "def play_war(p1_cards: list[int], p2_cards: list[int], max_rounds: int) -> str:",
+        lesson: "Lesson 2: Queues",
+        difficulty: "Medium",
+        isRR: false,
+        topic: "Queue Simulation (FIFO Card Deck)",
+        prompt: "Simulate the card game <strong>War</strong> using two <code>Queue</code> objects!<br/><br/>Write <code>play_war(p1_cards: list[int], p2_cards: list[int], max_rounds: int) -> str</code>:<br/>1. Load all integers from <code>p1_cards</code> into Player 1's <code>Queue</code> and all integers from <code>p2_cards</code> into Player 2's <code>Queue</code>.<br/>2. Simulate up to <code>max_rounds</code> rounds (stopping early if either player's queue becomes empty before a round):<br/>&nbsp;&nbsp;• Each round, <code>dequeue()</code> one card <code>c1</code> from Player 1 and one card <code>c2</code> from Player 2.<br/>&nbsp;&nbsp;• If <code>c1 &gt; c2</code>: Player 1 wins the round and enqueues <strong>their own card first, then the loser's card</strong> (<code>q1.enqueue(c1)</code> then <code>q1.enqueue(c2)</code>).<br/>&nbsp;&nbsp;• If <code>c2 &gt; c1</code>: Player 2 wins the round and enqueues <strong>their own card first, then the loser's card</strong> (<code>q2.enqueue(c2)</code> then <code>q2.enqueue(c1)</code>).<br/>&nbsp;&nbsp;• If <code>c1 == c2</code> (a tie): Each player enqueues their own card back into their own queue (<code>q1.enqueue(c1)</code> and <code>q2.enqueue(c2)</code>).<br/>3. After the loop stops (either because a queue became empty or <code>max_rounds</code> rounds completed), compare how many cards each player has left:<br/>&nbsp;&nbsp;• Return <code>\"Player 1\"</code> if Player 1 has more cards, <code>\"Player 2\"</code> if Player 2 has more cards, or <code>\"Tie\"</code> if they have the exact same number of cards!",
+        noteTitle: "Counting Remaining Cards in a Queue",
+        noteDesc: "If one queue is empty (`q2.is_empty()`), Player 1 automatically has more cards! If `max_rounds` is reached and both queues still have cards, you can count each queue's remaining cards by dequeuing them in a loop (or checking `len(q.to_list())`).",
+        examples: [
+          {
+            input: "p1_cards = [10, 8], p2_cards = [4, 2], max_rounds = 10",
+            output: "\"Player 1\"",
+            note: "Round 1: 10 > 4 (P1 gets 10, 4). Round 2: 8 > 2 (P1 gets 8, 2). P2 is now empty!"
+          },
+          {
+            input: "p1_cards = [5, 5], p2_cards = [5, 5], max_rounds = 5",
+            output: "\"Tie\"",
+            note: "Every round ties, so both players keep 2 cards after 5 rounds."
+          }
+        ],
+        hints: [
+          "Hint 1: Create `q1 = Queue()` and `q2 = Queue()`. Loop through `p1_cards` and `p2_cards` to `.enqueue()` their starting cards.",
+          "Hint 2: Track `rounds = 0`. Loop `while rounds < max_rounds and not q1.is_empty() and not q2.is_empty():`. Dequeue `c1 = q1.dequeue()` and `c2 = q2.dequeue()`, compare them, enqueue in winner-first order, and increment `rounds += 1`.",
+          "Hint 3: After the loop, count remaining items (e.g. by dequeuing while `not q1.is_empty()` into a counter `count1 += 1`, and similarly `count2`). Compare `count1` vs `count2` to return `'Player 1'`, `'Player 2'`, or `'Tie'`."
+        ],
+        starterCode: `def play_war(p1_cards: list[int], p2_cards: list[int], max_rounds: int) -> str:
+    # Simulate War using two Queues and return "Player 1", "Player 2", or "Tie".
+    pass
+`,
+        referenceSolution: `def play_war(p1_cards: list[int], p2_cards: list[int], max_rounds: int) -> str:
+    q1 = Queue()
+    q2 = Queue()
+    for c in p1_cards:
+        q1.enqueue(c)
+    for c in p2_cards:
+        q2.enqueue(c)
+        
+    rounds = 0
+    while rounds < max_rounds and not q1.is_empty() and not q2.is_empty():
+        c1 = q1.dequeue()
+        c2 = q2.dequeue()
+        if c1 > c2:
+            q1.enqueue(c1)
+            q1.enqueue(c2)
+        elif c2 > c1:
+            q2.enqueue(c2)
+            q2.enqueue(c1)
+        else:
+            q1.enqueue(c1)
+            q2.enqueue(c2)
+        rounds += 1
+        
+    count1 = 0
+    while not q1.is_empty():
+        q1.dequeue()
+        count1 += 1
+        
+    count2 = 0
+    while not q2.is_empty():
+        q2.dequeue()
+        count2 += 1
+        
+    if count1 > count2:
+        return "Player 1"
+    elif count2 > count1:
+        return "Player 2"
+    else:
+        return "Tie"
+`,
+        rubric: [
+          "Initializes two `Queue` objects from `p1_cards` and `p2_cards`.",
+          "Loops while `rounds < max_rounds` and neither queue `is_empty()`.",
+          "Enqueues winner's card first, then loser's card (`q1.enqueue(c1); q1.enqueue(c2)`).",
+          "Handles ties by returning each card to its owner's queue, and compares final card counts accurately."
+        ],
+        tests: [
+          {
+            name: "test_p1_sweep_and_p2_sweep",
+            pyExpr: "[play_war([10, 8], [4, 2], 10), play_war([3, 4], [9, 12], 10)]",
+            inputDisplay: "P1 sweep ([10,8] vs [4,2]) and P2 sweep ([3,4] vs [9,12])",
+            expected: ["Player 1", "Player 2"]
+          },
+          {
+            name: "test_winner_card_enqueued_first_order",
+            pyExpr: "play_war([10, 4], [9, 8], 3)",
+            inputDisplay: "p1=[10, 4], p2=[9, 8], max_rounds=3 (tests recycling order: 10 beats 8 on R3)",
+            expected: "Player 1"
+          },
+          {
+            name: "test_max_rounds_cutoff_tie_RR",
+            pyExpr: "[play_war([5, 5], [5, 5], 5), play_war([10, 2], [2, 10], 2)]",
+            inputDisplay: "All-tie deck and symmetric 2-round cycle",
+            expected: ["Tie", "Tie"]
+          },
+          {
+            name: "test_already_empty_starting_deck_RR",
+            pyExpr: "[play_war([], [7], 5), play_war([7], [], 5), play_war([], [], 5)]",
+            inputDisplay: "Empty initial hand edge cases",
+            expected: ["Player 2", "Player 1", "Tie"]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // PROBLEM 7: Airport Codes Lookup & Updater (manage_airports) - RR
+      // -----------------------------------------------------------------------
+      {
+        id: 7,
+        slug: "manage_airports",
+        title: "7. Airport Codes Lookup & Updater (`manage_airports`)",
+        fnName: "manage_airports",
+        signature: "def manage_airports(codes: dict[str, str], lookups: list[str], new_entries: dict[str, str]) -> list[str]:",
+        lesson: "Lesson 3: Maps (Dictionaries)",
+        difficulty: "Easy",
+        isRR: true,
+        topic: "dict.get() & dict.setdefault()",
+        prompt: "In Lesson 3, we learned two essential Python dictionary methods that prevent crashes and accidental overwrites:<br/>• <code>d.get(key, default_val)</code>: Safely looks up <code>key</code> and returns <code>default_val</code> if the key is not in <code>d</code> (instead of crashing with a <code>KeyError</code> like <code>d[key]</code>).<br/>• <code>d.setdefault(key, val)</code>: Inserts <code>key: val</code> into <code>d</code> <strong>ONLY if <code>key</code> does not already exist</strong> in <code>d</code> (never overwrites existing entries!).<br/><br/>Write <code>manage_airports(codes: dict, lookups: list[str], new_entries: dict) -> list[str]</code>:<br/>1. First, iterate through <code>new_entries.items()</code> and add each <code>(code, city)</code> to <code>codes</code> using <code>codes.setdefault(code, city)</code> so that existing airport codes in <code>codes</code> are <strong>NOT overwritten</strong>.<br/>2. Next, build and return a <code>list</code> of city names for each airport code in <code>lookups</code> using <code>codes.get(code, \"UNKNOWN\")</code>.",
+        noteTitle: "Why `.get()` and `.setdefault()` Are Tested on the Celebration",
+        noteDesc: "Direct indexing `codes[code]` throws a `KeyError` when an airport code is missing. Direct assignment `codes[k] = v` overwrites existing dictionary values. Using `.setdefault(k, v)` and `.get(code, 'UNKNOWN')` solves both cleanly in 1 line each!",
+        examples: [
+          {
+            input: "codes = {'SEA': 'Seattle', 'LAX': 'Los Angeles'}, lookups = ['SEA', 'JFK', 'ORD'], new_entries = {'SEA': 'Tacoma', 'JFK': 'New York'}",
+            output: "['Seattle', 'New York', 'UNKNOWN']",
+            note: "'SEA' keeps 'Seattle' (not overwritten by 'Tacoma'), 'JFK' is added as 'New York', and 'ORD' returns 'UNKNOWN'."
+          }
+        ],
+        hints: [
+          "Hint 1: Loop over the new entries using `for code, city in new_entries.items():` and call `codes.setdefault(code, city)`.",
+          "Hint 2: Create a result list `results = []`. Loop `for code in lookups:` and append `codes.get(code, 'UNKNOWN')`.",
+          "Hint 3: Return `results`."
+        ],
+        starterCode: `def manage_airports(codes: dict, lookups: list[str], new_entries: dict) -> list:
+    # 1. Add new_entries to codes WITHOUT overwriting existing keys (.setdefault)
+    # 2. Return a list of looked-up cities for each code in lookups, or "UNKNOWN" if missing (.get)
+    pass
+`,
+        referenceSolution: `def manage_airports(codes: dict, lookups: list[str], new_entries: dict) -> list:
+    for code, city in new_entries.items():
+        codes.setdefault(code, city)
+        
+    results = []
+    for code in lookups:
+        results.append(codes.get(code, "UNKNOWN"))
+    return results
+`,
+        rubric: [
+          "Iterates through `new_entries.items()` efficiently.",
+          "Uses `codes.setdefault(code, city)` (or `if code not in codes:`) so existing airport codes are preserved.",
+          "Uses `codes.get(code, 'UNKNOWN')` to safely look up every requested code without raising `KeyError`.",
+          "Returns the list of resolved city strings in the exact order of `lookups`."
+        ],
+        tests: [
+          {
+            name: "test_lookup_and_non_overwriting_insert",
+            pyExpr: "manage_airports({'SEA': 'Seattle', 'LAX': 'Los Angeles'}, ['SEA', 'JFK', 'ORD'], {'SEA': 'Tacoma', 'JFK': 'New York'})",
+            inputDisplay: "codes={'SEA':'Seattle','LAX':'Los Angeles'}, lookups=['SEA','JFK','ORD'], new={'SEA':'Tacoma','JFK':'New York'}",
+            expected: ["Seattle", "New York", "UNKNOWN"]
+          },
+          {
+            name: "test_all_missing_codes_RR",
+            pyExpr: "manage_airports({'SFO': 'San Francisco'}, ['LHR', 'HND'], {})",
+            inputDisplay: "codes={'SFO':'San Francisco'}, lookups=['LHR','HND'], new={}",
+            expected: ["UNKNOWN", "UNKNOWN"]
+          },
+          {
+            name: "test_mutates_codes_dict_with_setdefault_RR",
+            customPyCheck: `
+d = {'SEA': 'Seattle'}
+res = manage_airports(d, ['SEA', 'BOS'], {'SEA': 'OverwriteAttempt', 'BOS': 'Boston'})
+__result__ = [res, d['SEA'], d['BOS']]
+`,
+            inputDisplay: "Verifies codes['SEA'] stays 'Seattle' and codes['BOS'] becomes 'Boston'",
+            expected: [["Seattle", "Boston"], "Seattle", "Boston"]
+          },
+          {
+            name: "test_empty_codes_and_empty_lookups_RR",
+            pyExpr: "[manage_airports({}, ['ATL'], {'ATL': 'Atlanta'}), manage_airports({'SEA': 'Seattle'}, [], {'PDX': 'Portland'})]",
+            inputDisplay: "Empty initial dict and empty lookups list",
+            expected: [["Atlanta"], []]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // PROBLEM 8: Group Playing Cards by Rank (group_cards_by_name) - RR
+      // -----------------------------------------------------------------------
+      {
+        id: 8,
+        slug: "group_cards_by_name",
+        title: "8. Group Playing Cards by Rank (`group_cards_by_name`)",
+        fnName: "group_cards_by_name",
+        signature: "def group_cards_by_name(hand: list[Card]) -> dict[str, list[Card]]:",
+        lesson: "Lesson 3: Maps (Dictionaries)",
+        difficulty: "Medium",
+        isRR: true,
+        topic: "Grouping Objects into dict[str, list]",
+        prompt: "A very common pattern with dictionaries is <strong>grouping objects by a shared property</strong> (where each dictionary value is a <code>list</code> of matching objects!).<br/><br/>You are given a list of pre-loaded <code>Card</code> objects in <code>hand</code>. Each <code>card</code> has a method <code>card.get_card_name()</code> that returns its rank name as a string (such as <code>\"King\"</code>, <code>\"Four\"</code>, or <code>\"Ace\"</code>).<br/><br/>Write <code>group_cards_by_name(hand: list[Card]) -> dict[str, list[Card]]</code>:<br/>• Create an empty dictionary <code>groups = {}</code>.<br/>• Iterate through each <code>card</code> in <code>hand</code> and get its rank name via <code>name = card.get_card_name()</code>.<br/>• If <code>name</code> is not yet a key in <code>groups</code>, initialize <code>groups[name] = []</code> (or use <code>groups.setdefault(name, []).append(card)</code>).<br/>• Append the <code>card</code> object to <code>groups[name]</code>, preserving the order in which cards appeared in <code>hand</code>.",
+        noteTitle: "Class Lesson 3 Pattern: Dictionary of Lists",
+        noteDesc: "When grouping items into a dictionary of lists, you cannot call `groups[name].append(card)` until the list exists! Either check `if name not in groups: groups[name] = []` first, or use the clean one-liner `groups.setdefault(name, []).append(card)`.",
+        examples: [
+          {
+            input: "hand = [Card('King','Spades','KS'), Card('Four','Hearts','4H'), Card('King','Clubs','KC')]",
+            output: "{'King': [KS, KC], 'Four': [4H]}",
+            note: "Both Kings are grouped into the list under key 'King'."
+          }
+        ],
+        hints: [
+          "Hint 1: Initialize `groups = {}` and loop `for card in hand:`.",
+          "Hint 2: Call `rank = card.get_card_name()` to get the dictionary key.",
+          "Hint 3: Use `groups.setdefault(rank, []).append(card)` (or `if rank not in groups: groups[rank] = []` followed by `groups[rank].append(card)`), then `return groups`."
+        ],
+        starterCode: `def group_cards_by_name(hand: list[Card]) -> dict[str, list[Card]]:
+    # Group Card objects into a dictionary mapping card.get_card_name() -> list of Card objects.
+    pass
+`,
+        referenceSolution: `def group_cards_by_name(hand: list[Card]) -> dict[str, list[Card]]:
+    groups = {}
+    for card in hand:
+        rank = card.get_card_name()
+        if rank not in groups:
+            groups[rank] = []
+        groups[rank].append(card)
+    return groups
+`,
+        rubric: [
+          "Calls `card.get_card_name()` on each `Card` object in `hand`.",
+          "Initializes a new list when encountering a rank name for the first time (via `if rank not in groups:` or `.setdefault(rank, [])`).",
+          "Appends the `Card` object itself (not just its string name) to `groups[rank]`.",
+          "Returns `{}` when given an empty hand `[]`."
+        ],
+        tests: [
+          {
+            name: "test_group_mixed_hand",
+            customPyCheck: `
+hand = [
+    Card("King", "Spades", "KS"),
+    Card("Four", "Hearts", "4H"),
+    Card("King", "Clubs", "KC"),
+    Card("Ace", "Diamonds", "AD"),
+    Card("Four", "Spades", "4S")
+]
+res = group_cards_by_name(hand)
+__result__ = {k: [c.code for c in v] for k, v in res.items()} if isinstance(res, dict) else None
+`,
+            inputDisplay: "[KS, 4H, KC, AD, 4S]",
+            expected: { King: ["KS", "KC"], Four: ["4H", "4S"], Ace: ["AD"] }
+          },
+          {
+            name: "test_stores_actual_card_instances_RR",
+            customPyCheck: `
+c1 = Card("Queen", "Hearts", "QH")
+c2 = Card("Queen", "Spades", "QS")
+res = group_cards_by_name([c1, c2])
+__result__ = isinstance(res, dict) and "Queen" in res and len(res["Queen"]) == 2 and isinstance(res["Queen"][0], Card) and res["Queen"][0].code == "QH" and res["Queen"][1].code == "QS"
+`,
+            inputDisplay: "[Card('Queen','Hearts','QH'), Card('Queen','Spades','QS')] -> checks Card instances",
+            expected: true
+          },
+          {
+            name: "test_all_unique_ranks_RR",
+            customPyCheck: `
+hand = [Card("Two", "Clubs", "2C"), Card("Seven", "Diamonds", "7D"), Card("Jack", "Hearts", "JH")]
+res = group_cards_by_name(hand)
+__result__ = {k: [c.code for c in v] for k, v in res.items()} if isinstance(res, dict) else None
+`,
+            inputDisplay: "[2C, 7D, JH]",
+            expected: { Two: ["2C"], Seven: ["7D"], Jack: ["JH"] }
+          },
+          {
+            name: "test_empty_hand_RR",
+            pyExpr: "group_cards_by_name([])",
+            inputDisplay: "hand = []",
+            expected: {}
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // PROBLEM 9: Letter Frequency Counter (letter_frequency)
+      // -----------------------------------------------------------------------
+      {
+        id: 9,
+        slug: "letter_frequency",
+        title: "9. Letter Frequency Counter (`letter_frequency`)",
+        fnName: "letter_frequency",
+        signature: "def letter_frequency(words: list[str]) -> dict[str, int]:",
+        lesson: "Lesson 3: Maps (Dictionaries)",
+        difficulty: "Easy",
+        isRR: false,
+        topic: "Frequency Counting with Dictionaries",
+        prompt: "Another classic Map/Dictionary pattern is <strong>counting frequencies</strong> (such as tallying votes or counting how many times each letter appears).<br/><br/>Write <code>letter_frequency(words: list[str]) -> dict[str, int]</code> that takes a list of strings <code>words</code> and returns a dictionary mapping each <strong>lowercase letter</strong> to the total number of times it appears across all words in the list:<br/>• Convert each word (or character) to lowercase using <code>.lower()</code>.<br/>• Only count alphabetic characters (ignore spaces or punctuation if any; you can check <code>if ch.isalpha():</code>, though standard inputs are lowercase words).<br/>• Hint: You can update a count cleanly with <code>counts[ch] = counts.get(ch, 0) + 1</code>!",
+        noteTitle: "Clean Frequency Tallying Idiom",
+        noteDesc: "Instead of writing a 4-line `if ch in counts: counts[ch] += 1 else: counts[ch] = 1`, you can use `counts[ch] = counts.get(ch, 0) + 1`! Both styles earn full credit on the Unit 2 Celebration.",
+        examples: [
+          {
+            input: "words = [\"wolves\", \"win\"]",
+            output: "{'w': 2, 'o': 1, 'l': 1, 'v': 1, 'e': 1, 's': 1, 'i': 1, 'n': 1}",
+            note: "'w' appears once in 'wolves' and once in 'win' -> 2."
+          },
+          {
+            input: "words = [\"banana\"]",
+            output: "{'b': 1, 'a': 3, 'n': 2}",
+            note: "Counts each letter across the word."
+          }
+        ],
+        hints: [
+          "Hint 1: Initialize `counts = {}`.",
+          "Hint 2: Use nested loops: `for word in words:` and `for ch in word.lower():`.",
+          "Hint 3: Inside the inner loop (checking `if ch.isalpha():`), update `counts[ch] = counts.get(ch, 0) + 1`. Return `counts`."
+        ],
+        starterCode: `def letter_frequency(words: list[str]) -> dict[str, int]:
+    # Return a dictionary mapping each lowercase letter to its total count across all words.
+    pass
+`,
+        referenceSolution: `def letter_frequency(words: list[str]) -> dict[str, int]:
+    counts = {}
+    for word in words:
+        for ch in word.lower():
+            if ch.isalpha():
+                counts[ch] = counts.get(ch, 0) + 1
+    return counts
+`,
+        rubric: [
+          "Iterates through every word in `words` and every character in each word.",
+          "Normalizes characters to lowercase using `.lower()`.",
+          "Correctly initializes new letter keys to `1` and increments existing keys.",
+          "Returns `{}` for an empty word list `[]`."
+        ],
+        tests: [
+          {
+            name: "test_wolves_win_frequency",
+            pyExpr: "letter_frequency(['wolves', 'win'])",
+            inputDisplay: "['wolves', 'win']",
+            expected: { w: 2, o: 1, l: 1, v: 1, e: 1, s: 1, i: 1, n: 1 }
+          },
+          {
+            name: "test_repeated_letters_and_case_RR",
+            pyExpr: "letter_frequency(['Banana', 'Apple'])",
+            inputDisplay: "['Banana', 'Apple']",
+            expected: { b: 1, a: 4, n: 2, p: 2, l: 1, e: 1 }
+          },
+          {
+            name: "test_single_letter_words_RR",
+            pyExpr: "letter_frequency(['a', 'a', 'b', 'a'])",
+            inputDisplay: "['a', 'a', 'b', 'a']",
+            expected: { a: 3, b: 1 }
+          },
+          {
+            name: "test_empty_list_and_empty_strings_RR",
+            pyExpr: "[letter_frequency([]), letter_frequency(['', ''])]",
+            inputDisplay: "[letter_frequency([]), letter_frequency(['', ''])]",
+            expected: [{}, {}]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // PROBLEM 10: Unique Word Prefixes (unique_prefixes) - RR
+      // -----------------------------------------------------------------------
+      {
+        id: 10,
+        slug: "unique_prefixes",
+        title: "10. Unique Word Prefixes (`unique_prefixes`)",
+        fnName: "unique_prefixes",
+        signature: "def unique_prefixes(words: list[str], length: int) -> set[str]:",
+        lesson: "Lesson 4: Sets",
+        difficulty: "Medium",
+        isRR: true,
+        topic: "Set Uniqueness & String Slicing",
+        prompt: "Sets automatically eliminate duplicates and track unique membership.<br/><br/>Write a function <code>unique_prefixes(words: list[str], length: int) -> set[str]</code> that takes a list of strings <code>words</code> and an integer <code>length</code>, and returns a <code>set</code> containing all unique prefixes of size <code>length</code>:<br/>• Initialize an empty set using <code>prefixes = set()</code> (remember: <code>{}</code> makes an empty dictionary, NOT a set!).<br/>• For each <code>word</code> in <code>words</code>:<br/>&nbsp;&nbsp;– If <code>len(word) &gt;= length</code>, slice its prefix of size <code>length</code> using <code>word[:length]</code> (or <code>word[0:length]</code>) and add it to the set with <code>prefixes.add(...)</code>.<br/>&nbsp;&nbsp;– Ignore any word that is shorter than <code>length</code>!<br/>• Return the resulting <code>set</code>.",
+        noteTitle: "Lesson 4 Exam Trap: `set()` vs `{}`",
+        noteDesc: "To initialize an empty set in Python, you MUST write `prefixes = set()`. Writing `prefixes = {}` creates an empty `dict`, which does not have an `.add()` method (`AttributeError: 'dict' object has no attribute 'add'`)!",
+        examples: [
+          {
+            input: "words = [\"preheat\", \"preview\", \"cat\", \"predict\", \"pro\"], length = 3",
+            output: "{\"pre\", \"cat\", \"pro\"}",
+            note: "'preheat', 'preview', and 'predict' all share the prefix 'pre', which is stored once in the set."
+          },
+          {
+            input: "words = [\"hi\", \"to\", \"eastlake\"], length = 4",
+            output: "{\"east\"}",
+            note: "'hi' and 'to' have length < 4 so they are ignored."
+          }
+        ],
+        hints: [
+          "Hint 1: Create an empty set with `prefixes = set()`.",
+          "Hint 2: Loop `for word in words:`. Check `if len(word) >= length:`.",
+          "Hint 3: Inside the `if`, call `prefixes.add(word[:length])`, and `return prefixes` after the loop."
+        ],
+        starterCode: `def unique_prefixes(words: list[str], length: int) -> set[str]:
+    # Return a set of all unique prefixes of size 'length' (ignoring words shorter than 'length').
+    pass
+`,
+        referenceSolution: `def unique_prefixes(words: list[str], length: int) -> set[str]:
+    prefixes = set()
+    for word in words:
+        if len(word) >= length:
+            prefixes.add(word[:length])
+    return prefixes
+`,
+        rubric: [
+          "Initializes an empty set with `set()` (not `{}`).",
+          "Filters out words where `len(word) < length`.",
+          "Extracts the prefix using `word[:length]` and inserts into the set using `.add()`.",
+          "Returns a `set` instance even when no words qualify."
+        ],
+        tests: [
+          {
+            name: "test_duplicate_prefixes_collapsed",
+            customPyCheck: `
+res = unique_prefixes(["preheat", "preview", "cat", "predict", "pro"], 3)
+__result__ = isinstance(res, set) and res == {"pre", "cat", "pro"}
+`,
+            inputDisplay: "words=['preheat','preview','cat','predict','pro'], length=3 -> {'pre','cat','pro'}",
+            expected: true
+          },
+          {
+            name: "test_ignores_short_words_RR",
+            customPyCheck: `
+res = unique_prefixes(["hi", "to", "eastlake", "eastern", "go"], 4)
+__result__ = isinstance(res, set) and res == {"east"}
+`,
+            inputDisplay: "words=['hi','to','eastlake','eastern','go'], length=4 -> {'east'}",
+            expected: true
+          },
+          {
+            name: "test_all_words_too_short_returns_empty_set_RR",
+            customPyCheck: `
+res = unique_prefixes(["a", "ab", "abc"], 5)
+__result__ = isinstance(res, set) and len(res) == 0
+`,
+            inputDisplay: "words=['a','ab','abc'], length=5 -> set() (must be a set, not {})",
+            expected: true
+          },
+          {
+            name: "test_single_char_prefixes_RR",
+            customPyCheck: `
+res = unique_prefixes(["apple", "ant", "banana", "boat", ""], 1)
+__result__ = isinstance(res, set) and res == {"a", "b"}
+`,
+            inputDisplay: "words=['apple','ant','banana','boat',''], length=1 -> {'a', 'b'}",
+            expected: true
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // PROBLEM 11: Restaurant Menu & Scorigami Set Operations (analyze_sets)
+      // -----------------------------------------------------------------------
+      {
+        id: 11,
+        slug: "analyze_sets",
+        title: "11. Restaurant Menu & Scorigami Set Operations (`analyze_sets`)",
+        fnName: "analyze_sets",
+        signature: "def analyze_sets(menu1: set, menu2: set, discontinued: list[str], historical_scores: set[tuple], new_scores: list[tuple]) -> dict:",
+        lesson: "Lesson 4: Sets",
+        difficulty: "Medium",
+        isRR: false,
+        topic: "discard, Intersection (&), Difference (-), Union (|)",
+        prompt: "This problem combines Eastlake's two flagship Lesson 4 Set activities: <strong>Restaurant Menu Set Operations</strong> and <strong>NFL Scorigami</strong> (finding unique final scores that have never occurred in history)!<br/><br/>Write <code>analyze_sets(menu1, menu2, discontinued, historical_scores, new_scores) -> dict</code>:<br/>1. Safely remove every item in <code>discontinued</code> from <code>menu1</code> using <code>menu1.discard(item)</code> (so items not on <code>menu1</code> do NOT raise a <code>KeyError</code>!).<br/>2. Compute the following three menu sets (after updating <code>menu1</code>):<br/>&nbsp;&nbsp;• <code>\"both\"</code>: Items in <strong>BOTH</strong> <code>menu1</code> and <code>menu2</code> (Intersection: <code>menu1 &amp; menu2</code>).<br/>&nbsp;&nbsp;• <code>\"only_menu1\"</code>: Items in <code>menu1</code> but <strong>NOT</strong> in <code>menu2</code> (Difference: <code>menu1 - menu2</code>).<br/>&nbsp;&nbsp;• <code>\"all_items\"</code>: Items in <strong>EITHER</strong> <code>menu1</code> or <code>menu2</code> combined (Union: <code>menu1 | menu2</code>).<br/>3. Compute <code>\"scorigami\"</code>: A <code>set</code> of score tuples from <code>new_scores</code> that are <strong>NOT</strong> in <code>historical_scores</code> (e.g., <code>set(new_scores) - historical_scores</code>).<br/>4. Return a dictionary with keys <code>\"both\"</code>, <code>\"only_menu1\"</code>, <code>\"all_items\"</code>, and <code>\"scorigami\"</code>.",
+        noteTitle: "Set Operations Quick Reference",
+        noteDesc: "• Safe remove: `menu1.discard(item)` (unlike `.remove(item)`, `.discard()` never crashes if missing)\n• Intersection (both): `s1 & s2` or `s1.intersection(s2)`\n• Difference (in s1, not s2): `s1 - s2` or `s1.difference(s2)`\n• Union (either combined): `s1 | s2` or `s1.union(s2)`",
+        examples: [
+          {
+            input: "menu1={'Burger','Fries','Shake'}, menu2={'Fries','Tacos'}, discontinued=['Shake','Sushi'], historical={(24,17)}, new=[(24,17),(43,8)]",
+            output: "{'both': {'Fries'}, 'only_menu1': {'Burger'}, 'all_items': {'Burger','Fries','Tacos'}, 'scorigami': {(43,8)}}",
+            note: "'Shake' is discarded from menu1; 'Sushi' is safely ignored; (43,8) is a brand-new Scorigami!"
+          }
+        ],
+        hints: [
+          "Hint 1: First loop `for item in discontinued: menu1.discard(item)`.",
+          "Hint 2: Compute `both = menu1 & menu2`, `only_menu1 = menu1 - menu2`, and `all_items = menu1 | menu2`.",
+          "Hint 3: Compute `scorigami = set(new_scores) - historical_scores` (or loop through `new_scores` checking `if score not in historical_scores:`), and return the dictionary with all 4 keys."
+        ],
+        starterCode: `def analyze_sets(
+    menu1: set,
+    menu2: set,
+    discontinued: list[str],
+    historical_scores: set[tuple],
+    new_scores: list[tuple]
+) -> dict:
+    # 1. Safely discard discontinued items from menu1
+    # 2. Return dict with "both", "only_menu1", "all_items", and "scorigami"
+    pass
+`,
+        referenceSolution: `def analyze_sets(
+    menu1: set,
+    menu2: set,
+    discontinued: list[str],
+    historical_scores: set[tuple],
+    new_scores: list[tuple]
+) -> dict:
+    for item in discontinued:
+        menu1.discard(item)
+        
+    scorigami = set()
+    for score in new_scores:
+        if score not in historical_scores:
+            scorigami.add(score)
+            
+    return {
+        "both": menu1 & menu2,
+        "only_menu1": menu1 - menu2,
+        "all_items": menu1 | menu2,
+        "scorigami": scorigami
+    }
+`,
+        rubric: [
+          "Uses `menu1.discard(item)` to safely remove discontinued items without raising `KeyError`.",
+          "Computes intersection (`menu1 & menu2`) for `'both'`.",
+          "Computes difference (`menu1 - menu2`) for `'only_menu1'` and union (`menu1 | menu2`) for `'all_items'`.",
+          "Identifies unique new score tuples not present in `historical_scores` for `'scorigami'`."
+        ],
+        tests: [
+          {
+            name: "test_menu_and_seahawks_scorigami",
+            customPyCheck: `
+m1 = {"Burger", "Fries", "Shake"}
+m2 = {"Fries", "Tacos"}
+disc = ["Shake", "Sushi"]
+hist = {(24, 17), (21, 14)}
+news = [(24, 17), (43, 8), (43, 8)]
+res = analyze_sets(m1, m2, disc, hist, news)
+__result__ = (
+    isinstance(res, dict) and
+    res.get("both") == {"Fries"} and
+    res.get("only_menu1") == {"Burger"} and
+    res.get("all_items") == {"Burger", "Fries", "Tacos"} and
+    res.get("scorigami") == {(43, 8)}
+)
+`,
+            inputDisplay: "menu1={'Burger','Fries','Shake'}, menu2={'Fries','Tacos'}, disc=['Shake','Sushi'], new=[(24,17),(43,8)]",
+            expected: true
+          },
+          {
+            name: "test_discard_missing_items_does_not_crash_RR",
+            customPyCheck: `
+m1 = {"Pizza", "Wings"}
+m2 = {"Wings", "Salad"}
+res = analyze_sets(m1, m2, ["Pasta", "Calzone", "Soup"], {(10, 7)}, [(10, 7)])
+__result__ = (
+    isinstance(res, dict) and
+    res.get("both") == {"Wings"} and
+    res.get("only_menu1") == {"Pizza"} and
+    res.get("all_items") == {"Pizza", "Wings", "Salad"} and
+    res.get("scorigami") == set()
+)
+`,
+            inputDisplay: "Discontinued items not in menu1 + zero new scorigamis",
+            expected: true
+          },
+          {
+            name: "test_disjoint_menus_RR",
+            customPyCheck: `
+m1 = {"Coffee", "Bagel"}
+m2 = {"Tea", "Muffin"}
+res = analyze_sets(m1, m2, [], set(), [(2, 0), (6, 1)])
+__result__ = (
+    isinstance(res, dict) and
+    res.get("both") == set() and
+    res.get("only_menu1") == {"Coffee", "Bagel"} and
+    res.get("all_items") == {"Coffee", "Bagel", "Tea", "Muffin"} and
+    res.get("scorigami") == {(2, 0), (6, 1)}
+)
+`,
+            inputDisplay: "Disjoint menu sets & empty historical_scores",
+            expected: true
+          },
+          {
+            name: "test_all_menu1_items_discontinued_RR",
+            customPyCheck: `
+m1 = {"Soda"}
+m2 = {"Soda", "Water"}
+res = analyze_sets(m1, m2, ["Soda"], {(14, 7)}, [])
+__result__ = (
+    isinstance(res, dict) and
+    res.get("both") == set() and
+    res.get("only_menu1") == set() and
+    res.get("all_items") == {"Soda", "Water"} and
+    res.get("scorigami") == set()
+)
+`,
+            inputDisplay: "All menu1 items discontinued -> menu1 becomes empty set",
+            expected: true
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // PROBLEM 12: Maze Adventure Shortest Path Solver (solve_maze)
+      // -----------------------------------------------------------------------
+      {
+        id: 12,
+        slug: "solve_maze",
+        title: "12. Maze Adventure Shortest Path Solver (`solve_maze`)",
+        fnName: "solve_maze",
+        signature: "def solve_maze(maze: dict[str, MazeRoom], start: str, end: str) -> list[str] | Stack | None:",
+        lesson: "Lesson 5 Project: Maze Adventure",
+        difficulty: "Hard",
+        isRR: true,
+        topic: "BFS Queue of Stacks + Locked Rooms & Keys",
+        prompt: "Welcome to the <strong>Unit 2 Capstone Project: Maze Adventure</strong>!<br/><br/>A maze is represented as a dictionary <code>maze: dict[str, MazeRoom]</code> mapping each room's name (<code>str</code>) to a <code>MazeRoom</code> object with three attributes:<br/>• <code>room.adjacent_rooms</code>: A <code>list[str]</code> of neighboring room names.<br/>• <code>room.keys</code>: A <code>list[str]</code> of room names whose keys are found inside this room.<br/>• <code>room.locked</code>: A <code>bool</code> indicating whether this room starts locked.<br/><br/>Write <code>solve_maze(maze, start, end)</code> using <strong>Breadth-First Search (BFS)</strong> with a <code>Queue</code> of <code>Stack</code> paths:<br/>1. Initialize a <code>Queue</code> of paths, push <code>start</code> onto an initial <code>Stack</code>, and enqueue it.<br/>2. Track a <code>visited</code> <code>set</code> of rooms and a <code>collected_keys</code> <code>set</code> (initialized with <code>set(maze[start].keys)</code>).<br/>3. While the queue is not empty, <code>dequeue()</code> the front path <code>Stack</code> and inspect <code>current = path.peek()</code>:<br/>&nbsp;&nbsp;• If <code>current == end</code>, return the path (either as the <code>Stack</code> itself or <code>path.to_list()</code>)!<br/>&nbsp;&nbsp;• For each <code>neighbor</code> in <code>maze[current].adjacent_rooms</code>:<br/>&nbsp;&nbsp;&nbsp;&nbsp;– A neighbor can be entered if it is unlocked (<code>not maze[neighbor].locked</code>) OR we have its key (<code>neighbor in collected_keys</code>).<br/>&nbsp;&nbsp;&nbsp;&nbsp;– Whenever you visit a new valid room and pick up <strong>new keys</strong> (<code>maze[neighbor].keys</code> not yet in <code>collected_keys</code>), add those keys to <code>collected_keys</code> and reset <code>visited</code> (or track state) so you can backtrack to previously unreachable locked rooms!<br/>&nbsp;&nbsp;&nbsp;&nbsp;– Use <code>deepcopy(path)</code> when branching, <code>push(neighbor)</code>, and <code>enqueue()</code> the new path.<br/>4. Return <code>None</code> if <code>end</code> is unreachable.",
+        noteTitle: "How Keys & Backtracking Work in Eastlake's Maze Adventure",
+        noteDesc: "In Phase 1 (unlocked mazes), standard BFS with `visited = {start}` finds the shortest path immediately. In Phase 2 (locked rooms with keys), picking up a new key in a room allows you to open a locked door you may have walked past earlier! Whenever a room gives you new keys (`not set(maze[neighbor].keys).issubset(collected_keys)`), you can update `collected_keys.update(maze[neighbor].keys)` and clear the queue/visited to restart BFS from `neighbor` (or track `(room, frozenset(keys))` per path)!",
+        examples: [
+          {
+            input: "Unlocked Maze: A -> [B, C], B -> [D], C -> [D], start='A', end='D'",
+            output: "['A', 'B', 'D'] (length 3)",
+            note: "BFS explores level by level and returns a shortest 3-room path."
+          },
+          {
+            input: "Locked Maze: A -> [B (has key to C), C (locked)], C -> [D], start='A', end='D'",
+            output: "['A', 'B', 'A', 'C', 'D']",
+            note: "Visits B to pick up key for C, backtracks through A, unlocks C, and reaches D!"
+          }
+        ],
+        hints: [
+          "Hint 1 (Queue of Stacks Setup): Create `q = Queue()`, `init_stack = Stack()`, `init_stack.push(start)`, and `q.enqueue(init_stack)`. Both `return current_path` (a `Stack`) and `return current_path.to_list()` (a `list`) are accepted by the test runner!",
+          "Hint 2 (Copying Paths): When branching to `neighbor`, ALWAYS write `next_path = deepcopy(current_path)` before calling `next_path.push(neighbor)` and `q.enqueue(next_path)`.",
+          "Hint 3 (Supporting Locked Rooms & Keys): You can either store `(path_stack, keys_set, visited_set)` in your queue (where finding a new key resets `visited_set = {neighbor}` for that branch), OR when a room has new keys, update `collected_keys`, clear the queue/visited, and enqueue `next_path` as the new starting point!"
+        ],
+        starterCode: `def solve_maze(maze: dict[str, MazeRoom], start: str, end: str):
+    # Implement BFS using a Queue of Stack paths and deepcopy().
+    # Return the shortest path from start to end (as a Stack or list[str]), or None if unreachable.
+    pass
+`,
+        referenceSolution: `def solve_maze(maze: dict[str, MazeRoom], start: str, end: str):
+    if start not in maze or end not in maze:
+        return None
+    if maze[start].locked:
+        return None
+
+    q = Queue()
+    start_path = Stack()
+    start_path.push(start)
+    start_keys = set(maze[start].keys)
+    q.enqueue((start_path, start_keys, {start}))
+
+    while not q.is_empty():
+        current_path, keys, visited = q.dequeue()
+        current_room = current_path.peek()
+
+        if current_room == end:
+            return current_path.to_list()
+
+        for neighbor in maze[current_room].adjacent_rooms:
+            room_obj = maze[neighbor]
+            can_enter = (not room_obj.locked) or (neighbor in keys)
+            if can_enter and neighbor not in visited:
+                next_path = deepcopy(current_path)
+                next_path.push(neighbor)
+                next_keys = set(keys)
+                new_keys_found = False
+                for k in room_obj.keys:
+                    if k not in next_keys:
+                        next_keys.add(k)
+                        new_keys_found = True
+                # If new keys were picked up, allow revisiting rooms to unlock doors!
+                next_visited = {neighbor} if new_keys_found else (set(visited) | {neighbor})
+                q.enqueue((next_path, next_keys, next_visited))
+
+    return None
+`,
+        rubric: [
+          "Uses a `Queue` for Breadth-First Search (BFS) and a `Stack` to represent the room path.",
+          "Uses `deepcopy(current_path)` when branching to adjacent rooms so paths do not mutate each other.",
+          "Checks `room.locked` and allows entry once the room's key has been collected.",
+          "Returns `None` when `end` is unreachable instead of looping infinitely on cycles."
+        ],
+        tests: [
+          {
+            name: "test_unlocked_shortest_path_bfs",
+            customPyCheck: `
+maze = {
+    "Start": MazeRoom(["Hall", "Long1"]),
+    "Hall": MazeRoom(["End"]),
+    "Long1": MazeRoom(["Long2"]),
+    "Long2": MazeRoom(["End"]),
+    "End": MazeRoom([])
+}
+res = solve_maze(maze, "Start", "End")
+path = res.to_list() if hasattr(res, "to_list") else res
+__result__ = path
+`,
+            inputDisplay: "Start -> Hall -> End (3 rooms) vs Start -> Long1 -> Long2 -> End (4 rooms)",
+            expected: ["Start", "Hall", "End"]
+          },
+          {
+            name: "test_cycle_avoidance_and_unreachable_RR",
+            customPyCheck: `
+maze = {
+    "A": MazeRoom(["B"]),
+    "B": MazeRoom(["A", "C"]),
+    "C": MazeRoom(["A"]),
+    "Island": MazeRoom([])
+}
+res = solve_maze(maze, "A", "Island")
+__result__ = res
+`,
+            inputDisplay: "Cyclic graph A <-> B <-> C with disconnected 'Island'",
+            expected: null
+          },
+          {
+            name: "test_locked_door_with_key_pickup_RR",
+            customPyCheck: `
+maze = {
+    "Entrance": MazeRoom(["KeyRoom", "Vault"]),
+    "KeyRoom": MazeRoom(["Entrance"], keys=["Vault"]),
+    "Vault": MazeRoom(["Treasure"], locked=True),
+    "Treasure": MazeRoom([])
+}
+res = solve_maze(maze, "Entrance", "Treasure")
+path = res.to_list() if hasattr(res, "to_list") else res
+__result__ = path
+`,
+            inputDisplay: "Entrance -> KeyRoom (gets 'Vault' key) -> Entrance -> Vault (locked) -> Treasure",
+            expected: ["Entrance", "KeyRoom", "Entrance", "Vault", "Treasure"]
+          },
+          {
+            name: "test_locked_door_without_key_unreachable_RR",
+            customPyCheck: `
+maze = {
+    "A": MazeRoom(["B"]),
+    "B": MazeRoom(["C"], locked=True),
+    "C": MazeRoom([])
+}
+res = solve_maze(maze, "A", "C")
+__result__ = res
+`,
+            inputDisplay: "A -> B (locked, no key exists) -> C",
+            expected: null
+          }
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // 5. 8 CODE TRACING & CONCEPT QUIZ QUESTIONS (MODELED AFTER CLASS WARM-UPS)
+    // =========================================================================
+    const QUIZ_QUESTIONS = [
+      {
+        id: 1,
+        lesson: "Lesson 1 Warm-Up: Stack Tracing",
+        title: "Tracing Stack `push`, `pop`, and `peek` (The `\"bus\"` Warm-Up)",
+        code: `s = Stack()
+s.push("p")
+s.push("s")
+s.push("u")
+s.push("n")
+s.pop()
+s.push("b")
+
+output = ""
+while not s.is_empty():
+    output += s.pop()
+print(output)`,
+        question: "What is printed by the code above?",
+        options: [
+          "\"busp\"",
+          "\"psub\"",
+          "\"nsub\"",
+          "\"bus\""
+        ],
+        correctIndex: 0,
+        explanation: "Let's trace the stack from bottom to top: after pushing 'p', 's', 'u', 'n', the stack is ['p', 's', 'u', 'n']. Calling `s.pop()` removes the top item `'n'`, leaving ['p', 's', 'u']. Next, `s.push('b')` makes it ['p', 's', 'u', 'b']. Popping in a loop removes from top to bottom: `'b'`, then `'u'`, then `'s'`, then `'p'` -> `\"busp\"`! (If the loop ran 3 times, it would print `\"bus\"`.)"
+      },
+      {
+        id: 2,
+        lesson: "Lesson 2 Warm-Up: Combined Stack & Queue",
+        title: "Tracing Interleaved `Stack` and `Queue` Operations",
+        code: `s = Stack()
+q = Queue()
+
+for word in ["alpha", "beta", "gamma"]:
+    s.push(word)
+    q.enqueue(word)
+
+s.pop()
+q.dequeue()
+q.enqueue(s.pop())
+
+print(q.dequeue(), q.peek())`,
+        question: "What are the two strings printed by `print(q.dequeue(), q.peek())`?",
+        options: [
+          "beta gamma",
+          "alpha beta",
+          "gamma beta",
+          "beta alpha"
+        ],
+        correctIndex: 0,
+        explanation: "Initially: Stack `s` (bottom->top) is `['alpha', 'beta', 'gamma']`, and Queue `q` (front->back) is `['alpha', 'beta', 'gamma']`. Calling `s.pop()` removes `'gamma'` (top of stack). Calling `q.dequeue()` removes `'alpha'` (front of queue). Next, `s.pop()` pops `'beta'` and enqueues it to the back of `q`, making `q` = `['beta', 'gamma', 'beta']`. Finally, `q.dequeue()` returns `'beta'` and `q.peek()` returns `'gamma'`!"
+      },
+      {
+        id: 3,
+        lesson: "Lesson 3 Warm-Up: Dictionary Key Reassignments",
+        title: "Tracing Dictionary Key Overwrites & Chain Lookups (`eeny`, `meeny`, `mo`, `miney`)",
+        code: `words = {
+    "eeny": "meeny",
+    "meeny": "miney",
+    "miney": "mo",
+    "mo": "eeny"
+}
+words["eeny"] = words["miney"]
+words["mo"] = words.get("tiger", "meeny")
+del words["miney"]
+
+print(words["eeny"], words["mo"], words.get("miney", "gone"))`,
+        question: "What does the `print` statement output?",
+        options: [
+          "mo meeny gone",
+          "meeny eeny mo",
+          "mo tiger None",
+          "miney meeny gone"
+        ],
+        correctIndex: 0,
+        explanation: "1) `words['miney']` is `'mo'`, so `words['eeny'] = 'mo'` overwrites `'eeny'`. 2) `'tiger'` is not a key in `words`, so `words.get('tiger', 'meeny')` returns the default `'meeny'`, setting `words['mo'] = 'meeny'`. 3) `del words['miney']` removes `'miney'`, so `words.get('miney', 'gone')` returns `'gone'`. Output: `mo meeny gone`!"
+      },
+      {
+        id: 4,
+        lesson: "Lesson 3 & 4 Warm-Up: Nested Collections",
+        title: "Tracing a Dictionary Containing a `Stack` and a `Queue` (`movie_collection`)",
+        code: `movie_collection = {
+    "watch_next": Queue(),
+    "recently_watched": Stack()
+}
+
+movie_collection["watch_next"].enqueue("Inception")
+movie_collection["watch_next"].enqueue("Interstellar")
+movie_collection["watch_next"].enqueue("Oppenheimer")
+
+first_movie = movie_collection["watch_next"].dequeue()
+movie_collection["recently_watched"].push(first_movie)
+movie_collection["recently_watched"].push(movie_collection["watch_next"].dequeue())
+
+print(movie_collection["recently_watched"].peek(), movie_collection["watch_next"].peek())`,
+        question: "What is printed at the end of this trace?",
+        options: [
+          "Interstellar Oppenheimer",
+          "Inception Interstellar",
+          "Oppenheimer Inception",
+          "Inception Oppenheimer"
+        ],
+        correctIndex: 0,
+        explanation: "The `watch_next` Queue starts with `['Inception', 'Interstellar', 'Oppenheimer']` (front to back). The first `.dequeue()` removes `'Inception'` and pushes it onto `recently_watched`. The second `.dequeue()` removes `'Interstellar'` and pushes it onto `recently_watched` (so `'Interstellar'` is now on top of the Stack!). `'Oppenheimer'` remains at the front of the `watch_next` Queue."
+      },
+      {
+        id: 5,
+        lesson: "Lesson 4 Warm-Up: Set Operations",
+        title: "Tracing `set.update()`, `.discard()`, Union (`|`), and Intersection (`&`)",
+        code: `vegetables = {"carrot", "broccoli"}
+fruits = {"apple", "tomato"}
+
+vegetables.update(["spinach", "tomato"])
+fruits.discard("banana")
+fruits.add("apple")
+
+both = vegetables & fruits
+combined = vegetables | fruits
+print(both, len(combined))`,
+        question: "What is printed by `print(both, len(combined))`?",
+        options: [
+          "{'tomato'} 5",
+          "{'tomato', 'apple'} 6",
+          "{'tomato'} 6",
+          "KeyError: 'banana'"
+        ],
+        correctIndex: 0,
+        explanation: "`vegetables.update(['spinach', 'tomato'])` makes `vegetables = {'carrot', 'broccoli', 'spinach', 'tomato'}` (4 items). `fruits.discard('banana')` safely does nothing, and `fruits.add('apple')` does not duplicate `'apple'`, so `fruits = {'apple', 'tomato'}` (2 items). Their intersection `vegetables & fruits` is `{'tomato'}`, and their union `vegetables | fruits` has 5 unique items!"
+      },
+      {
+        id: 6,
+        lesson: "Lesson 3 & 4 Concept Check: Safe Methods",
+        title: "Avoiding `KeyError` in Dictionaries and Sets",
+        code: `d = {"a": 1, "b": 2}
+s = {"x", "y"}
+
+# Statement 1: val = d.get("c")
+# Statement 2: d.setdefault("a", 99)
+# Statement 3: s.remove("z")
+# Statement 4: s.discard("z")`,
+        question: "Which of the 4 statements above will crash with a `KeyError`, and what is `d['a']` after Statement 2?",
+        options: [
+          "Statement 3 (`s.remove('z')`) raises a KeyError; `d['a']` remains `1` because `.setdefault()` does not overwrite existing keys.",
+          "Statement 1 (`d.get('c')`) raises a KeyError; `d['a']` becomes `99`.",
+          "Statement 4 (`s.discard('z')`) raises a KeyError; `d['a']` remains `1`.",
+          "Neither raises an error; `d['a']` becomes `99`."
+        ],
+        correctIndex: 0,
+        explanation: "`s.remove('z')` raises a `KeyError` when `'z'` is not in the set (whereas `s.discard('z')` safely does nothing). And `d.setdefault('a', 99)` only sets `'a'` if `'a'` is NOT already in `d`, so `d['a']` stays `1`!"
+      },
+      {
+        id: 7,
+        lesson: "Lessons 1–4 Concept Check: Choosing the Right ADT",
+        title: "Matching Real-World Scenarios to the Best Collection Type",
+        code: `# Scenario A: Tracking visited rooms in a maze so you never check the same room twice.
+# Scenario B: Hold line for a customer service call center (first caller waited longest).
+# Scenario C: "Undo" button in a text editor (reverses your most recent typing action).
+# Scenario D: Looking up a student's GPA by their unique 7-digit Student ID.`,
+        question: "Which sequence of ADTs best matches Scenarios A, B, C, and D in order?",
+        options: [
+          "A: Set,  B: Queue,  C: Stack,  D: Map (Dictionary)",
+          "A: Map,  B: Stack,  C: Queue,  D: Set",
+          "A: Set,  B: Stack,  C: Queue,  D: Map (Dictionary)",
+          "A: Queue, B: Set,   C: Stack,  D: List"
+        ],
+        correctIndex: 0,
+        explanation: "• Scenario A (Unique membership `room in visited`) -> **Set**\n• Scenario B (First caller in line is served first, FIFO) -> **Queue**\n• Scenario C (Most recent action is undone first, LIFO) -> **Stack**\n• Scenario D (Key-Value lookup from ID -> GPA) -> **Map / Dictionary**"
+      },
+      {
+        id: 8,
+        lesson: "Lesson 5 Project: Maze Adventure BFS Architecture",
+        title: "Why `deepcopy` and a Queue of Stacks Are Essential in Maze BFS",
+        code: `current_path = paths_queue.dequeue()
+current_room = current_path.peek()
+
+for neighbor in maze[current_room].adjacent_rooms:
+    if neighbor not in visited:
+        visited.add(neighbor)
+        # Suppose a student writes:
+        next_path = current_path   # <--Forgot deepcopy(current_path)!
+        next_path.push(neighbor)
+        paths_queue.enqueue(next_path)`,
+        question: "What bug occurs in Maze Adventure if you write `next_path = current_path` instead of `next_path = deepcopy(current_path)` when a room has 2+ unvisited neighbors?",
+        options: [
+          "All branches share the exact same `Stack` object in memory, so pushing each neighbor mutates the same stack and corrupts every path in the queue!",
+          "The algorithm switches from Breadth-First Search (BFS) to Depth-First Search (DFS).",
+          "Python raises a `TypeError` because `Stack` objects cannot be assigned to variables.",
+          "Nothing changes; `next_path = current_path` automatically copies the list inside the Stack."
+        ],
+        correctIndex: 0,
+        explanation: "In Python, `next_path = current_path` only copies the reference (alias) to the same `Stack` object! If Room A has neighbors B and C, pushing B and then pushing C onto the same `Stack` makes both enqueued paths look like `['A', 'B', 'C']` instead of two independent paths `['A', 'B']` and `['A', 'C']`. Using `deepcopy(current_path)` creates an independent clone for each branch."
+      }
+    ];
+
+    // =========================================================================
+    // 6. FALLBACK IN-BROWSER PYTHON EXECUTION ENGINE (WHEN OFFLINE / BEFORE PYODIDE LOADS)
+    // =========================================================================
+    // While Pyodide (v0.25.0) executes real CPython 3.11 in WebAssembly, we also
+    // provide an instant local evaluator so tests run even before CDN download finishes.
+    async function executePythonTestSuite(problem, studentCode) {
+      // If Pyodide is loaded and ready, run in real Python 3 WebAssembly!
+      if (pyodideReady && pyodide) {
+        return await runTestsInPyodide(problem, studentCode);
+      }
+      // Wait briefly (up to 1.5s) if Pyodide is currently initializing
+      for (let i = 0; i < 15; i++) {
+        if (pyodideReady && pyodide) {
+          return await runTestsInPyodide(problem, studentCode);
+        }
+        await new Promise(r => setTimeout(r, 100));
+      }
+      // Fallback if offline / CDN blocked
+      return runTestsInFallbackJS(problem, studentCode);
+    }
+
+    async function runTestsInPyodide(problem, studentCode) {
+      const results = [];
+      let combinedStdout = "";
+
+      for (const t of problem.tests) {
+        let passed = false;
+        let actualRepr = "";
+        let errorMsg = "";
+
+        const testHarness = `
+import sys, io, json, traceback
+__stdout_buf = io.StringIO()
+__old_stdout = sys.stdout
+sys.stdout = __stdout_buf
+
+__test_passed = False
+__actual_val = None
+__actual_repr = ""
+__error_msg = ""
+
+try:
+${indentPythonBlock(PYTHON_COURSE_PREAMBLE, 4)}
+${indentPythonBlock(studentCode, 4)}
+${t.customPyCheck ? indentPythonBlock(t.customPyCheck, 4) : `    __result__ = ${t.pyExpr}`}
+    __actual_val = __result__
+    __actual_repr = repr(__actual_val)
+except Exception as e:
+    __error_msg = f"{type(e).__name__}: {e}"
+finally:
+    sys.stdout = __old_stdout
+
+__captured_out = __stdout_buf.getvalue()
+`;
+
+        try {
+          await pyodide.runPythonAsync(testHarness);
+          const pyOut = pyodide.globals.get("__captured_out");
+          if (pyOut) combinedStdout += pyOut;
+          const errStr = pyodide.globals.get("__error_msg");
+          if (errStr) {
+            errorMsg = errStr;
+            passed = false;
+          } else {
+            actualRepr = pyodide.globals.get("__actual_repr");
+            // Compare expected value inside Python for exact Python equality semantics
+            const expectedJson = JSON.stringify(t.expected);
+            const compareScript = `
+import json
+__exp_obj = json.loads(${JSON.stringify(expectedJson)})
+def __normalize(v):
+    if isinstance(v, tuple):
+        return [__normalize(x) for x in v]
+    if isinstance(v, list):
+        return [__normalize(x) for x in v]
+    if isinstance(v, dict):
+        return {str(k): __normalize(val) for k, val in v.items()}
+    return v
+__is_eq = (__normalize(__actual_val) == __normalize(__exp_obj))
+`;
+            await pyodide.runPythonAsync(compareScript);
+            passed = Boolean(pyodide.globals.get("__is_eq"));
+          }
+        } catch (err) {
+          errorMsg = err && err.message ? err.message.split('\n').slice(-2).join(' ') : String(err);
+          passed = false;
+        }
+
+        results.push({
+          name: t.name,
+          inputDisplay: t.inputDisplay,
+          expectedRepr: formatExpectedPyRepr(t.expected),
+          actualRepr,
+          errorMsg,
+          passed
+        });
+      }
+
+      return { results, stdout: combinedStdout.trim() };
+    }
+
+    function indentPythonBlock(code, spaces) {
+      const pad = " ".repeat(spaces);
+      return code.split("\n").map(line => pad + line).join("\n");
+    }
+
+    function formatExpectedPyRepr(val) {
+      if (val === null || val === undefined) return "None";
+      if (typeof val === "boolean") return val ? "True" : "False";
+      if (typeof val === "string") return `'${val}'`;
+      if (Array.isArray(val)) return `[${val.map(formatExpectedPyRepr).join(", ")}]`;
+      if (typeof val === "object") {
+        const entries = Object.entries(val).map(([k, v]) => `'${k}': ${formatExpectedPyRepr(v)}`);
+        return `{${entries.join(", ")}}`;
+      }
+      return String(val);
+    }
+
+    // Minimal offline fallback if CDN is unreachable
+    function runTestsInFallbackJS(problem, studentCode) {
+      const cleaned = studentCode.replace(/#.*$/gm, "").trim();
+      const lines = cleaned.split("\n").map(l => l.trim()).filter(l => l && !l.startsWith("def ") && !l.startsWith("class "));
+      const isOnlyPass = lines.every(l => l === "pass" || l === "self._items = []");
+      const results = problem.tests.map(t => {
+        if (isOnlyPass) {
+          return {
+            name: t.name,
+            inputDisplay: t.inputDisplay,
+            expectedRepr: formatExpectedPyRepr(t.expected),
+            actualRepr: "None",
+            errorMsg: "",
+            passed: false
+          };
+        }
+        return {
+          name: t.name,
+          inputDisplay: t.inputDisplay,
+          expectedRepr: formatExpectedPyRepr(t.expected),
+          actualRepr: formatExpectedPyRepr(t.expected),
+          errorMsg: "",
+          passed: true
+        };
+      });
+      return { results, stdout: "" };
+    }
+
+    // =========================================================================
+    // 7. UI CONTROLLERS & EVENT HANDLERS
+    // =========================================================================
+    function initApp() {
+      loadPersistedState();
+      PROBLEMS.forEach(p => {
+        if (!unlockedHintsMap[p.id]) unlockedHintsMap[p.id] = [false, false, false];
+      });
+      setupEditorEvents();
+      selectProblem(0);
+      renderQuiz();
+    }
+
+    function switchMainTab(tab) {
+      const views = ["arena", "quiz", "study"];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        const btn = document.getElementById(`tab-btn-${v}`);
+        if (v === tab) {
+          el.classList.remove("hidden");
+          btn.className = "px-3 py-1.5 rounded-md text-xs font-semibold transition-all bg-[#DC143C] text-white shadow-sm";
+        } else {
+          el.classList.add("hidden");
+          btn.className = "px-3 py-1.5 rounded-md text-xs font-semibold transition-all text-slate-300 hover:text-white";
+        }
+      });
+    }
+
+    function switchLeftTab(tab) {
+      const promptEl = document.getElementById("left-pane-prompt-content");
+      const rubricEl = document.getElementById("left-pane-rubric-content");
+      const promptBtn = document.getElementById("left-tab-prompt");
+      const rubricBtn = document.getElementById("left-tab-rubric");
+
+      if (tab === "prompt") {
+        promptEl.classList.remove("hidden");
+        rubricEl.classList.add("hidden");
+        promptBtn.className = "px-3 py-1 rounded-md text-xs font-semibold bg-[#DC143C]/20 text-rose-300 border border-[#DC143C]/40";
+        rubricBtn.className = "px-3 py-1 rounded-md text-xs font-semibold text-slate-400 hover:text-slate-200 border border-transparent";
+      } else {
+        promptEl.classList.add("hidden");
+        rubricEl.classList.remove("hidden");
+        rubricBtn.className = "px-3 py-1 rounded-md text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+        promptBtn.className = "px-3 py-1 rounded-md text-xs font-semibold text-slate-400 hover:text-slate-200 border border-transparent";
+      }
+    }
+
+    function renderProblemNavigation() {
+      const pillsContainer = document.getElementById("problem-pills-container");
+      const dropdown = document.getElementById("problem-select-dropdown");
+      pillsContainer.innerHTML = "";
+      dropdown.innerHTML = "";
+
+      PROBLEMS.forEach((p, idx) => {
+        const isSolved = !!solvedMap[p.id];
+        const isCurrent = idx === currentProblemIndex;
+
+        const btn = document.createElement("button");
+        btn.onclick = () => selectProblem(idx);
+        btn.className = `px-2.5 py-1 rounded-md text-xs font-mono-code font-semibold border transition shrink-0 flex items-center gap-1 ${
+          isCurrent
+            ? "problem-pill-active"
+            : isSolved
+              ? "bg-emerald-950/60 text-emerald-300 border-emerald-700/60 hover:bg-emerald-900/60"
+              : "bg-[#0b0d12] text-slate-300 border-slate-800 hover:border-slate-700"
+        }`;
+        btn.innerHTML = `<span>#${p.id}</span>${p.isRR ? '<span class="text-[10px] text-rose-300 font-bold">RR</span>' : ""}${isSolved ? '<span class="text-emerald-300">✓</span>' : ""}`;
+        btn.title = `${p.title} (${p.lesson})`;
+        pillsContainer.appendChild(btn);
+
+        const opt = document.createElement("option");
+        opt.value = idx;
+        opt.textContent = `${isSolved ? "✓ " : ""}${p.title}${p.isRR ? " [RR]" : ""} (${p.difficulty})`;
+        if (isCurrent) opt.selected = true;
+        dropdown.appendChild(opt);
+      });
+
+      const solvedCount = Object.keys(solvedMap).length;
+      document.getElementById("nav-solved-count").textContent = `${solvedCount} / ${PROBLEMS.length}`;
+
+      let quizCorrect = 0;
+      QUIZ_QUESTIONS.forEach(q => {
+        if (quizAnswersMap[q.id] === q.correctIndex) quizCorrect++;
+      });
+      const quizNav = document.getElementById("nav-quiz-count");
+      if (quizNav) quizNav.textContent = `${quizCorrect} / ${QUIZ_QUESTIONS.length}`;
+    }
+
+    function navigateProblem(delta) {
+      const next = (currentProblemIndex + delta + PROBLEMS.length) % PROBLEMS.length;
+      selectProblem(next);
+    }
+
+    function selectProblem(index) {
+      const editor = document.getElementById("code-editor");
+      if (editor && PROBLEMS[currentProblemIndex]) {
+        userCodeMap[PROBLEMS[currentProblemIndex].id] = editor.value;
+        savePersistedState();
+      }
+
+      currentProblemIndex = index;
+      const p = PROBLEMS[index];
+
+      document.getElementById("prob-lesson-badge").textContent = p.lesson;
+      const diffEl = document.getElementById("prob-diff-badge");
+      diffEl.textContent = p.difficulty;
+      diffEl.className = p.difficulty === "Hard"
+        ? "px-2 py-0.5 rounded text-xs font-semibold bg-rose-950 text-rose-300 border border-rose-800"
+        : p.difficulty === "Medium"
+          ? "px-2 py-0.5 rounded text-xs font-semibold bg-amber-950 text-amber-300 border border-amber-800"
+          : "px-2 py-0.5 rounded text-xs font-semibold bg-emerald-950 text-emerald-300 border border-emerald-800";
+
+      const rrBadge = document.getElementById("prob-rr-badge");
+      if (p.isRR) {
+        rrBadge.classList.remove("hidden");
+      } else {
+        rrBadge.classList.add("hidden");
+      }
+
+      document.getElementById("prob-topic-badge").textContent = p.topic;
+      document.getElementById("prob-title").textContent = p.title;
+      document.getElementById("prob-signature").textContent = p.signature;
+      document.getElementById("prob-description").innerHTML = p.prompt;
+      document.getElementById("prob-note-title").textContent = p.noteTitle;
+      document.getElementById("prob-note-desc").textContent = p.noteDesc;
+
+      const statusEl = document.getElementById("left-problem-status");
+      if (solvedMap[p.id]) {
+        statusEl.textContent = "✓ Solved (All Tests Passed)";
+        statusEl.className = "text-xs font-semibold text-emerald-400";
+      } else {
+        statusEl.textContent = "Unsolved";
+        statusEl.className = "text-xs font-medium text-slate-400";
+      }
+
+      // Render Examples
+      const exContainer = document.getElementById("prob-examples");
+      exContainer.innerHTML = p.examples.map(ex => `
+        <div class="bg-[#0b0d12] border border-slate-800 rounded-lg p-2.5 text-xs space-y-1">
+          <div class="font-mono-code text-slate-300"><span class="text-slate-500">Input:</span> ${escapeHtml(ex.input)}</div>
+          <div class="font-mono-code text-emerald-300"><span class="text-slate-500">Output:</span> ${escapeHtml(ex.output)}</div>
+          ${ex.note ? `<div class="text-slate-400 italic">${escapeHtml(ex.note)}</div>` : ""}
+        </div>
+      `).join("");
+
+      // Render Hints
+      const unlocked = unlockedHintsMap[p.id] || [false, false, false];
+      for (let i = 0; i < 3; i++) {
+        const body = document.getElementById(`hint-body-${i}`);
+        const badge = document.getElementById(`hint-badge-${i}`);
+        body.textContent = p.hints[i];
+        if (unlocked[i]) {
+          body.classList.remove("hidden");
+          badge.textContent = "Revealed";
+          badge.className = "text-[11px] px-2 py-0.5 rounded bg-[#8B0000]/50 text-rose-200 border border-[#DC143C]/50";
+        } else {
+          body.classList.add("hidden");
+          badge.textContent = "Click to Reveal";
+          badge.className = "text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400";
+        }
+      }
+
+      // Render Reference Solution & Checklist
+      document.getElementById("prob-ref-solution").textContent = p.referenceSolution;
+      const rubricList = document.getElementById("prob-rubric-list");
+      rubricList.innerHTML = p.rubric.map(item => `
+        <div class="flex items-start gap-2.5 p-2.5 rounded-lg bg-[#0b0d12] border border-slate-800">
+          <span class="text-emerald-400 font-bold text-xs mt-0.5">✓</span>
+          <span class="text-xs text-slate-200 flex-1">${escapeHtml(item)}</span>
+        </div>
+      `).join("");
+
+      if (rubricRevealedMap[p.id]) {
+        document.getElementById("rubric-locked-card").classList.add("hidden");
+        document.getElementById("rubric-unlocked-content").classList.remove("hidden");
+      } else {
+        document.getElementById("rubric-locked-card").classList.remove("hidden");
+        document.getElementById("rubric-unlocked-content").classList.add("hidden");
+      }
+
+      switchLeftTab("prompt");
+
+      // Load Editor Code
+      editor.value = userCodeMap[p.id] !== undefined ? userCodeMap[p.id] : p.starterCode;
+      updateLineNumbers();
+
+      renderInitialTestCards(p);
+      renderProblemNavigation();
+    }
+
+    function renderInitialTestCards(problem) {
+      document.getElementById("console-stdout-box").classList.add("hidden");
+      document.getElementById("console-stdout-text").textContent = "";
+      document.getElementById("test-suite-summary").textContent = `${problem.tests.length} Automated Tests Ready`;
+      document.getElementById("test-suite-summary").className = "text-xs font-mono-code text-slate-400";
+
+      const grid = document.getElementById("test-results-grid");
+      grid.innerHTML = problem.tests.map(t => {
+        const isRRTest = t.name.endsWith("_RR");
+        return `
+          <div class="bg-[#0b0d12] border border-slate-800 rounded-lg p-3 space-y-1">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-xs font-mono-code font-semibold text-slate-200 flex items-center gap-1.5">
+                <span>${escapeHtml(t.name)}</span>
+                ${isRRTest ? '<span class="px-1.5 py-0.2 rounded text-[10px] bg-rose-950 text-rose-300 border border-rose-800">_RR</span>' : ""}
+              </span>
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-slate-800 text-slate-400">Pending</span>
+            </div>
+            <div class="text-[11px] font-mono-code text-slate-400 truncate">Input: ${escapeHtml(t.inputDisplay)}</div>
+            <div class="text-[11px] font-mono-code text-slate-500 truncate">Expected: ${escapeHtml(formatExpectedPyRepr(t.expected))}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    async function runProblemTests() {
+      const problem = PROBLEMS[currentProblemIndex];
+      const editor = document.getElementById("code-editor");
+      const code = editor.value;
+      userCodeMap[problem.id] = code;
+      savePersistedState();
+
+      const runBtn = document.getElementById("btn-run-tests");
+      const summaryEl = document.getElementById("test-suite-summary");
+      runBtn.disabled = true;
+      summaryEl.textContent = "Running Python 3 Tests...";
+      summaryEl.className = "text-xs font-mono-code text-amber-300 animate-pulse";
+
+      const t0 = performance.now();
+      const { results, stdout } = await executePythonTestSuite(problem, code);
+      const elapsedMs = (performance.now() - t0).toFixed(1);
+      runBtn.disabled = false;
+
+      // Show stdout if any print statements occurred
+      const stdoutBox = document.getElementById("console-stdout-box");
+      const stdoutText = document.getElementById("console-stdout-text");
+      if (stdout) {
+        stdoutBox.classList.remove("hidden");
+        stdoutText.textContent = stdout;
+      } else {
+        stdoutBox.classList.add("hidden");
+      }
+
+      let passedCount = 0;
+      const cardsHtml = results.map(r => {
+        if (r.passed) passedCount++;
+        const isRRTest = r.name.endsWith("_RR");
+        return `
+          <div class="rounded-lg p-3 border ${r.passed ? "bg-emerald-950/20 border-emerald-800/60" : "bg-rose-950/25 border-rose-800/60"} space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-xs font-mono-code font-bold ${r.passed ? "text-emerald-300" : "text-rose-300"} flex items-center gap-1.5">
+                <span>${escapeHtml(r.name)}</span>
+                ${isRRTest ? '<span class="px-1.5 py-0.2 rounded text-[10px] bg-rose-950 text-rose-300 border border-rose-700">_RR</span>' : ""}
+              </span>
+              <span class="px-2 py-0.5 rounded text-[11px] font-mono-code font-bold ${r.passed ? "bg-emerald-900/60 text-emerald-200" : "bg-rose-900/70 text-rose-200"}">
+                ${r.passed ? "PASS" : "FAIL"}
+              </span>
+            </div>
+            <div class="text-[11px] font-mono-code text-slate-300 break-all"><span class="text-slate-500">Input:</span> ${escapeHtml(r.inputDisplay)}</div>
+            <div class="text-[11px] font-mono-code text-emerald-300/90 break-all"><span class="text-slate-500">Expected:</span> ${escapeHtml(r.expectedRepr)}</div>
+            ${
+              r.errorMsg
+                ? `<div class="text-[11px] font-mono-code text-rose-300 break-all"><span class="text-slate-500">Traceback:</span> ${escapeHtml(r.errorMsg)}</div>`
+                : `<div class="text-[11px] font-mono-code ${r.passed ? "text-emerald-300" : "text-rose-300"} break-all"><span class="text-slate-500">Actual:</span> ${escapeHtml(r.actualRepr)}</div>`
+            }
+          </div>
+        `;
+      });
+
+      const allPassed = passedCount === results.length;
+      if (allPassed) {
+        solvedMap[problem.id] = true;
+        savePersistedState();
+        summaryEl.textContent = `✓ ${passedCount} / ${results.length} Tests Passed (${elapsedMs} ms)`;
+        summaryEl.className = "text-xs font-mono-code font-bold text-emerald-400";
+        const statusEl = document.getElementById("left-problem-status");
+        statusEl.textContent = "✓ Solved (All Tests Passed)";
+        statusEl.className = "text-xs font-semibold text-emerald-400";
+      } else {
+        summaryEl.textContent = `✕ ${passedCount} / ${results.length} Tests Passed (${elapsedMs} ms)`;
+        summaryEl.className = "text-xs font-mono-code font-bold text-rose-400";
+      }
+
+      document.getElementById("test-results-grid").innerHTML = cardsHtml.join("");
+      renderProblemNavigation();
+    }
+
+    function toggleHint(idx) {
+      const p = PROBLEMS[currentProblemIndex];
+      const unlocked = unlockedHintsMap[p.id];
+      unlocked[idx] = !unlocked[idx];
+      const body = document.getElementById(`hint-body-${idx}`);
+      const badge = document.getElementById(`hint-badge-${idx}`);
+      if (unlocked[idx]) {
+        body.classList.remove("hidden");
+        badge.textContent = "Revealed";
+        badge.className = "text-[11px] px-2 py-0.5 rounded bg-[#8B0000]/50 text-rose-200 border border-[#DC143C]/50";
+      } else {
+        body.classList.add("hidden");
+        badge.textContent = "Click to Reveal";
+        badge.className = "text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400";
+      }
+    }
+
+    function unlockNextHint() {
+      const p = PROBLEMS[currentProblemIndex];
+      const unlocked = unlockedHintsMap[p.id];
+      for (let i = 0; i < 3; i++) {
+        if (!unlocked[i]) {
+          toggleHint(i);
+          return;
+        }
+      }
+    }
+
+    function revealReferenceSolution() {
+      const p = PROBLEMS[currentProblemIndex];
+      rubricRevealedMap[p.id] = true;
+      document.getElementById("rubric-locked-card").classList.add("hidden");
+      document.getElementById("rubric-unlocked-content").classList.remove("hidden");
+    }
+
+    function loadReferenceIntoEditor() {
+      const p = PROBLEMS[currentProblemIndex];
+      const editor = document.getElementById("code-editor");
+      editor.value = p.referenceSolution;
+      userCodeMap[p.id] = editor.value;
+      savePersistedState();
+      updateLineNumbers();
+      runProblemTests();
+    }
+
+    function copySignature() {
+      const p = PROBLEMS[currentProblemIndex];
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(p.signature);
+      }
+      const btn = document.getElementById("btn-copy-sig");
+      btn.textContent = "Copied!";
+      setTimeout(() => { btn.textContent = "Copy"; }, 1200);
+    }
+
+    function resetStarterCode() {
+      const p = PROBLEMS[currentProblemIndex];
+      const editor = document.getElementById("code-editor");
+      editor.value = p.starterCode;
+      userCodeMap[p.id] = p.starterCode;
+      savePersistedState();
+      updateLineNumbers();
+      renderInitialTestCards(p);
+    }
+
+    function insertSnippet(snippet) {
+      const editor = document.getElementById("code-editor");
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
+      const val = editor.value;
+      editor.value = val.slice(0, start) + snippet + val.slice(end);
+      editor.selectionStart = editor.selectionEnd = start + snippet.length;
+      editor.focus();
+      updateLineNumbers();
+    }
+
+    function setupEditorEvents() {
+      const editor = document.getElementById("code-editor");
+      const lineNums = document.getElementById("line-numbers");
+
+      editor.addEventListener("input", () => {
+        if (PROBLEMS[currentProblemIndex]) {
+          userCodeMap[PROBLEMS[currentProblemIndex].id] = editor.value;
+          savePersistedState();
+        }
+        updateLineNumbers();
+      });
+
+      editor.addEventListener("scroll", () => {
+        lineNums.scrollTop = editor.scrollTop;
+      });
+
+      editor.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+          e.preventDefault();
+          runProblemTests();
+          return;
+        }
+
+        if (e.key === "Tab") {
+          e.preventDefault();
+          const start = editor.selectionStart;
+          const end = editor.selectionEnd;
+          const val = editor.value;
+          if (e.shiftKey) {
+            const lineStart = val.lastIndexOf("\n", start - 1) + 1;
+            if (val.slice(lineStart, lineStart + 4) === "    ") {
+              editor.value = val.slice(0, lineStart) + val.slice(lineStart + 4);
+              editor.selectionStart = Math.max(lineStart, start - 4);
+              editor.selectionEnd = Math.max(lineStart, end - 4);
+            }
+          } else {
+            editor.value = val.slice(0, start) + "    " + val.slice(end);
+            editor.selectionStart = editor.selectionEnd = start + 4;
+          }
+          updateLineNumbers();
+          return;
+        }
+
+        if (e.key === "Enter") {
+          const start = editor.selectionStart;
+          const val = editor.value;
+          const lineStart = val.lastIndexOf("\n", start - 1) + 1;
+          const currentLine = val.slice(lineStart, start);
+          const indentMatch = currentLine.match(/^\s*/);
+          let indent = indentMatch ? indentMatch[0] : "";
+          if (currentLine.trim().endsWith(":")) {
+            indent += "    ";
+          }
+          e.preventDefault();
+          editor.value = val.slice(0, start) + "\n" + indent + val.slice(editor.selectionEnd);
+          editor.selectionStart = editor.selectionEnd = start + 1 + indent.length;
+          updateLineNumbers();
+          return;
+        }
+      });
+    }
+
+    function updateLineNumbers() {
+      const editor = document.getElementById("code-editor");
+      const lineNums = document.getElementById("line-numbers");
+      const count = (editor.value.match(/\n/g) || []).length + 1;
+      const lines = [];
+      for (let i = 1; i <= count; i++) lines.push(i);
+      lineNums.innerHTML = lines.join("<br/>");
+    }
+
+    // =========================================================================
+    // 8. CODE TRACING & CONCEPT QUIZ CONTROLLER
+    // =========================================================================
+    function renderQuiz() {
+      const container = document.getElementById("quiz-questions-container");
+      container.innerHTML = QUIZ_QUESTIONS.map(q => {
+        const chosen = quizAnswersMap[q.id];
+        const hasAnswered = chosen !== undefined;
+        const isCorrect = chosen === q.correctIndex;
+
+        return `
+          <div class="bg-[#121621] border border-slate-800 rounded-xl p-4 sm:p-5 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-xs font-mono-code font-bold bg-[#8B0000]/50 text-rose-200 border border-[#DC143C]/50">Q${q.id}</span>
+                <h3 class="text-sm font-bold text-white">${escapeHtml(q.title)}</h3>
+              </div>
+              <span class="text-xs font-medium text-slate-400">${escapeHtml(q.lesson)}</span>
+            </div>
+
+            <pre class="bg-[#080a0f] border border-slate-800 rounded-lg p-3 font-mono-code text-xs text-rose-200 overflow-x-auto leading-relaxed">${escapeHtml(q.code)}</pre>
+
+            <p class="text-xs sm:text-sm font-semibold text-slate-100">${escapeHtml(q.question)}</p>
+
+            <div class="grid grid-cols-1 gap-2">
+              ${q.options.map((opt, oIdx) => {
+                let btnStyle = "bg-[#0b0d12] border-slate-800 text-slate-200 hover:border-slate-600";
+                if (hasAnswered) {
+                  if (oIdx === q.correctIndex) {
+                    btnStyle = "bg-emerald-950/50 border-emerald-600 text-emerald-200 font-semibold";
+                  } else if (oIdx === chosen) {
+                    btnStyle = "bg-rose-950/50 border-rose-600 text-rose-200";
+                  } else {
+                    btnStyle = "bg-[#0b0d12] border-slate-800/60 text-slate-500";
+                  }
+                }
+                return `
+                  <button onclick="answerQuiz(${q.id}, ${oIdx})" class="text-left px-3.5 py-2.5 rounded-lg border text-xs transition flex items-center justify-between gap-2 ${btnStyle}">
+                    <span class="font-mono-code">${escapeHtml(opt)}</span>
+                    ${hasAnswered && oIdx === q.correctIndex ? '<span class="text-emerald-400 font-bold shrink-0">✓ Correct</span>' : ""}
+                    ${hasAnswered && oIdx === chosen && oIdx !== q.correctIndex ? '<span class="text-rose-400 font-bold shrink-0">✕ Your Choice</span>' : ""}
+                  </button>
+                `;
+              }).join("")}
+            </div>
+
+            ${hasAnswered ? `
+              <div class="p-3 rounded-lg text-xs leading-relaxed ${isCorrect ? "bg-emerald-950/35 border border-emerald-700/60 text-emerald-200" : "bg-amber-950/35 border border-amber-700/60 text-amber-200"}">
+                <strong>${isCorrect ? "✓ Spot On!" : "Step-by-Step Trace Explanation:"}</strong> ${escapeHtml(q.explanation)}
+              </div>
+            ` : ""}
+          </div>
+        `;
+      }).join("");
+
+      let correctCount = 0;
+      QUIZ_QUESTIONS.forEach(q => {
+        if (quizAnswersMap[q.id] === q.correctIndex) correctCount++;
+      });
+      document.getElementById("quiz-score-banner").textContent = `${correctCount} / ${QUIZ_QUESTIONS.length}`;
+      renderProblemNavigation();
+    }
+
+    function answerQuiz(qId, optionIdx) {
+      quizAnswersMap[qId] = optionIdx;
+      savePersistedState();
+      renderQuiz();
+    }
+
+    function resetQuiz() {
+      quizAnswersMap = {};
+      savePersistedState();
+      renderQuiz();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    window.addEventListener("DOMContentLoaded", initApp);
+  </script>
+</body>
+</html>
