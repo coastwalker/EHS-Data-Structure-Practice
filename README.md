@@ -1,40 +1,42 @@
-# Eastlake High School — Wolves Data Structures Practice Studios (Unit 2 & Unit 3)
+# Eastlake High School — Wolves Data Structures Practice Studios (Units 1, 2 & 3)
 
-Interactive, self-contained, GitHub Pages-ready "LeetCode-style" Python 3 web applications designed for Eastlake High School's **Data Structures** course.
-
-## Studios Included
-
-### 1. Unit 2 Studio: Data Structures (`index.html` / `ehs_unit2_data_structures_studio.html`)
-Covers **Unit 2: Stacks, Queues, Maps (`dict`), Sets (`set`), and Maze Adventure (BFS)**:
-- **💻 Coding Problems (12 Problems, 48 Automated `_RR` Unit Tests)**
-  1. `[Lesson 1 - Easy]` Implement the Stack Interface (`UserStack` from `list`)
-  2. `[Lesson 1 - Easy - RR]` Palindrome Checker (`is_palindrome(text: str) -> bool`)
-  3. `[Lesson 1 - Medium - RR]` Parentheses & Bracket Checker (`check_brackets(expr: str) -> bool`)
-  4. `[Lesson 1 - Medium - RR]` Reverse Polish Notation Calculator (`eval_rpn(tokens: list[str]) -> float`)
-  5. `[Lesson 2 - Easy]` Reverse a Queue Using a Stack (`reverse_queue(q: Queue) -> Queue`)
-  6. `[Lesson 2 - Medium]` War Card Game Round Simulator (`play_war(p1_cards, p2_cards, max_rounds) -> str`)
-  7. `[Lesson 3 - Easy - RR]` Airport Codes Lookup & Updater (`manage_airports(codes, lookups, new_entries) -> list`)
-  8. `[Lesson 3 - Medium - RR]` Group Playing Cards by Rank (`group_cards_by_name(hand: list[Card]) -> dict[str, list[Card]]`)
-  9. `[Lesson 3 - Easy]` Letter Frequency Counter (`letter_frequency(words: list[str]) -> dict[str, int]`)
-  10. `[Lesson 4 - Medium - RR]` Unique Word Prefixes (`unique_prefixes(words: list[str], length: int) -> set[str]`)
-  11. `[Lesson 4 - Medium]` Restaurant Menu & Scorigami Set Operations (`analyze_sets(...) -> dict`)
-  12. `[Lesson 5 Project - Hard]` Maze Adventure Shortest Path Solver (`solve_maze(maze, start, end)` with BFS `Queue` of `Stack`s, `deepcopy`, and locked rooms + keys)
-- **🧠 Code Tracing & Concept Quiz (8 Questions)**: Warm-up tracing for `Stack` (`"busp"`), combined `Stack` & `Queue`, dictionary reassignments (`eeny`, `meeny`, `mo`, `miney`), nested structures (`movie_collection`), and `set` algebra (`vegetables | fruits`).
-- **📚 Study Guide & Cheat Sheet**: Complete reference for ADTs, LIFO vs. FIFO, custom `Stack`/`Queue` interfaces, `dict` (`.get()`, `.setdefault()`, `.items()`), `set` (`.add()`, `.update()`, `.discard()`, `&`, `|`, `-`), and the BFS Queue-of-Stacks Maze template.
-- **In-Browser Python 3 Execution (Pyodide v0.25.0)** with pre-loaded `Stack`, `Queue`, `Card`, `MazeRoom`, and `deepcopy`, plus `localStorage` persistence.
+Interactive, self-contained, GitHub Pages-ready "LeetCode-style" Python 3 web applications designed for Eastlake High School's **Data Structures** course. All 3 studios run 100% in the browser using **Pyodide (`v0.25.0`)** with zero backend dependencies and `localStorage` progress persistence.
 
 ---
 
-### 2. Unit 3 Studio: Complexity, Recursion & Backtracking (`ehs_unit3_frq_studio.html`)
-Covers **Unit 3: Big-O Complexity, Recursion, and Backtracking (`Decks 1–5`)**:
-- **17 Medium-Hard FRQ Problems** (102 `RR - Retake Required` unit tests)
-- **Automated EHS Style Grader** (Static AST / Regex Linter enforcing *Rule A: No Loops in Pure Recursion*, *Rule B: No Arm's-Length Recursion*, and *Rule C: State Restoration*)
-- **10-Question "Mini-Celebration" Quiz Mode** & **Curriculum Knowledge Base**
+## Live Studios & Links
 
-## Running Locally
+1. **Unit 1 Studio (`index.html` / `ehs_unit1_celebration_studio.html`) — Celebration of Skills Prep**
+   - **Live URL**: https://coastwalker.github.io/EHS-Data-Structure-Practice/ehs_unit1_celebration_studio.html
+   - **16 Coding Problems across 4 Categories**:
+     - *Category A (Java to Python Syntax, Conditionals & Loops — U1L2)*: `hello_python_world`, `hello_python_world_plus`, `get_values` (reverse step `range`), `count_words` (case-insensitive fruit counter), `find_value` (fix 6 Java-isms), `make_greeting` (default parameters & f-strings).
+     - *Category B (Strings, Lists & Comprehensions — U1L3)*: `slice_and_find`, `filter_words_with_char` (list comprehension AST check), `clean_list` (`.pop()` vs `.remove()`), `pick_random_index` (`random.randrange`).
+     - *Category C (Classes, Inheritance & Type Hints — U1L3 & U1L4)*: `Dessert` & `SugarCookie` inheritance (`super().__init__`, `//`), Fix the `BeefDish` class, `Calculator` & `CalculatorAwesome` (`remove_twos_from_history`).
+     - *Category D (Debugging, `unittest` & Wordle Project — U1L4 & U1L5)*: Debug `L4_buggy_functions.py` (`find_min`, `index_of`, `product_evens`), Write `unittest.TestCase` methods (`TestIndexOf`), and Wordle ANSI Color Formatter (`get_guess_string` with `TextColor`).
+   - **Live Java-ism & Convention Linter Banner**: Warns when `;`, `else if`, `true`/`false`, `.equals()`, `this.`, or `camelCase` function names are used.
+   - **Searchable Java-to-Python Cheat Sheet** & **12-Question Concept Quiz** (Regression testing, Equivalence Classes, Boundary Cases, `TAG` Code Review model, `self`, `_var` vs `__var`, VS Code Debugger controls).
 
-Open `index.html` (Unit 2) or `ehs_unit3_frq_studio.html` (Unit 3) directly in any modern browser, or serve locally:
+2. **Unit 2 Studio (`ehs_unit2_data_structures_studio.html`) — ADTs, Stacks, Queues, Maps, Sets & Maze BFS**
+   - **Live URL**: https://coastwalker.github.io/EHS-Data-Structure-Practice/ehs_unit2_data_structures_studio.html
+   - **12 Coding Problems & 48 Automated `_RR` Tests**: Custom `Stack` & `Queue` implementations, Palindrome Checker, Bracket Checker, RPN Calculator, Reverse Queue, War Card Simulator, Airport Codes (`.get()` / `.setdefault()`), Card Grouping, Letter Frequency, Unique Prefixes, Scorigami Set Operations, and Maze Adventure BFS (`Queue` of `Stack`s with `deepcopy` and locked doors/keys).
+   - **8 Warm-Up Code Tracing Questions** & **Unit 2 Cheat Sheet**.
 
-```bash
-python3 -m http.server 8000
-```
+3. **Unit 3 Studio (`ehs_unit3_frq_studio.html`) — Complexity (Big-O), Recursion & Backtracking**
+   - **Live URL**: https://coastwalker.github.io/EHS-Data-Structure-Practice/ehs_unit3_frq_studio.html
+   - **17 Medium-Hard FRQ Problems (102 `RR` Tests)**, **Automated EHS AST Style Grader** (*Rule A: No Loops in Pure Recursion*, *Rule B: No Arm's-Length Recursion*, *Rule C: State Restoration*), **10-Question Mini-Celebration Quiz**, and **Decks 1–5 Knowledge Base**.
+
+---
+
+## 3-Step Instructions for Deploying to GitHub Pages
+
+1. **Push Files to Your GitHub Repository:**
+   Commit and push `index.html`, `ehs_unit1_celebration_studio.html`, `ehs_unit2_data_structures_studio.html`, `ehs_unit3_frq_studio.html`, and `README.md` to the `main` branch of your GitHub repository:
+   ```bash
+   git add .
+   git commit -m "Deploy Eastlake Wolves Data Structures Unit 1, 2 & 3 Studios"
+   git push origin main
+   ```
+2. **Enable GitHub Pages in Repository Settings:**
+   On GitHub, open your repository and go to **Settings** $\rightarrow$ **Pages** (in the left sidebar). Under **Build and deployment**, set **Source** to **Deploy from a branch**, select branch **`main`** and folder **`/ (root)`**, and click **Save**.
+3. **Open Your Published Web App:**
+   After ~60 seconds, your site will be live at `https://<your-username>.github.io/<repository-name>/` (with top navigation buttons linking all 3 units).

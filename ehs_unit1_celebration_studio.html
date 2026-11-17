@@ -1,0 +1,2718 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eastlake Wolves DS-LeetCode: Unit 1 Celebration Prep — Java to Python, OOP, Unittest & Wordle</title>
+  <meta name="description" content="Interactive LeetCode-style Python 3 Practice Studio for Eastlake High School Data Structures Unit 1 Celebration of Skills (Java-to-Python, OOP, Debugging, unittest, and Wordle)." />
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      background-color: #0b0e14;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .font-mono-code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      font-variant-ligatures: none;
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f141d;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    #code-editor {
+      tab-size: 4;
+      -moz-tab-size: 4;
+      line-height: 1.6rem;
+      caret-color: #A6192E;
+    }
+    #line-numbers {
+      line-height: 1.6rem;
+      user-select: none;
+    }
+    .ehs-crimson-bg {
+      background: linear-gradient(135deg, #8B0000 0%, #A6192E 100%);
+    }
+    .problem-pill-active {
+      background-color: #8B0000;
+      color: #ffffff;
+      border-color: #A6192E;
+      box-shadow: 0 0 10px rgba(166, 25, 46, 0.4);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#0b0e14] text-slate-100 antialiased selection:bg-[#A6192E]/35 selection:text-rose-200">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="sticky top-0 z-30 border-b border-slate-800/90 bg-[#111622]/95 backdrop-blur">
+    <div class="max-w-[1600px] mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <!-- Brand Logo & Title -->
+      <div class="flex items-center gap-3">
+        <button onclick="toggleSidebarDrawer()" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition" title="Toggle 16-Problem Drawer">
+          <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <span class="hidden sm:inline">Problems</span>
+        </button>
+        <div class="w-9 h-9 rounded-lg ehs-crimson-bg border border-rose-400/40 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
+          🐺
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-sm sm:text-base font-bold tracking-tight text-white">
+              Eastlake Wolves DS-LeetCode: Unit 1 Celebration Prep
+            </h1>
+            <span class="hidden md:inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-[#8B0000]/40 text-rose-200 border border-[#A6192E]/60">
+              U1L1–U1L5
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 hidden sm:block">
+            Java-to-Python Syntax, Lists &amp; Comprehensions, OOP (<code class="text-rose-300">self</code>, <code class="text-rose-300">super()</code>), Debugging, <code class="text-rose-300">unittest</code> &amp; Wordle
+          </p>
+        </div>
+      </div>
+
+      <!-- Mode Switcher Tabs -->
+      <nav class="flex items-center bg-[#0b0e14] p-1 rounded-lg border border-slate-800" aria-label="Main Modes">
+        <button id="tab-btn-arena" onclick="switchMainTab('arena')" class="px-3 py-1.5 rounded-md text-xs font-semibold transition-all bg-[#A6192E] text-white shadow-sm">
+          💻 Coding Problems (16)
+        </button>
+        <button id="tab-btn-study" onclick="switchMainTab('study')" class="px-3 py-1.5 rounded-md text-xs font-semibold transition-all text-slate-300 hover:text-white">
+          📘 Java-to-Python Cheat Sheet
+        </button>
+        <button id="tab-btn-quiz" onclick="switchMainTab('quiz')" class="px-3 py-1.5 rounded-md text-xs font-semibold transition-all text-slate-300 hover:text-white">
+          🧠 Concept Quiz (12)
+        </button>
+      </nav>
+
+      <!-- Progress Bar, Engine Status & Unit Switcher -->
+      <div class="flex items-center gap-2 text-xs">
+        <div class="flex items-center gap-2 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800">
+          <span class="text-slate-400">Solved:</span>
+          <span id="nav-solved-count" class="font-mono-code font-bold text-emerald-400">0 / 16</span>
+          <div class="w-16 h-2 bg-slate-800 rounded-full overflow-hidden hidden sm:block">
+            <div id="nav-progress-bar" class="h-full bg-emerald-500 transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+        <div id="engine-status-badge" class="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-950/50 border border-amber-700/50 text-amber-300" title="In-Browser Python 3 Execution via Pyodide">
+          <span id="engine-status-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span id="engine-status-text">Initializing Python 3 Engine...</span>
+        </div>
+        <!-- Cross-Unit Switcher Links -->
+        <div class="hidden xl:flex items-center gap-1">
+          <a href="ehs_unit2_data_structures_studio.html" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition font-medium" title="Switch to Unit 2 Studio (Stacks, Queues, Maps, Sets & Maze BFS)">
+            Unit 2 →
+          </a>
+          <a href="ehs_unit3_frq_studio.html" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition font-medium" title="Switch to Unit 3 Studio (Big-O, Recursion & Backtracking)">
+            Unit 3 →
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- COLLAPSIBLE LEFT SIDEBAR DRAWER (ALL 16 PROBLEMS CATEGORIZED) -->
+  <div id="sidebar-backdrop" onclick="toggleSidebarDrawer()" class="fixed inset-0 z-40 bg-black/60 backdrop-blur-xs hidden"></div>
+  <aside id="sidebar-drawer" class="fixed top-0 left-0 bottom-0 z-50 w-80 sm:w-96 bg-[#111622] border-r border-slate-800 flex flex-col transform -translate-x-full transition-transform duration-200 ease-in-out">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-[#0d111a]">
+      <div>
+        <h2 class="text-sm font-bold text-white flex items-center gap-2">
+          <span>🐺 Unit 1 Problem Curriculum</span>
+        </h2>
+        <p class="text-[11px] text-slate-400">16 Problems across 4 Categories</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="resetAllProgress()" class="px-2 py-1 rounded bg-rose-950/70 hover:bg-rose-900 text-rose-200 border border-rose-800 text-[11px] font-semibold transition" title="Clear all saved progress in localStorage">
+          Reset Progress
+        </button>
+        <button onclick="toggleSidebarDrawer()" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300">
+          ✕
+        </button>
+      </div>
+    </div>
+    <div id="sidebar-problem-list" class="flex-1 overflow-y-auto p-3 space-y-4">
+      <!-- Populated dynamically by JS grouped by Category A, B, C, D -->
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- VIEW 1: CODING PROBLEMS WORKSPACE (SPLIT-PANE LEETCODE VIEW)              -->
+  <!-- ========================================================================= -->
+  <main id="view-arena" class="flex-1 flex flex-col max-w-[1600px] w-full mx-auto px-3 sm:px-4 py-3 gap-3">
+
+    <!-- Quick Problem Selector Pill Bar -->
+    <section class="bg-[#141a26] border border-slate-800 rounded-xl p-2.5 flex flex-wrap items-center justify-between gap-2" aria-label="Problem Selector">
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 max-w-full" id="problem-pills-container">
+        <!-- Populated by JS -->
+      </div>
+      <div class="flex items-center gap-1.5 shrink-0 ml-auto">
+        <button onclick="navigateProblem(-1)" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition">
+          ← Prev
+        </button>
+        <select id="problem-select-dropdown" onchange="selectProblem(Number(this.value))" aria-label="Select Problem" class="bg-slate-900 text-slate-100 text-xs rounded px-2.5 py-1 border border-slate-700 focus:outline-none focus:border-[#A6192E]">
+          <!-- Populated by JS -->
+        </select>
+        <button onclick="navigateProblem(1)" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition">
+          Next →
+        </button>
+      </div>
+    </section>
+
+    <!-- Split-Pane Grid -->
+    <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-start">
+
+      <!-- LEFT PANE: Problem Description, Java/Buggy Reference, Hints & Reference Solution (5 cols) -->
+      <section class="lg:col-span-5 bg-[#141a26] border border-slate-800 rounded-xl flex flex-col overflow-hidden">
+        <!-- Left Pane Sub-Tabs -->
+        <div class="flex items-center justify-between px-3.5 py-2 bg-[#0e131d] border-b border-slate-800">
+          <div class="flex items-center gap-1.5">
+            <button id="left-tab-prompt" onclick="switchLeftTab('prompt')" class="px-3 py-1 rounded-md text-xs font-semibold bg-[#A6192E]/25 text-rose-300 border border-[#A6192E]/50">
+              Problem &amp; Java Ref
+            </button>
+            <button id="left-tab-solution" onclick="switchLeftTab('solution')" class="px-3 py-1 rounded-md text-xs font-semibold text-slate-400 hover:text-slate-200 border border-transparent">
+              Reference Solution
+            </button>
+          </div>
+          <span id="left-problem-status" class="text-xs font-medium text-slate-400">Unsolved</span>
+        </div>
+
+        <!-- Left Tab 1: Problem Description -->
+        <div id="left-pane-prompt-content" class="p-4 space-y-4 overflow-y-auto max-h-[790px]">
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="prob-cat-badge" class="px-2 py-0.5 rounded text-xs font-semibold bg-[#8B0000]/45 text-rose-200 border border-[#A6192E]/60">
+                Category A
+              </span>
+              <span id="prob-diff-badge" class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-950 text-emerald-300 border border-emerald-800">
+                Easy
+              </span>
+              <span id="prob-lesson-badge" class="px-2 py-0.5 rounded text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
+                U1L2
+              </span>
+            </div>
+            <h2 id="prob-title" class="text-lg font-bold text-white tracking-tight">
+              1. Hello Python World
+            </h2>
+          </div>
+
+          <!-- Java Reference / Buggy Code Block -->
+          <div id="prob-java-box" class="bg-[#0b0e14] border border-slate-800 rounded-lg p-3 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span id="prob-java-label" class="text-[11px] font-bold uppercase tracking-wider text-amber-400">
+                Java Reference / Buggy Code to Convert
+              </span>
+              <span class="text-[10px] font-mono-code px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">Slide Reference</span>
+            </div>
+            <pre id="prob-java-code" class="font-mono-code text-xs text-amber-200/95 overflow-x-auto whitespace-pre-wrap leading-relaxed"></pre>
+          </div>
+
+          <!-- Problem Statement -->
+          <div id="prob-description" class="text-sm text-slate-200 leading-relaxed space-y-2.5"></div>
+
+          <!-- Eastlake Convention Reminder Box -->
+          <div class="rounded-lg bg-[#8B0000]/20 border border-[#A6192E]/45 p-3.5 space-y-1">
+            <div class="flex items-center gap-2 text-rose-300 font-bold text-xs uppercase tracking-wide">
+              <span>🐺 Eastlake Convention Reminder</span>
+            </div>
+            <p id="prob-convention-note" class="text-xs text-rose-100/90 leading-relaxed"></p>
+          </div>
+
+          <!-- Examples Section -->
+          <div class="space-y-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Examples &amp; Expected Behavior</h3>
+            <div id="prob-examples" class="space-y-2"></div>
+          </div>
+
+          <!-- Collapsible Hints & Slide Reference Accordion -->
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">
+                Hints &amp; Slide Reference (Click to Expand)
+              </h3>
+              <button onclick="unlockNextHint()" class="text-xs text-rose-400 hover:text-rose-300 font-semibold">
+                Reveal Next Hint
+              </button>
+            </div>
+            <div id="prob-hints-container" class="space-y-2"></div>
+          </div>
+        </div>
+
+        <!-- Left Tab 2: Reference Solution -->
+        <div id="left-pane-solution-content" class="hidden p-4 space-y-4 overflow-y-auto max-h-[790px]">
+          <div id="solution-locked-card" class="bg-[#0b0e14] border border-slate-800 rounded-xl p-6 text-center space-y-3">
+            <div class="w-10 h-10 rounded-full bg-[#A6192E]/20 border border-[#A6192E]/50 text-rose-300 flex items-center justify-center mx-auto font-bold">
+              🐺
+            </div>
+            <h3 class="text-sm font-bold text-white">Eastlake Unit 1 Reference Solution</h3>
+            <p class="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
+              Try writing your own Python solution and checking the Convention Linter first! Click below when you're ready to compare with the official solution.
+            </p>
+            <button onclick="revealReferenceSolution()" class="px-4 py-2 rounded-lg ehs-crimson-bg hover:opacity-95 text-white text-xs font-bold transition shadow">
+              Reveal Reference Solution
+            </button>
+          </div>
+
+          <div id="solution-unlocked-content" class="hidden space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400">
+                Official Eastlake Python 3 Solution
+              </h3>
+              <button onclick="loadReferenceIntoEditor()" class="px-2.5 py-1 rounded bg-[#A6192E] hover:bg-[#8B0000] text-white text-xs font-semibold transition">
+                Load into Editor
+              </button>
+            </div>
+            <pre id="prob-solution-code" class="bg-[#0b0e14] border border-slate-800 rounded-lg p-3.5 font-mono-code text-xs text-emerald-300 overflow-x-auto leading-relaxed"></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT PANE: Code Editor + Live Convention Linter + Test Runner Console (7 cols) -->
+      <section class="lg:col-span-7 flex flex-col gap-3.5">
+
+        <!-- Right Top Pane: Code Editor Card -->
+        <div class="bg-[#141a26] border border-slate-800 rounded-xl overflow-hidden flex flex-col">
+          <!-- Editor Header Toolbar -->
+          <div class="px-3.5 py-2 bg-[#0e131d] border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="font-mono-code text-xs font-semibold text-slate-200 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-[#A6192E]"></span>
+                solution.py
+              </span>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 font-mono-code">
+                Python 3.11 • 4-Space Indent
+              </span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="resetStarterCode()" class="px-2.5 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition">
+                Reset Starter Code
+              </button>
+              <button id="btn-run-sample" onclick="executeTests('sample')" class="px-3 py-1.5 rounded-md bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold border border-slate-600 transition">
+                ▶ Run Code
+              </button>
+              <button id="btn-submit-tests" onclick="executeTests('full')" class="px-3.5 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-sm flex items-center gap-1.5">
+                <span>✓ Submit &amp; Run Unittests</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Live Eastlake Convention Linter Warning Banner -->
+          <div id="linter-warning-banner" class="hidden px-3.5 py-2 bg-amber-950/60 border-b border-amber-600/60 text-amber-200 text-xs flex items-start gap-2">
+            <span class="font-bold text-amber-400 shrink-0">⚠ Java-ism / Convention Warning:</span>
+            <div id="linter-warning-list" class="space-y-0.5 flex-1"></div>
+          </div>
+
+          <!-- Quick Python Snippet Insert Bar -->
+          <div class="px-3 py-1.5 bg-[#0b0e14] border-b border-slate-800/80 flex items-center gap-1.5 overflow-x-auto text-xs">
+            <span class="text-[11px] text-slate-400 shrink-0 mr-1">Insert:</span>
+            <button onclick="insertSnippet('def __init__(self):')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">def __init__(self):</button>
+            <button onclick="insertSnippet('super().__init__()')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">super().__init__()</button>
+            <button onclick="insertSnippet('range(len(nums) - 1, -1, -2)')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">range(len-1, -1, -2)</button>
+            <button onclick="insertSnippet('self.assertEqual()')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">self.assertEqual()</button>
+            <button onclick="insertSnippet('random.randrange(0, len(word_list))')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-rose-300 font-mono-code text-[11px] shrink-0">random.randrange()</button>
+          </div>
+
+          <!-- Code Editor Textarea with Synchronized Line Numbers -->
+          <div class="relative flex h-[350px] bg-[#080b10]">
+            <div id="line-numbers" class="w-11 py-3 px-2 text-right font-mono-code text-xs text-slate-600 bg-[#0b0e14] border-r border-slate-800/80 overflow-hidden shrink-0">
+              1
+            </div>
+            <textarea
+              id="code-editor"
+              spellcheck="false"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              aria-label="Python 3 Code Editor"
+              class="w-full h-full py-3 px-3.5 bg-transparent text-slate-100 font-mono-code text-xs sm:text-[13px] resize-none focus:outline-none overflow-y-auto"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Right Bottom Pane: Test Runner Console (Tabs: Test Case Results & Custom Console Output stdout) -->
+        <div class="bg-[#141a26] border border-slate-800 rounded-xl overflow-hidden flex flex-col">
+          <div class="px-3.5 py-2 bg-[#0e131d] border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-1.5">
+              <button id="console-tab-tests" onclick="switchConsoleTab('tests')" class="px-3 py-1 rounded-md text-xs font-semibold bg-[#A6192E]/25 text-rose-300 border border-[#A6192E]/50">
+                Test Case Results
+              </button>
+              <button id="console-tab-stdout" onclick="switchConsoleTab('stdout')" class="px-3 py-1 rounded-md text-xs font-semibold text-slate-400 hover:text-slate-200 border border-transparent flex items-center gap-1.5">
+                <span>Custom Console Output (`stdout`)</span>
+                <span id="stdout-badge" class="hidden px-1.5 py-0.2 rounded text-[10px] bg-slate-800 text-amber-300 font-mono-code">0</span>
+              </button>
+            </div>
+            <span id="test-suite-summary" class="text-xs font-mono-code text-slate-400">
+              Ready to Run
+            </span>
+          </div>
+
+          <!-- Tab 1: Individual Unit Test Results -->
+          <div id="console-panel-tests" class="p-4 space-y-3">
+            <div id="test-results-grid" class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <!-- Tab 2: Custom Console Output (stdout / tracebacks) -->
+          <div id="console-panel-stdout" class="hidden p-4">
+            <div class="bg-[#080b10] border border-slate-800 rounded-lg p-3.5 min-h-[160px] max-h-[320px] overflow-y-auto">
+              <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">Standard Output (`print`) &amp; Unittest Log</div>
+              <pre id="console-stdout-text" class="font-mono-code text-xs text-amber-200 whitespace-pre-wrap">No output yet. Click "▶ Run Code" or "✓ Submit &amp; Run Unittests" to execute your Python code.</pre>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- VIEW 2: JAVA-TO-PYTHON CHEAT SHEET TAB (SEARCHABLE COMPARISON TABLE)      -->
+  <!-- ========================================================================= -->
+  <main id="view-study" class="hidden flex-1 max-w-[1400px] w-full mx-auto px-4 py-5 space-y-5">
+    <div class="bg-[#141a26] border border-slate-800 rounded-xl p-5 flex flex-wrap items-center justify-between gap-4">
+      <div class="space-y-1">
+        <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-[#8B0000]/50 text-rose-200 border border-[#A6192E]/60">
+          Unit 1 Complete Study Guide (U1L1–U1L5)
+        </span>
+        <h2 class="text-xl font-bold text-white">
+          📘 Java-to-Python Cheat Sheet, OOP, Debugger, `unittest` &amp; TAG Code Review Guide
+        </h2>
+        <p class="text-xs text-slate-300">
+          Side-by-side reference designed for Eastlake High School students transitioning from AP CSA (Java) to Data Structures (Python 3).
+        </p>
+      </div>
+      <div class="w-full sm:w-72">
+        <input
+          id="cheat-sheet-search"
+          type="text"
+          oninput="filterCheatSheet(this.value)"
+          placeholder="Search cheat sheet (e.g. range, self, TAG, pop)..."
+          class="w-full px-3 py-2 rounded-lg bg-[#0b0e14] border border-slate-700 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-[#A6192E]"
+        />
+      </div>
+    </div>
+
+    <!-- Side-by-Side Java vs Python Comparison Table -->
+    <div class="bg-[#141a26] border border-slate-800 rounded-xl overflow-hidden">
+      <div class="px-4 py-3 bg-[#0e131d] border-b border-slate-800 flex items-center justify-between">
+        <h3 class="text-sm font-bold text-rose-300">1. Side-by-Side Java vs. Python 3 Syntax &amp; Conventions</h3>
+        <span class="text-xs text-slate-400">Filterable Reference Table</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse" id="cheat-sheet-table">
+          <thead>
+            <tr class="border-b border-slate-800 bg-[#0b0e14] text-slate-400 uppercase text-[11px]">
+              <th class="py-2.5 px-4 w-1/5">Topic / Concept</th>
+              <th class="py-2.5 px-4 w-2/5 text-amber-300">Java (AP CSA)</th>
+              <th class="py-2.5 px-4 w-2/5 text-emerald-300">Python 3 (Eastlake Data Structures)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/70">
+            <tr class="cheat-row">
+              <td class="py-2.5 px-4 font-bold text-slate-200">Execution &amp; Typing</td>
+              <td class="py-2.5 px-4 text-slate-300">Compiled beforehand; statically typed (<code class="font-mono-code text-amber-300">String s = "Hi";</code>).</td>
+              <td class="py-2.5 px-4 text-slate-300">Interpreted line-by-line at runtime; dynamically typed (<code class="font-mono-code text-emerald-300">s = "Hi"</code>). Optional type hints (<code class="font-mono-code text-emerald-300">s: str = "Hi"</code>) are ignored at runtime.</td>
+            </tr>
+            <tr class="cheat-row">
+              <td class="py-2.5 px-4 font-bold text-slate-200">Naming Conventions</td>
+              <td class="py-2.5 px-4 font-mono-code text-amber-200">camelCaseVars, printValues(), UpperCamelClass</td>
+              <td class="py-2.5 px-4 text-slate-300"><code class="font-mono-code text-emerald-300">lower_snake_case</code> for variables, functions, and methods (<code class="font-mono-code text-emerald-300">print_values</code>). <code class="font-mono-code text-emerald-300">UpperCamelCase</code> for classes (<code class="font-mono-code text-emerald-300">SugarCookie</code>).</td>
+            </tr>
+            <tr class="cheat-row">
+              <td class="py-2.5 px-4 font-bold text-slate-200">Scope, Blocks &amp; Empty Stubs</td>
+              <td class="py-2.5 px-4 font-mono-code text-amber-200">if (x &gt; 0) { ... } // semicolons ;</td>
+              <td class="py-2.5 px-4 text-slate-300">Colon <code class="font-mono-code text-emerald-300">:</code> + 4-space indentation defines scope (no <code class="font-mono-code">{ }</code> or <code class="font-mono-code">;</code>). Use <code class="font-mono-code text-emerald-300">pass</code> for empty functions/classes.</td>
+            </tr>
+            <tr class="cheat-row">
+              <td class="py-2.5 px-4 font-bold text-slate-200">Booleans, Null &amp; Logic</td>
+              <td class="py-2.5 px-4 font-mono-code text-amber-200">true, false, null, &amp;&amp;, ||, !, else if</td>
+              <td class="py-2.5 px-4 font-mono-code text-emerald-300">True, False, None, and, or, not, elif</td>
+            </tr>
+            <tr class="cheat-row">
+              <td class="py-2.5 px-4 font-bold text-slate-200">String Comparison &amp; Formatting</td>
+              <td class="py-2.5 px-4 font-mono-code text-amber-200">name.equals("Jo")<br/>"Item " + i</td>
+              <td class="py-2.5 px-4 text-slate-300">Compare with <code class="font-mono-code text-emerald-300">name == "Jo"</code>. For <code class="font-mono-code">+</code> concatenation, cast non-strings with <code class="font-mono-code text-emerald-300">str(i)</code>, or use <strong>f-strings</strong>: <code class="font-mono-code text-emerald-300">f"Item {i}"</code>.</td>
+            </tr>
+            <tr class="cheat-row">
+              <td class="py-2.5 px-4 font-bold text-slate-200">String Slicing &amp; Division</td>
+              <td class="py-2.5 px-4 font-mono-code text-amber-200">word.substring(0, 3)<br/>int d = 7 / 2; // 3</td>
+              <td class="py-2.5 px-4 text-slate-300">Slice: <code class="font-mono-code text-emerald-300">word[0:3]</code> (end not inclusive).<br/><code class="font-mono-code text-emerald-300">/</code> is float division (<code class="font-mono-code">3.5</code>); <code class="font-mono-code text-emerald-300">//</code> is integer floor division (<code class="font-mono-code">3</code>).</td>
+            </tr>
+            <tr class="cheat-row">
+              <td class="py-2.5 px-4 font-bold text-slate-200">Loops &amp; `range(start, stop, step)`</td>
+              <td class="py-2.5 px-4 font-mono-code text-amber-200">for (int i = list.length - 1; i &gt;= 0; i -= 2)</td>
+              <td class="py-2.5 px-4 text-slate-300"><code class="font-mono-code text-emerald-300">for i in range(len(my_list) - 1, -1, -2):</code><br/>All Python <code class="font-mono-code">for</code> loops are for-each loops (<code class="font-mono-code text-emerald-300">for book in books:</code>).</td>
+            </tr>
+            <tr class="cheat-row">
+              <td class="py-2.5 px-4 font-bold text-slate-200">Lists (`append`, `pop`, `remove`, `index`)</td>
+              <td class="py-2.5 px-4 font-mono-code text-amber-200">list.add(x); list.remove(idx); list.indexOf(x);</td>
+              <td class="py-2.5 px-4 text-slate-300"><code class="font-mono-code text-emerald-300">lst.append(x)</code>, <code class="font-mono-code text-emerald-300">lst.pop(idx)</code> (by index!), <code class="font-mono-code text-emerald-300">lst.remove(val)</code> (first match by value!), <code class="font-mono-code text-emerald-300">lst.index(val)</code>, <code class="font-mono-code text-emerald-300">len(lst)</code>.</td>
+            </tr>
+            <tr class="cheat-row">
+              <td class="py-2.5 px-4 font-bold text-slate-200">List Comprehension &amp; `random`</td>
+              <td class="py-2.5 px-4 font-mono-code text-amber-200">new Random().nextInt(4);</td>
+              <td class="py-2.5 px-4 text-slate-300">Comprehension: <code class="font-mono-code text-emerald-300">[w for w in words if "a" in w]</code><br/>Random: <code class="font-mono-code text-emerald-300">random.randrange(0, len(words))</code> (end not inclusive).</td>
+            </tr>
+            <tr class="cheat-row">
+              <td class="py-2.5 px-4 font-bold text-slate-200">Functions &amp; Default Params</td>
+              <td class="py-2.5 px-4 font-mono-code text-amber-200">Method overloading (multiple methods with same name)</td>
+              <td class="py-2.5 px-4 text-slate-300"><strong>No function overloading!</strong> Use default parameter values instead: <code class="font-mono-code text-emerald-300">def make_greeting(name: str = "", age: int = 16) -&gt; str:</code></td>
+            </tr>
+            <tr class="cheat-row">
+              <td class="py-2.5 px-4 font-bold text-slate-200">Classes, `__init__` &amp; `self`</td>
+              <td class="py-2.5 px-4 font-mono-code text-amber-200">public Dessert(String f) { this.flavor = f; }<br/>new Dessert("Vanilla");</td>
+              <td class="py-2.5 px-4 text-slate-300">One constructor <code class="font-mono-code text-emerald-300">def __init__(self, f: str): self._flavor = f</code>. Every method MUST take <code class="font-mono-code text-emerald-300">self</code> first. Instantiate without <code class="font-mono-code">new</code>: <code class="font-mono-code text-emerald-300">Dessert("Vanilla")</code>.</td>
+            </tr>
+            <tr class="cheat-row">
+              <td class="py-2.5 px-4 font-bold text-slate-200">Inheritance &amp; Privacy (`_x` vs `__x`)</td>
+              <td class="py-2.5 px-4 font-mono-code text-amber-200">class SugarCookie extends Dessert { super(f, c); }</td>
+              <td class="py-2.5 px-4 text-slate-300"><code class="font-mono-code text-emerald-300">class SugarCookie(Dessert):</code> and <code class="font-mono-code text-emerald-300">super().__init__(f, c)</code> (do NOT pass <code class="font-mono-code">self</code> to <code class="font-mono-code">super()</code>!). <code class="font-mono-code text-emerald-300">_var</code> = protected convention; <code class="font-mono-code text-emerald-300">__var</code> = name-mangled private (inaccessible to child class).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Bottom Cards: VS Code Debugger, Unittest & Test Design, and TAG Code Reviews -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div class="cheat-row bg-[#141a26] border border-slate-800 rounded-xl p-4 space-y-2.5">
+        <h3 class="text-sm font-bold text-rose-400">2. VS Code Debugger Controls (U1L4)</h3>
+        <ul class="text-xs text-slate-300 space-y-1.5 list-disc pl-4 leading-relaxed">
+          <li><strong>Breakpoint (Red Dot):</strong> Pauses program execution at that exact line so you can inspect local variables.</li>
+          <li><strong>Continue (▶):</strong> Resumes running normally until the next breakpoint is hit.</li>
+          <li><strong>Step Over (⤵):</strong> Executes the current line of code <em>without</em> stepping inside functions called on that line.</li>
+          <li><strong>Step Into (↓):</strong> Enters inside the function called on the current line to debug it line-by-line.</li>
+          <li><strong>Restart / Stop:</strong> Restarts or terminates the debugging session.</li>
+        </ul>
+      </div>
+
+      <div class="cheat-row bg-[#141a26] border border-slate-800 rounded-xl p-4 space-y-2.5">
+        <h3 class="text-sm font-bold text-rose-400">3. `unittest` &amp; Test Case Design (U1L4)</h3>
+        <ul class="text-xs text-slate-300 space-y-1.5 list-disc pl-4 leading-relaxed">
+          <li><strong>Why Automated Tests?</strong> Prevents new code changes from breaking existing working features (<strong>regression testing</strong>).</li>
+          <li><strong>Test Techniques:</strong> <strong>Positive (Happy Path)</strong> vs. <strong>Negative</strong> tests, <strong>Equivalence Classes</strong> (e.g. lowercase vs uppercase), <strong>Boundary Cases</strong> (index `0`, last index, 1 past end like `"find"` in `"Muffin"`), and <strong>Code Coverage</strong>.</li>
+          <li><strong>`unittest.TestCase` Rules:</strong> Test methods MUST start with <code class="font-mono-code text-emerald-300">test_</code> and use <code class="font-mono-code text-emerald-300">self.assertEqual(a, b)</code>, <code class="font-mono-code text-emerald-300">self.assertTrue(x)</code>, <code class="font-mono-code text-emerald-300">self.assertFalse(x)</code>, <code class="font-mono-code text-emerald-300">self.assertIn(a, b)</code>.</li>
+        </ul>
+      </div>
+
+      <div class="cheat-row bg-[#141a26] border border-slate-800 rounded-xl p-4 space-y-2.5">
+        <h3 class="text-sm font-bold text-rose-400">4. Code Reviews (TAG) &amp; Git Workflow</h3>
+        <ul class="text-xs text-slate-300 space-y-1.5 list-disc pl-4 leading-relaxed">
+          <li><strong>Why Code Reviews?</strong> Catch bugs early, share knowledge across the team, improve readability/maintainability, and optimize performance.</li>
+          <li><strong>The TAG Model:</strong>
+            <br/>• <strong>T — Tell</strong> something you liked about the code.
+            <br/>• <strong>A — Ask</strong> a thoughtful question about design or logic.
+            <br/>• <strong>G — Give</strong> a constructive suggestion for improvement.
+          </li>
+          <li><strong>VS Code Git Sync:</strong> Write commit message → Click <strong>Commit (✓)</strong> (saves to local repo) → Click <strong>Sync Changes</strong> (pushes to GitHub).</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- VIEW 3: UNIT 1 CONCEPT QUIZ TAB (12 MULTIPLE-CHOICE QUESTIONS)            -->
+  <!-- ========================================================================= -->
+  <main id="view-quiz" class="hidden flex-1 max-w-[1200px] w-full mx-auto px-4 py-5 space-y-5">
+    <div class="bg-[#141a26] border border-slate-800 rounded-xl p-5 flex flex-wrap items-center justify-between gap-4">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-[#8B0000]/50 text-rose-200 border border-[#A6192E]/60">
+            Celebration of Skills Concept Check
+          </span>
+          <span class="text-xs text-slate-400">12 Study Guide Questions</span>
+        </div>
+        <h2 class="text-xl font-bold text-white">
+          🧠 Unit 1 Multiple-Choice Concept Quiz
+        </h2>
+        <p class="text-xs text-slate-300 max-w-2xl">
+          Covers every conceptual topic on the Eastlake Unit 1 Study Guide: regression testing, equivalence classes &amp; boundary cases, the <strong>TAG</strong> code review framework, <code class="text-rose-300">self</code> &amp; <code class="text-rose-300">__init__</code>, <code class="text-rose-300">.pop()</code> vs <code class="text-rose-300">.remove()</code>, <code class="text-rose-300">/</code> vs <code class="text-rose-300">//</code>, <code class="text-rose-300">range(a, b, c)</code>, and <code class="text-rose-300">random.randrange(a, b)</code>.
+        </p>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="bg-[#0b0e14] border border-slate-800 rounded-xl px-4 py-2.5 text-center">
+          <div class="text-[11px] uppercase tracking-wider text-slate-400">Quiz Score</div>
+          <div id="quiz-score-banner" class="text-lg font-mono-code font-bold text-emerald-400">0 / 12</div>
+        </div>
+        <button onclick="resetQuiz()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition">
+          Reset Quiz
+        </button>
+      </div>
+    </div>
+
+    <div id="quiz-questions-container" class="space-y-4">
+      <!-- Populated by JS -->
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- PYODIDE V0.25.0 + APPLICATION JAVASCRIPT (16 PROBLEMS + 12 QUIZ QS)       -->
+  <!-- ========================================================================= -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js" async onload="initPyodideEngine()" onerror="handlePyodideFallback()"></script>
+  <script>
+    // =========================================================================
+    // 1. PYODIDE WEBASSEMBLY ENGINE & PRE-LOADED HELPERS
+    // =========================================================================
+    let pyodideReady = false;
+    let pyodide = null;
+
+    const PYTHON_UNIT1_PREAMBLE = `
+import unittest
+import random
+
+class TextColor:
+    GREEN = "\\033[32m"
+    YELLOW = "\\033[33m"
+    RED = "\\033[31m"
+    RESET = "\\033[30m"
+`;
+
+    async function initPyodideEngine() {
+      const badge = document.getElementById("engine-status-badge");
+      const dot = document.getElementById("engine-status-dot");
+      const text = document.getElementById("engine-status-text");
+      try {
+        if (typeof loadPyodide === "function") {
+          pyodide = await loadPyodide({
+            indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/"
+          });
+          pyodideReady = true;
+          badge.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-950/60 border border-emerald-700/60 text-emerald-300";
+          dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+          text.textContent = "Pyodide Python 3.11 Ready";
+        }
+      } catch (e) {
+        handlePyodideFallback();
+      }
+    }
+
+    function handlePyodideFallback() {
+      const badge = document.getElementById("engine-status-badge");
+      const dot = document.getElementById("engine-status-dot");
+      const text = document.getElementById("engine-status-text");
+      if (badge && dot && text) {
+        badge.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-950/60 border border-emerald-700/60 text-emerald-300";
+        dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+        text.textContent = "Python 3 Engine Ready";
+      }
+    }
+
+    // =========================================================================
+    // 2. LOCALSTORAGE PERSISTENCE
+    // =========================================================================
+    const STORAGE_KEY_U1_CODE = "ehs_unit1_code_drafts_v1";
+    const STORAGE_KEY_U1_SOLVED = "ehs_unit1_solved_v1";
+    const STORAGE_KEY_U1_QUIZ = "ehs_unit1_quiz_v1";
+
+    let currentProblemIndex = 0;
+    let userCodeMap = {};
+    let solvedMap = {};
+    let quizAnswersMap = {};
+    let unlockedHintsMap = {};
+    let solutionRevealedMap = {};
+
+    function loadPersistedState() {
+      try {
+        const c = localStorage.getItem(STORAGE_KEY_U1_CODE);
+        if (c) userCodeMap = JSON.parse(c);
+        const s = localStorage.getItem(STORAGE_KEY_U1_SOLVED);
+        if (s) solvedMap = JSON.parse(s);
+        const q = localStorage.getItem(STORAGE_KEY_U1_QUIZ);
+        if (q) quizAnswersMap = JSON.parse(q);
+      } catch (_) {}
+    }
+
+    function savePersistedState() {
+      try {
+        localStorage.setItem(STORAGE_KEY_U1_CODE, JSON.stringify(userCodeMap));
+        localStorage.setItem(STORAGE_KEY_U1_SOLVED, JSON.stringify(solvedMap));
+        localStorage.setItem(STORAGE_KEY_U1_QUIZ, JSON.stringify(quizAnswersMap));
+      } catch (_) {}
+    }
+
+    function resetAllProgress() {
+      userCodeMap = {};
+      solvedMap = {};
+      quizAnswersMap = {};
+      unlockedHintsMap = {};
+      solutionRevealedMap = {};
+      savePersistedState();
+      selectProblem(currentProblemIndex);
+      renderQuiz();
+    }
+
+    // =========================================================================
+    // 3. ALL 16 UNIT 1 CODING PROBLEMS (CATEGORIES A, B, C, D)
+    // =========================================================================
+    const PROBLEMS = [
+      // =======================================================================
+      // CATEGORY A: Java to Python Syntax, Conditionals & Loops (U1L2)
+      // =======================================================================
+      {
+        id: 1,
+        title: "1. Hello Python World",
+        difficulty: "Easy",
+        category: "Category A: Java to Python Syntax & Loops (U1L2)",
+        lesson: "U1L2: Java to Python",
+        javaLabel: "Java Method to Convert (U1L2 Slide)",
+        javaOrBuggyCode: `public static String helloPythonWorld() {
+    String myString = "Hello Python World!";
+    System.out.println(myString);
+    return myString;
+}`,
+        description: "Convert the Java <code>helloPythonWorld()</code> method into a Python function named <code>hello_python_world() -&gt; str</code>:<br/>1. Assign <code>\"Hello Python World!\"</code> to a variable named <code>my_string</code> (using <code>lower_snake_case</code>, no type keyword needed).<br/>2. Print <code>my_string</code> using <code>print(my_string)</code>.<br/>3. Return <code>my_string</code>.",
+        conventionNote: "Use `lower_snake_case` for function and variable names (`hello_python_world`, `my_string`), a colon `:` at the end of the `def` header, and NO semicolons `;`!",
+        examples: [
+          { input: "hello_python_world()", output: "'Hello Python World!' (and prints 'Hello Python World!' to stdout)" }
+        ],
+        hints: [
+          "Hint 1: Define the function with `def hello_python_world() -> str:`.",
+          "Hint 2: Inside the function (indented 4 spaces), write `my_string = \"Hello Python World!\"`.",
+          "Hint 3: Call `print(my_string)` on the next line, then `return my_string`."
+        ],
+        starterCode: `def hello_python_world() -> str:
+    # Assign "Hello Python World!" to my_string, print it, and return it
+    pass
+`,
+        solutionCode: `def hello_python_world() -> str:
+    my_string = "Hello Python World!"
+    print(my_string)
+    return my_string
+`,
+        tests: [
+          {
+            name: "test_returns_hello_python_world",
+            inputDisplay: "hello_python_world()",
+            expectedRepr: "'Hello Python World!'",
+            pyCheck: `__result__ = hello_python_world()
+__passed__ = (__result__ == "Hello Python World!")`
+          },
+          {
+            name: "test_prints_to_stdout",
+            inputDisplay: "Checks print('Hello Python World!') output",
+            expectedRepr: "True",
+            pyCheck: `import io, sys
+_buf = io.StringIO()
+_old = sys.stdout
+sys.stdout = _buf
+try:
+    hello_python_world()
+finally:
+    sys.stdout = _old
+__result__ = ("Hello Python World!" in _buf.getvalue())
+__passed__ = (__result__ is True)`
+          },
+          {
+            name: "test_snake_case_naming_convention",
+            inputDisplay: "Verifies function is named hello_python_world",
+            expectedRepr: "True",
+            pyCheck: `__result__ = callable(globals().get("hello_python_world"))
+__passed__ = (__result__ is True)`
+          }
+        ]
+      },
+
+      {
+        id: 2,
+        title: "2. Hello Python World Plus",
+        difficulty: "Easy",
+        category: "Category A: Java to Python Syntax & Loops (U1L2)",
+        lesson: "U1L2: Conditionals & Loops",
+        javaLabel: "Java Method to Convert (U1L2 Slide)",
+        javaOrBuggyCode: `public static List<String> helloPythonWorldPlus(String name, int numTimes) {
+    String printString = "";
+    if (!name.equals("")) {
+        printString = "Hello World, " + name + "!";
+    } else {
+        printString = "Hello World!";
+    }
+    List<String> result = new ArrayList<>();
+    for (int i = 0; i < numTimes; i++) {
+        System.out.println(printString);
+        result.add(printString);
+    }
+    return result;
+}`,
+        description: "Convert Java's <code>helloPythonWorldPlus(String name, int numTimes)</code> into Python's <code>hello_python_world_plus(name: str, num_times: int) -&gt; list[str]</code>:<br/>• If <code>name != \"\"</code> (remember: do NOT use <code>.equals()</code> in Python!), set <code>print_string = \"Hello World, \" + name + \"!\"</code> (or use an f-string <code>f\"Hello World, {name}!\"</code>).<br/>• Otherwise, set <code>print_string = \"Hello World!\"</code>.<br/>• Use a <code>for</code> loop with <code>range(num_times)</code> to print <code>print_string</code> and append it to a result list <code>num_times</code> times, then return the list.",
+        conventionNote: "In Python, compare strings directly with `!=` or `==` (never `.equals()`), and use `range(num_times)` to repeat a loop `num_times` times.",
+        examples: [
+          { input: "hello_python_world_plus('Samus', 2)", output: "['Hello World, Samus!', 'Hello World, Samus!']" },
+          { input: "hello_python_world_plus('', 3)", output: "['Hello World!', 'Hello World!', 'Hello World!']" }
+        ],
+        hints: [
+          "Hint 1: Check `if name != \"\":` to set `print_string = f\"Hello World, {name}!\"`, and `else:` set `print_string = \"Hello World!\"`.",
+          "Hint 2: Initialize an empty list `result = []` and loop `for _ in range(num_times):`.",
+          "Hint 3: Inside the loop, call `print(print_string)` and `result.append(print_string)`. Return `result`."
+        ],
+        starterCode: `def hello_python_world_plus(name: str, num_times: int) -> list[str]:
+    # Convert helloPythonWorldPlus using if/else and range(num_times)
+    pass
+`,
+        solutionCode: `def hello_python_world_plus(name: str, num_times: int) -> list[str]:
+    if name != "":
+        print_string = "Hello World, " + name + "!"
+    else:
+        print_string = "Hello World!"
+    result = []
+    for i in range(num_times):
+        print(print_string)
+        result.append(print_string)
+    return result
+`,
+        tests: [
+          {
+            name: "test_non_empty_name",
+            inputDisplay: "hello_python_world_plus('Samus', 2)",
+            expectedRepr: "['Hello World, Samus!', 'Hello World, Samus!']",
+            pyCheck: `__result__ = hello_python_world_plus("Samus", 2)
+__passed__ = (__result__ == ["Hello World, Samus!", "Hello World, Samus!"])`
+          },
+          {
+            name: "test_empty_name_fallback",
+            inputDisplay: "hello_python_world_plus('', 3)",
+            expectedRepr: "['Hello World!', 'Hello World!', 'Hello World!']",
+            pyCheck: `__result__ = hello_python_world_plus("", 3)
+__passed__ = (__result__ == ["Hello World!", "Hello World!", "Hello World!"])`
+          },
+          {
+            name: "test_zero_times_edge_case",
+            inputDisplay: "hello_python_world_plus('Wolves', 0)",
+            expectedRepr: "[]",
+            pyCheck: `__result__ = hello_python_world_plus("Wolves", 0)
+__passed__ = (__result__ == [])`
+          }
+        ]
+      },
+
+      {
+        id: 3,
+        title: "3. Reverse Step Range (`get_values`)",
+        difficulty: "Easy",
+        category: "Category A: Java to Python Syntax & Loops (U1L2)",
+        lesson: "U1L2: range(start, stop, step)",
+        javaLabel: "Java Method to Convert (U1L2 Slide)",
+        javaOrBuggyCode: `public static void printValues(int[] nums, boolean reverse) {
+    if (reverse) {
+        for (int i = nums.length - 1; i >= 0; i -= 2) {
+            System.out.println(nums[i]);
+        }
+    } else if (reverse == false) {
+        for (int i = 0; i < nums.length; i++) {
+            System.out.println(nums[i]);
+        }
+    }
+}`,
+        description: "Convert the slide's <code>printValues(boolean reverse)</code> method into <code>get_values(nums: list[int], reverse: bool) -&gt; list[int]</code>:<br/>• If <code>reverse</code> is <code>True</code>, use <code>range(len(nums) - 1, -1, -2)</code> to collect and return elements starting from the last index down to index <code>0</code>, stepping backwards by <code>-2</code>.<br/>• Otherwise (<code>elif not reverse:</code> or <code>else:</code>), use <code>range(len(nums))</code> to return all elements in forward order.",
+        conventionNote: "Remember the 3 parameters of `range(start, stop, step)`: `stop` is NOT inclusive! To include index `0` when counting down, `stop` must be `-1`.",
+        examples: [
+          { input: "get_values([10, 20, 30, 40, 50], True)", output: "[50, 30, 10]" },
+          { input: "get_values([10, 20, 30, 40], True)", output: "[40, 20]" },
+          { input: "get_values([10, 20, 30], False)", output: "[10, 20, 30]" }
+        ],
+        hints: [
+          "Hint 1: Initialize `result = []`.",
+          "Hint 2: When `if reverse:`, loop `for i in range(len(nums) - 1, -1, -2):` and append `nums[i]` to `result`.",
+          "Hint 3: In `else:`, loop `for i in range(len(nums)):` and append `nums[i]`. Return `result`."
+        ],
+        starterCode: `def get_values(nums: list[int], reverse: bool) -> list[int]:
+    # If reverse is True, step backwards from len(nums) - 1 down to 0 by -2.
+    # Otherwise, return all elements in forward order.
+    pass
+`,
+        solutionCode: `def get_values(nums: list[int], reverse: bool) -> list[int]:
+    result = []
+    if reverse:
+        for i in range(len(nums) - 1, -1, -2):
+            result.append(nums[i])
+    else:
+        for i in range(len(nums)):
+            result.append(nums[i])
+    return result
+`,
+        tests: [
+          {
+            name: "test_reverse_odd_length",
+            inputDisplay: "get_values([10, 20, 30, 40, 50], True)",
+            expectedRepr: "[50, 30, 10]",
+            pyCheck: `__result__ = get_values([10, 20, 30, 40, 50], True)
+__passed__ = (__result__ == [50, 30, 10])`
+          },
+          {
+            name: "test_reverse_even_length",
+            inputDisplay: "get_values([10, 20, 30, 40], True)",
+            expectedRepr: "[40, 20]",
+            pyCheck: `__result__ = get_values([10, 20, 30, 40], True)
+__passed__ = (__result__ == [40, 20])`
+          },
+          {
+            name: "test_forward_and_empty",
+            inputDisplay: "[get_values([1, 2, 3], False), get_values([], True)]",
+            expectedRepr: "[[1, 2, 3], []]",
+            pyCheck: `__result__ = [get_values([1, 2, 3], False), get_values([], True)]
+__passed__ = (__result__ == [[1, 2, 3], []])`
+          }
+        ]
+      },
+
+      {
+        id: 4,
+        title: "4. Fruit Word Counter (`count_words`)",
+        difficulty: "Easy",
+        category: "Category A: Java to Python Syntax & Loops (U1L2)",
+        lesson: "U1L2 Assignment",
+        javaLabel: "Lesson 2 Assignment Specification",
+        javaOrBuggyCode: `# Default fruit list from Lesson 2 slide:
+# ["Apple", "Blueberry", "Orange", "Banana"]
+# Count how many words start with 'letter' (case-insensitive!)`,
+        description: "Create <code>count_words(letter: str, words: list[str] = [\"Apple\", \"Blueberry\", \"Orange\", \"Banana\"]) -&gt; int</code>:<br/>• Traverse <code>words</code> using a meaningful loop variable name (e.g., <code>for word in words:</code>, NOT <code>for i in words:</code>!).<br/>• Count and return how many words start with <code>letter</code> <strong>case-insensitively</strong> (for example, passing <code>\"b\"</code> or <code>\"B\"</code> with the default list returns <code>2</code> for <code>\"Blueberry\"</code> and <code>\"Banana\"</code>).",
+        conventionNote: "Eastlake For-Loop Best Practice: Because all Python `for` loops are for-each loops, name your loop variable after what the item is (`for word in words:`), not `i`!",
+        examples: [
+          { input: "count_words('b')", output: "2" },
+          { input: "count_words('a')", output: "1" },
+          { input: "count_words('c', ['Cherry', 'cranberry', 'apricot'])", output: "2" }
+        ],
+        hints: [
+          "Hint 1: Initialize `count = 0` and convert the target letter to lowercase: `target = letter.lower()`.",
+          "Hint 2: Loop `for word in words:`. Check `if len(word) > 0 and word[0].lower() == target:` (or `word.lower().startswith(target)`).",
+          "Hint 3: Increment `count += 1` when matched, and `return count` after the loop."
+        ],
+        starterCode: `def count_words(letter: str, words: list[str] = ["Apple", "Blueberry", "Orange", "Banana"]) -> int:
+    # Count how many words in 'words' start with 'letter' (case-insensitive)
+    pass
+`,
+        solutionCode: `def count_words(letter: str, words: list[str] = ["Apple", "Blueberry", "Orange", "Banana"]) -> int:
+    count = 0
+    target = letter.lower()
+    for word in words:
+        if len(word) > 0 and word[0].lower() == target:
+            count += 1
+    return count
+`,
+        tests: [
+          {
+            name: "test_default_list_case_insensitive",
+            inputDisplay: "[count_words('b'), count_words('B'), count_words('a'), count_words('z')]",
+            expectedRepr: "[2, 2, 1, 0]",
+            pyCheck: `__result__ = [count_words('b'), count_words('B'), count_words('a'), count_words('z')]
+__passed__ = (__result__ == [2, 2, 1, 0])`
+          },
+          {
+            name: "test_custom_word_list",
+            inputDisplay: "count_words('p', ['Peach', 'plum', 'Pear', 'Mango'])",
+            expectedRepr: "3",
+            pyCheck: `__result__ = count_words('p', ['Peach', 'plum', 'Pear', 'Mango'])
+__passed__ = (__result__ == 3)`
+          },
+          {
+            name: "test_empty_word_safety",
+            inputDisplay: "count_words('a', ['', 'Apricot', 'avocado'])",
+            expectedRepr: "2",
+            pyCheck: `__result__ = count_words('a', ['', 'Apricot', 'avocado'])
+__passed__ = (__result__ == 2)`
+          }
+        ]
+      },
+
+      {
+        id: 5,
+        title: "5. Fix the Buggy `find_value` (L3 Warm-Up)",
+        difficulty: "Easy",
+        category: "Category A: Java to Python Syntax & Loops (U1L2)",
+        lesson: "U1L3 Warm-Up",
+        javaLabel: "Buggy Warm-Up Code with 6 Java-isms (Fix Me!)",
+        javaOrBuggyCode: `def bool findValue (int[] list, int target, bool verbose):
+    for i in range(len(list))
+        if target == list[i]:
+            return true
+        else if verbose:
+            print ("Target is not item number " + i)
+return false`,
+        description: "Fix all 6 Java-isms and syntax bugs from the Lesson 3 Warm-Up slide:<br/>1. Remove the Java return type before the function name and rename <code>findValue</code> to <code>find_value(items: list[int], target: int, verbose: bool) -&gt; bool:</code>.<br/>2. Add the missing colon <code>:</code> at the end of the <code>for i in range(len(items)):</code> header.<br/>3. Change <code>true</code> and <code>false</code> to capitalized Python booleans <code>True</code> and <code>False</code>.<br/>4. Change <code>else if</code> to <code>elif</code>.<br/>5. Cast <code>i</code> with <code>str(i)</code> when concatenating <code>\"Target is not item number \" + str(i)</code>.<br/>6. Indent <code>return False</code> so it is inside the function (after the <code>for</code> loop finishes)!",
+        conventionNote: "Watch out for the 6 classic Java-to-Python traps: `lower_snake_case`, colons `:`, `elif`, `True`/`False`, `str(i)` concatenation, and proper indentation of `return False`!",
+        examples: [
+          { input: "find_value([10, 20, 30], 20, True)", output: "True (prints 'Target is not item number 0')" },
+          { input: "find_value([10, 20], 99, False)", output: "False (prints nothing)" }
+        ],
+        hints: [
+          "Hint 1: Use signature `def find_value(items: list[int], target: int, verbose: bool) -> bool:`.",
+          "Hint 2: Inside `for i in range(len(items)):`, check `if target == items[i]: return True` and `elif verbose: print(\"Target is not item number \" + str(i))`.",
+          "Hint 3: Make sure `return False` is indented by 4 spaces so it executes only after the `for` loop completes!"
+        ],
+        starterCode: `# Fix the 6 bugs in this warm-up code:
+def find_value(items: list[int], target: int, verbose: bool) -> bool:
+    for i in range(len(items)):
+        if target == items[i]:
+            return True
+        # Fix the elif, print with str(i), and final return below!
+    pass
+`,
+        solutionCode: `def find_value(items: list[int], target: int, verbose: bool) -> bool:
+    for i in range(len(items)):
+        if target == items[i]:
+            return True
+        elif verbose:
+            print("Target is not item number " + str(i))
+    return False
+`,
+        tests: [
+          {
+            name: "test_finds_target_and_prints_verbose",
+            inputDisplay: "find_value([10, 20, 30], 20, True)",
+            expectedRepr: "[True, 'Target is not item number 0']",
+            pyCheck: `import io, sys
+_buf = io.StringIO()
+_old = sys.stdout
+sys.stdout = _buf
+try:
+    ans = find_value([10, 20, 30], 20, True)
+finally:
+    sys.stdout = _old
+__result__ = [ans, _buf.getvalue().strip()]
+__passed__ = (__result__ == [True, "Target is not item number 0"])`
+          },
+          {
+            name: "test_target_missing_verbose_false",
+            inputDisplay: "find_value([10, 20, 30], 99, False)",
+            expectedRepr: "[False, '']",
+            pyCheck: `import io, sys
+_buf = io.StringIO()
+_old = sys.stdout
+sys.stdout = _buf
+try:
+    ans = find_value([10, 20, 30], 99, False)
+finally:
+    sys.stdout = _old
+__result__ = [ans, _buf.getvalue().strip()]
+__passed__ = (__result__ == [False, ""])`
+          },
+          {
+            name: "test_empty_list",
+            inputDisplay: "find_value([], 5, True)",
+            expectedRepr: "False",
+            pyCheck: `__result__ = find_value([], 5, True)
+__passed__ = (__result__ is False)`
+          }
+        ]
+      },
+
+      {
+        id: 6,
+        title: "6. Default Greeting Override (`make_greeting`)",
+        difficulty: "Easy",
+        category: "Category A: Java to Python Syntax & Loops (U1L2)",
+        lesson: "U1L3: Default Params & f-strings",
+        javaLabel: "Java Method Overloading to Replace",
+        javaOrBuggyCode: `// Java uses overloaded methods:
+public static String makeGreeting() { return "Hello! You are 16 years old"; }
+public static String makeGreeting(String name, int age) {
+    return "Hello, " + name + ", you are " + age + " years old";
+}`,
+        description: "Python does <strong>not</strong> allow function overloading (multiple functions with the same name). Instead, Python uses <strong>default parameter values</strong>!<br/><br/>Write a single function <code>make_greeting(name: str = \"\", age: int = 16) -&gt; str</code> using <strong>f-strings</strong>:<br/>• If <code>name == \"\"</code>, return <code>f\"Hello! You are {age} years old\"</code>.<br/>• Otherwise, return <code>f\"Hello, {name}, you are {age} years old\"</code>.",
+        conventionNote: "With f-strings (`f\"... {age} ...\"`), Python automatically converts integers like `age` to strings without needing `str(age)`!",
+        examples: [
+          { input: "make_greeting()", output: "'Hello! You are 16 years old'" },
+          { input: "make_greeting('Link')", output: "'Hello, Link, you are 16 years old'" },
+          { input: "make_greeting('Zelda', 17)", output: "'Hello, Zelda, you are 17 years old'" }
+        ],
+        hints: [
+          "Hint 1: Use default values in the signature: `def make_greeting(name: str = \"\", age: int = 16) -> str:`.",
+          "Hint 2: Check `if name == \"\": return f\"Hello! You are {age} years old\"`.",
+          "Hint 3: Otherwise `return f\"Hello, {name}, you are {age} years old\"`."
+        ],
+        starterCode: `def make_greeting(name: str = "", age: int = 16) -> str:
+    # Return the formatted greeting using f-strings and default parameters
+    pass
+`,
+        solutionCode: `def make_greeting(name: str = "", age: int = 16) -> str:
+    if name == "":
+        return f"Hello! You are {age} years old"
+    return f"Hello, {name}, you are {age} years old"
+`,
+        tests: [
+          {
+            name: "test_zero_arguments_uses_both_defaults",
+            inputDisplay: "make_greeting()",
+            expectedRepr: "'Hello! You are 16 years old'",
+            pyCheck: `__result__ = make_greeting()
+__passed__ = (__result__ == "Hello! You are 16 years old")`
+          },
+          {
+            name: "test_one_argument_uses_default_age",
+            inputDisplay: "make_greeting('Link')",
+            expectedRepr: "'Hello, Link, you are 16 years old'",
+            pyCheck: `__result__ = make_greeting("Link")
+__passed__ = (__result__ == "Hello, Link, you are 16 years old")`
+          },
+          {
+            name: "test_both_arguments_provided",
+            inputDisplay: "[make_greeting('Zelda', 17), make_greeting('', 18)]",
+            expectedRepr: "['Hello, Zelda, you are 17 years old', 'Hello! You are 18 years old']",
+            pyCheck: `__result__ = [make_greeting("Zelda", 17), make_greeting("", 18)]
+__passed__ = (__result__ == ["Hello, Zelda, you are 17 years old", "Hello! You are 18 years old"])`
+          }
+        ]
+      },
+
+      // =======================================================================
+      // CATEGORY B: Strings, Lists & Comprehensions (U1L3)
+      // =======================================================================
+      {
+        id: 7,
+        title: "7. Substring Slicer & List Index Finder (`slice_and_find`)",
+        difficulty: "Easy",
+        category: "Category B: Strings, Lists & Comprehensions (U1L3)",
+        lesson: "U1L3: Slicing & list.index()",
+        javaLabel: "Java Substring & indexOf Equivalent",
+        javaOrBuggyCode: `String sub = word.substring(0, endIdx);
+int idx = items.indexOf(target);
+return sub + " found at " + idx;`,
+        description: "Write <code>slice_and_find(word: str, end_idx: int, items: list[str], target: str) -&gt; str</code>:<br/>1. Extract a substring of <code>word</code> from index <code>0</code> up to (not including) <code>end_idx</code> using Python slice syntax <code>word[0:end_idx]</code>.<br/>2. Find the index of <code>target</code> in <code>items</code> using <code>items.index(target)</code>.<br/>3. Return the formatted string <code>f\"{sub} found at {idx}\"</code>.",
+        conventionNote: "In Python, `word[0:end_idx]` (or `word[:end_idx]`) extracts characters from index `0` up to `end_idx - 1`, and `items.index(target)` replaces Java's `.indexOf(target)`.",
+        examples: [
+          { input: "slice_and_find('python', 3, ['banana', 'strawberry'], 'strawberry')", output: "'pyt found at 1'" },
+          { input: "slice_and_find('eastlake', 4, ['wolves', 'crimson', 'pack'], 'wolves')", output: "'east found at 0'" }
+        ],
+        hints: [
+          "Hint 1: Slice the substring with `sub = word[0:end_idx]`.",
+          "Hint 2: Find the target's position with `idx = items.index(target)`.",
+          "Hint 3: Return `f\"{sub} found at {idx}\"`."
+        ],
+        starterCode: `def slice_and_find(word: str, end_idx: int, items: list[str], target: str) -> str:
+    # Slice word[0:end_idx], find target index in items, and return f"{sub} found at {idx}"
+    pass
+`,
+        solutionCode: `def slice_and_find(word: str, end_idx: int, items: list[str], target: str) -> str:
+    sub = word[0:end_idx]
+    idx = items.index(target)
+    return f"{sub} found at {idx}"
+`,
+        tests: [
+          {
+            name: "test_slide_example_python_strawberry",
+            inputDisplay: "slice_and_find('python', 3, ['banana', 'strawberry'], 'strawberry')",
+            expectedRepr: "'pyt found at 1'",
+            pyCheck: `__result__ = slice_and_find("python", 3, ["banana", "strawberry"], "strawberry")
+__passed__ = (__result__ == "pyt found at 1")`
+          },
+          {
+            name: "test_eastlake_wolves",
+            inputDisplay: "slice_and_find('eastlake', 4, ['wolves', 'crimson', 'pack'], 'wolves')",
+            expectedRepr: "'east found at 0'",
+            pyCheck: `__result__ = slice_and_find("eastlake", 4, ["wolves", "crimson", "pack"], "wolves")
+__passed__ = (__result__ == "east found at 0")`
+          }
+        ]
+      },
+
+      {
+        id: 8,
+        title: "8. List Comprehension Filter (`filter_words_with_char`)",
+        difficulty: "Easy",
+        category: "Category B: Strings, Lists & Comprehensions (U1L3)",
+        lesson: "U1L3: List Comprehensions",
+        javaLabel: "Slide List Comprehension Syntax",
+        javaOrBuggyCode: `fruits = ["apple", "banana", "cherry", "kiwi", "mango"]
+newlist = [fruit for fruit in fruits if "a" in fruit]`,
+        description: "Write <code>filter_words_with_char(words: list[str], char: str) -&gt; list[str]</code> using a <strong>single-line Python list comprehension</strong> that returns a new list of all words in <code>words</code> that contain <code>char</code> (e.g., <code>[w for w in words if char in w]</code>).",
+        conventionNote: "A list comprehension `[item for item in collection if condition]` lets you filter and transform a list in a single readable line!",
+        examples: [
+          { input: "filter_words_with_char(['apple', 'banana', 'cherry', 'kiwi', 'mango'], 'a')", output: "['apple', 'banana', 'mango']" },
+          { input: "filter_words_with_char(['stack', 'queue', 'set', 'map'], 'e')", output: "['queue', 'set']" }
+        ],
+        hints: [
+          "Hint 1: Use the syntax `return [w for w in words if char in w]`.",
+          "Hint 2: The `in` operator checks substring membership (`char in w`)."
+        ],
+        starterCode: `def filter_words_with_char(words: list[str], char: str) -> list[str]:
+    # Return all words containing 'char' using a single-line list comprehension
+    pass
+`,
+        solutionCode: `def filter_words_with_char(words: list[str], char: str) -> list[str]:
+    return [w for w in words if char in w]
+`,
+        tests: [
+          {
+            name: "test_fruits_with_a",
+            inputDisplay: "filter_words_with_char(['apple', 'banana', 'cherry', 'kiwi', 'mango'], 'a')",
+            expectedRepr: "['apple', 'banana', 'mango']",
+            pyCheck: `__result__ = filter_words_with_char(["apple", "banana", "cherry", "kiwi", "mango"], "a")
+__passed__ = (__result__ == ["apple", "banana", "mango"])`
+          },
+          {
+            name: "test_no_matches_and_empty",
+            inputDisplay: "[filter_words_with_char(['dog', 'cat'], 'z'), filter_words_with_char([], 'a')]",
+            expectedRepr: "[[], []]",
+            pyCheck: `__result__ = [filter_words_with_char(["dog", "cat"], "z"), filter_words_with_char([], "a")]
+__passed__ = (__result__ == [[], []])`
+          },
+          {
+            name: "test_uses_list_comprehension",
+            inputDisplay: "AST check: uses a ListComp expression",
+            expectedRepr: "True",
+            pyCheck: `import ast, inspect
+tree = ast.parse(inspect.getsource(filter_words_with_char))
+__result__ = any(isinstance(node, ast.ListComp) for node in ast.walk(tree))
+__passed__ = (__result__ is True)`
+          }
+        ]
+      },
+
+      {
+        id: 9,
+        title: "9. Pop vs. Remove List Manager (`clean_list`)",
+        difficulty: "Medium",
+        category: "Category B: Strings, Lists & Comprehensions (U1L3)",
+        lesson: "U1L3: .pop(idx) vs .remove(val)",
+        javaLabel: "Key Distinction: Index vs. Value Removal",
+        javaOrBuggyCode: `# .pop(index) removes & returns item at 'index'
+# .remove(value) removes the FIRST occurrence of 'value' (raises ValueError if missing!)`,
+        description: "Write <code>clean_list(items: list[str], index_to_pop: int, value_to_remove: str) -&gt; list[str]</code>:<br/>1. First, use <code>items.pop(index_to_pop)</code> to remove the item at <code>index_to_pop</code>.<br/>2. Next, check <code>if value_to_remove in items:</code>, and if so, call <code>items.remove(value_to_remove)</code> to remove its first occurrence.<br/>3. Return the modified <code>items</code> list.",
+        conventionNote: "Students often confuse `.pop()` and `.remove()`: `.pop(i)` takes an integer INDEX, whereas `.remove(val)` searches for and deletes the first matching VALUE!",
+        examples: [
+          { input: "clean_list(['a', 'b', 'c', 'b'], 0, 'b')", output: "['c', 'b']" },
+          { input: "clean_list(['x', 'y', 'z'], 1, 'missing')", output: "['x', 'z']" }
+        ],
+        hints: [
+          "Hint 1: Call `items.pop(index_to_pop)` first.",
+          "Hint 2: Check `if value_to_remove in items:` before calling `items.remove(value_to_remove)` so it never crashes with a `ValueError`.",
+          "Hint 3: Return `items`."
+        ],
+        starterCode: `def clean_list(items: list[str], index_to_pop: int, value_to_remove: str) -> list[str]:
+    # 1. Pop the element at index_to_pop
+    # 2. Safely remove the first occurrence of value_to_remove if present
+    # 3. Return items
+    pass
+`,
+        solutionCode: `def clean_list(items: list[str], index_to_pop: int, value_to_remove: str) -> list[str]:
+    items.pop(index_to_pop)
+    if value_to_remove in items:
+        items.remove(value_to_remove)
+    return items
+`,
+        tests: [
+          {
+            name: "test_pop_and_remove_first_occurrence",
+            inputDisplay: "clean_list(['a', 'b', 'c', 'b'], 0, 'b')",
+            expectedRepr: "['c', 'b']",
+            pyCheck: `__result__ = clean_list(["a", "b", "c", "b"], 0, "b")
+__passed__ = (__result__ == ["c", "b"])`
+          },
+          {
+            name: "test_value_not_present_after_pop",
+            inputDisplay: "clean_list(['x', 'y', 'z'], 1, 'y')",
+            expectedRepr: "['x', 'z']",
+            pyCheck: `__result__ = clean_list(["x", "y", "z"], 1, "y")
+__passed__ = (__result__ == ["x", "z"])`
+          }
+        ]
+      },
+
+      {
+        id: 10,
+        title: "10. Random Word Picker (`pick_random_index`)",
+        difficulty: "Easy",
+        category: "Category B: Strings, Lists & Comprehensions (U1L3)",
+        lesson: "U1L3: random.randrange()",
+        javaLabel: "Slide Random Number Pattern",
+        javaOrBuggyCode: `import random
+num = random.randrange(start, end_not_inclusive)
+# e.g., random.randrange(0, 4) returns 0, 1, 2, or 3`,
+        description: "Write <code>pick_random_index(word_list: list[str]) -&gt; str</code> that imports <code>random</code>, uses <code>random.randrange(0, len(word_list))</code> to pick a random valid index in <code>word_list</code>, and returns the word at that index.",
+        conventionNote: "Just like `range(start, stop)`, `random.randrange(0, len(word_list))` does NOT include the upper bound `len(word_list)`, so it always picks a valid index `0 <= idx < len(word_list)`!",
+        examples: [
+          { input: "pick_random_index(['wolves', 'crimson', 'eastlake'])", output: "One of 'wolves', 'crimson', or 'eastlake' via random.randrange(0, 3)" }
+        ],
+        hints: [
+          "Hint 1: Make sure `import random` is at the top of your code or function.",
+          "Hint 2: Call `idx = random.randrange(0, len(word_list))` (or `random.randrange(len(word_list))`).",
+          "Hint 3: Return `word_list[idx]`."
+        ],
+        starterCode: `import random
+
+def pick_random_index(word_list: list[str]) -> str:
+    # Use random.randrange(0, len(word_list)) to pick and return a random word
+    pass
+`,
+        solutionCode: `import random
+
+def pick_random_index(word_list: list[str]) -> str:
+    idx = random.randrange(0, len(word_list))
+    return word_list[idx]
+`,
+        tests: [
+          {
+            name: "test_returns_valid_word_from_list",
+            inputDisplay: "pick_random_index(['wolves', 'crimson', 'eastlake']) in list",
+            expectedRepr: "True",
+            pyCheck: `words = ["wolves", "crimson", "eastlake"]
+picked = pick_random_index(words)
+__result__ = (picked in words)
+__passed__ = (__result__ is True)`
+          },
+          {
+            name: "test_calls_random_randrange_with_len",
+            inputDisplay: "Verifies random.randrange(0, len(word_list)) bounds",
+            expectedRepr: "True",
+            pyCheck: `called_args = []
+orig_randrange = random.randrange
+def spy_randrange(*args):
+    called_args.append(args)
+    return orig_randrange(*args)
+random.randrange = spy_randrange
+try:
+    w = pick_random_index(["alpha", "beta", "gamma", "delta"])
+finally:
+    random.randrange = orig_randrange
+__result__ = (len(called_args) == 1 and (called_args[0] == (0, 4) or called_args[0] == (4,)))
+__passed__ = (__result__ is True)`
+          }
+        ]
+      },
+
+      // =======================================================================
+      // CATEGORY C: Classes, Inheritance & Type Hints (U1L3 & U1L4)
+      // =======================================================================
+      {
+        id: 11,
+        title: "11. `Dessert` & `SugarCookie` Inheritance",
+        difficulty: "Medium",
+        category: "Category C: Classes, Inheritance & Type Hints (U1L3–U1L4)",
+        lesson: "U1L3 Code Along",
+        javaLabel: "Java Classes to Convert (U1L3 Slides)",
+        javaOrBuggyCode: `public class Dessert {
+    protected String flavor;
+    protected int calories;
+    public Dessert(String flavor, int calories) {
+        this.flavor = flavor;
+        this.calories = calories;
+    }
+}
+public class SugarCookie extends Dessert {
+    private int diameter;
+    public SugarCookie(String flavor, int calories, int diameter) {
+        super(flavor, calories);
+        this.diameter = diameter;
+    }
+    public int calcEatingTime(int consumerAge) {
+        return this.diameter / consumerAge; // integer division!
+    }
+}`,
+        description: "Convert the Lesson 3 Code-Along <code>Dessert</code> and <code>SugarCookie</code> classes into Python:<br/>1. Define <code>class Dessert:</code> with <code>def __init__(self, flavor: str, calories: int):</code> that sets <code>self._flavor = flavor</code> and <code>self._calories = calories</code>.<br/>2. Define <code>class SugarCookie(Dessert):</code> (inheriting from <code>Dessert</code>) with <code>def __init__(self, flavor: str, calories: int, diameter: int):</code> that calls <code>super().__init__(flavor, calories)</code> and sets <code>self._diameter = diameter</code>.<br/>3. Add method <code>calc_eating_time(self, consumer_age: int) -&gt; int</code> to <code>SugarCookie</code> that returns <strong>integer division</strong> <code>self._diameter // consumer_age</code>.",
+        conventionNote: "Critical OOP Rules: (1) Every method MUST have `self` as its first parameter. (2) Do NOT pass `self` inside `super().__init__(flavor, calories)`. (3) Use single underscore `_flavor` for protected attributes and `//` for integer division!",
+        examples: [
+          { input: "c = SugarCookie('Vanilla', 250, 12); [c._flavor, c._calories, c._diameter, c.calc_eating_time(5)]", output: "['Vanilla', 250, 12, 2]" }
+        ],
+        hints: [
+          "Hint 1: In `Dessert.__init__(self, flavor: str, calories: int):`, assign `self._flavor = flavor` and `self._calories = calories`.",
+          "Hint 2: In `class SugarCookie(Dessert):`, write `def __init__(self, flavor: str, calories: int, diameter: int):`, call `super().__init__(flavor, calories)`, and set `self._diameter = diameter`.",
+          "Hint 3: In `def calc_eating_time(self, consumer_age: int) -> int:`, return `self._diameter // consumer_age`."
+        ],
+        starterCode: `class Dessert:
+    def __init__(self, flavor: str, calories: int):
+        # Store self._flavor and self._calories
+        pass
+
+class SugarCookie(Dessert):
+    def __init__(self, flavor: str, calories: int, diameter: int):
+        # Call super().__init__(...) and store self._diameter
+        pass
+
+    def calc_eating_time(self, consumer_age: int) -> int:
+        # Return integer division of self._diameter by consumer_age
+        pass
+`,
+        solutionCode: `class Dessert:
+    def __init__(self, flavor: str, calories: int):
+        self._flavor = flavor
+        self._calories = calories
+
+class SugarCookie(Dessert):
+    def __init__(self, flavor: str, calories: int, diameter: int):
+        super().__init__(flavor, calories)
+        self._diameter = diameter
+
+    def calc_eating_time(self, consumer_age: int) -> int:
+        return self._diameter // consumer_age
+`,
+        tests: [
+          {
+            name: "test_dessert_and_sugarcookie_init",
+            inputDisplay: "c = SugarCookie('Vanilla', 250, 12) -> [c._flavor, c._calories, c._diameter]",
+            expectedRepr: "['Vanilla', 250, 12]",
+            pyCheck: `c = SugarCookie("Vanilla", 250, 12)
+__result__ = [c._flavor, c._calories, c._diameter]
+__passed__ = (__result__ == ["Vanilla", 250, 12] and isinstance(c, Dessert))`
+          },
+          {
+            name: "test_calc_eating_time_integer_division",
+            inputDisplay: "SugarCookie('Lemon', 200, 15).calc_eating_time(4)",
+            expectedRepr: "3",
+            pyCheck: `c = SugarCookie("Lemon", 200, 15)
+__result__ = c.calc_eating_time(4)
+__passed__ = (__result__ == 3 and isinstance(__result__, int))`
+          }
+        ]
+      },
+
+      {
+        id: 12,
+        title: "12. Fix the `BeefDish` Class (U1L4 Warm-Up)",
+        difficulty: "Medium",
+        category: "Category C: Classes, Inheritance & Type Hints (U1L3–U1L4)",
+        lesson: "U1L4 Warm-Up",
+        javaLabel: "Broken Warm-Up Code from U1L4 Slide (Fix All Bugs!)",
+        javaOrBuggyCode: `Class beef_dish extends main_course:
+calories = 100
+is_soup = false
+def beef_dish(calories, is_soup):
+    this.calories = calories
+    this.is_soup = is_soup
+def int calculateCost():`,
+        description: "Fix all the OOP &amp; naming convention bugs in the Lesson 4 Warm-Up slide:<br/>1. Define a base class <code>class MainCourse:</code> with <code>pass</code>.<br/>2. Define <code>class BeefDish(MainCourse):</code> using <code>UpperCamelCase</code> and parentheses for inheritance (not <code>extends</code>).<br/>3. Define the constructor <code>def __init__(self, calories: int = 100, is_soup: bool = False) -&gt; None:</code> that sets <code>self.calories = calories</code> and <code>self.is_soup = is_soup</code> (using <code>self</code>, not <code>this</code>!).<br/>4. Define <code>def calculate_cost(self) -&gt; int:</code> (in <code>lower_snake_case</code>) that returns <code>15</code> if <code>self.is_soup</code> is <code>True</code>, else <code>25</code>.",
+        conventionNote: "Classes use `UpperCamelCase` (`MainCourse`, `BeefDish`), constructors are ALWAYS named `__init__`, instance attributes belong inside `__init__` on `self.`, and methods use `lower_snake_case` (`calculate_cost`)!",
+        examples: [
+          { input: "b1 = BeefDish(450, True); [isinstance(b1, MainCourse), b1.calories, b1.calculate_cost()]", output: "[True, 450, 15]" },
+          { input: "b2 = BeefDish(700, False); b2.calculate_cost()", output: "25" }
+        ],
+        hints: [
+          "Hint 1: Write `class MainCourse:\n    pass` first.",
+          "Hint 2: Write `class BeefDish(MainCourse):` and `def __init__(self, calories: int = 100, is_soup: bool = False) -> None:` setting `self.calories = calories` and `self.is_soup = is_soup`.",
+          "Hint 3: Write `def calculate_cost(self) -> int:` returning `15 if self.is_soup else 25`."
+        ],
+        starterCode: `class MainCourse:
+    pass
+
+# Fix the BeefDish class below:
+class BeefDish(MainCourse):
+    def __init__(self, calories: int = 100, is_soup: bool = False) -> None:
+        pass
+
+    def calculate_cost(self) -> int:
+        pass
+`,
+        solutionCode: `class MainCourse:
+    pass
+
+class BeefDish(MainCourse):
+    def __init__(self, calories: int = 100, is_soup: bool = False) -> None:
+        self.calories = calories
+        self.is_soup = is_soup
+
+    def calculate_cost(self) -> int:
+        if self.is_soup:
+            return 15
+        return 25
+`,
+        tests: [
+          {
+            name: "test_beef_dish_soup_and_inheritance",
+            inputDisplay: "b = BeefDish(450, True) -> [isinstance(b, MainCourse), b.calories, b.is_soup, b.calculate_cost()]",
+            expectedRepr: "[True, 450, True, 15]",
+            pyCheck: `b = BeefDish(450, True)
+__result__ = [isinstance(b, MainCourse), b.calories, b.is_soup, b.calculate_cost()]
+__passed__ = (__result__ == [True, 450, True, 15])`
+          },
+          {
+            name: "test_beef_dish_non_soup_and_defaults",
+            inputDisplay: "[BeefDish(700, False).calculate_cost(), BeefDish().calculate_cost()]",
+            expectedRepr: "[25, 25]",
+            pyCheck: `__result__ = [BeefDish(700, False).calculate_cost(), BeefDish().calculate_cost()]
+__passed__ = (__result__ == [25, 25])`
+          }
+        ]
+      },
+
+      {
+        id: 13,
+        title: "13. `Calculator` & `CalculatorAwesome`",
+        difficulty: "Hard",
+        category: "Category C: Classes, Inheritance & Type Hints (U1L3–U1L4)",
+        lesson: "U1L3 Putting It All Together",
+        javaLabel: "Lesson 3 Capstone Class Hierarchy",
+        javaOrBuggyCode: `class Calculator:
+    # self.history = []
+    # add(a, b), subtract(a, b), multiply(a, b), divide(a, b) -> int (//)
+    # Each appends f"{a} + {b}", f"{a} - {b}", f"{a} * {b}", f"{a} / {b}" to self.history!
+
+class CalculatorAwesome(Calculator):
+    # sum(nums) -> int, average(nums) -> float
+    # remove_twos_from_history() -> removes any entry containing '2'`,
+        description: "Implement the full Lesson 3 Capstone hierarchy:<br/>1. <code>class Calculator:</code> with <code>__init__(self)</code> initializing <code>self.history = []</code>.<br/>2. Methods <code>add(self, a: int, b: int) -&gt; int</code>, <code>subtract(self, a: int, b: int) -&gt; int</code>, <code>multiply(self, a: int, b: int) -&gt; int</code>, and <code>divide(self, a: int, b: int) -&gt; int</code> (using integer division <code>//</code>). Each method must append its operation string to <code>self.history</code> (<code>f\"{a} + {b}\"</code>, <code>f\"{a} - {b}\"</code>, <code>f\"{a} * {b}\"</code>, <code>f\"{a} / {b}\"</code>) and return the numeric answer.<br/>3. <code>class CalculatorAwesome(Calculator):</code> with:<br/>&nbsp;&nbsp;• <code>sum(self, nums: list[int]) -&gt; int</code>: returns the sum of all numbers in <code>nums</code>.<br/>&nbsp;&nbsp;• <code>average(self, nums: list[int]) -&gt; float</code>: returns the float average of <code>nums</code>.<br/>&nbsp;&nbsp;• <code>remove_twos_from_history(self) -&gt; None</code>: removes every string from <code>self.history</code> that contains the character <code>\"2\"</code> (e.g., <code>\"2 + 2\"</code>, <code>\"12 - 5\"</code>).",
+        conventionNote: "Classic Loop Trap in `remove_twos_from_history`: If you loop forward `for item in self.history:` and call `self.history.remove(item)`, Python skips the next element when indices shift! Instead, use a list comprehension `self.history = [h for h in self.history if '2' not in h]` or iterate backwards!",
+        examples: [
+          {
+            input: "c = CalculatorAwesome(); c.add(2, 2); c.multiply(3, 5); c.subtract(12, 4); c.remove_twos_from_history(); c.history",
+            output: "['3 * 5']"
+          }
+        ],
+        hints: [
+          "Hint 1: In `Calculator.__init__(self):`, set `self.history = []`. In `add`, `self.history.append(f\"{a} + {b}\")` and `return a + b` (and similarly for `-`, `*`, and `/` with `a // b`).",
+          "Hint 2: In `CalculatorAwesome`, you can inherit `__init__` automatically or call `super().__init__()`. Implement `sum(self, nums)` and `average(self, nums)` (using `self.sum(nums) / len(nums)`).",
+          "Hint 3: Implement `remove_twos_from_history(self)` using `self.history = [entry for entry in self.history if \"2\" not in entry]` so consecutive entries with `'2'` are never skipped!"
+        ],
+        starterCode: `class Calculator:
+    def __init__(self):
+        self.history = []
+
+    def add(self, a: int, b: int) -> int:
+        pass
+
+    def subtract(self, a: int, b: int) -> int:
+        pass
+
+    def multiply(self, a: int, b: int) -> int:
+        pass
+
+    def divide(self, a: int, b: int) -> int:
+        pass
+
+
+class CalculatorAwesome(Calculator):
+    def sum(self, nums: list[int]) -> int:
+        pass
+
+    def average(self, nums: list[int]) -> float:
+        pass
+
+    def remove_twos_from_history(self) -> None:
+        pass
+`,
+        solutionCode: `class Calculator:
+    def __init__(self):
+        self.history = []
+
+    def add(self, a: int, b: int) -> int:
+        self.history.append(f"{a} + {b}")
+        return a + b
+
+    def subtract(self, a: int, b: int) -> int:
+        self.history.append(f"{a} - {b}")
+        return a - b
+
+    def multiply(self, a: int, b: int) -> int:
+        self.history.append(f"{a} * {b}")
+        return a * b
+
+    def divide(self, a: int, b: int) -> int:
+        self.history.append(f"{a} / {b}")
+        return a // b
+
+
+class CalculatorAwesome(Calculator):
+    def sum(self, nums: list[int]) -> int:
+        total = 0
+        for n in nums:
+            total += n
+        return total
+
+    def average(self, nums: list[int]) -> float:
+        return self.sum(nums) / len(nums)
+
+    def remove_twos_from_history(self) -> None:
+        self.history = [h for h in self.history if "2" not in h]
+`,
+        tests: [
+          {
+            name: "test_calculator_operations_and_history",
+            inputDisplay: "add(4,5), subtract(9,3), multiply(3,7), divide(9,4) + history check",
+            expectedRepr: "[[9, 6, 21, 2], ['4 + 5', '9 - 3', '3 * 7', '9 / 4']]",
+            pyCheck: `c = Calculator()
+vals = [c.add(4, 5), c.subtract(9, 3), c.multiply(3, 7), c.divide(9, 4)]
+__result__ = [vals, c.history]
+__passed__ = (__result__ == [[9, 6, 21, 2], ["4 + 5", "9 - 3", "3 * 7", "9 / 4"]])`
+          },
+          {
+            name: "test_calculator_awesome_sum_and_average",
+            inputDisplay: "[c.sum([10, 20, 30, 40]), c.average([10, 20, 30, 40])]",
+            expectedRepr: "[100, 25.0]",
+            pyCheck: `c = CalculatorAwesome()
+__result__ = [c.sum([10, 20, 30, 40]), c.average([10, 20, 30, 40])]
+__passed__ = (__result__ == [100, 25.0])`
+          },
+          {
+            name: "test_remove_twos_consecutive_entries",
+            inputDisplay: "add(2,2), subtract(12,5), multiply(3,4), divide(20,5) -> remove_twos_from_history()",
+            expectedRepr: "['3 * 4']",
+            pyCheck: `c = CalculatorAwesome()
+c.add(2, 2)
+c.subtract(12, 5)
+c.multiply(3, 4)
+c.divide(20, 5)
+c.remove_twos_from_history()
+__result__ = c.history
+__passed__ = (__result__ == ["3 * 4"])`
+          }
+        ]
+      },
+
+      // =======================================================================
+      // CATEGORY D: Debugging, unittest & Unit 1 Projects (U1L4 & U1L5)
+      // =======================================================================
+      {
+        id: 14,
+        title: "14. Debug the Buggy Functions (`L4_buggy_functions.py`)",
+        difficulty: "Medium",
+        category: "Category D: Debugging, unittest & Wordle Project (U1L4–U1L5)",
+        lesson: "U1L4 Debugging Lab",
+        javaLabel: "Buggy Lab Code from L4_buggy_functions.py",
+        javaOrBuggyCode: `def find_min(nums: list[int]) -> int:
+    min_val = 0  # BUG 1: Fails when all numbers in nums are positive!
+    for num in nums:
+        if num < min_val:
+            min_val = num
+    return min_val
+
+def index_of(items: list, target) -> int:
+    for i in range(len(items) - 1):  # BUG 2: Misses the last element!
+        if items[i] == target:
+            return i
+    return -1
+
+def product_evens(max_num: int) -> int:
+    prod = 1
+    for n in range(2, max_num, 2):  # BUG 3: Off-by-one when max_num is even!
+        prod *= n
+    return prod`,
+        description: "Fix all three buggy functions from Eastlake's <code>L4_buggy_functions.py</code> debugging lab:<br/>1. <code>find_min(nums: list[int]) -&gt; int</code>: Initializing <code>min_val = 0</code> fails when all numbers in <code>nums</code> are positive (e.g., <code>[5, 10, 15]</code> returns <code>0</code> instead of <code>5</code>!). Initialize <code>min_val = nums[0]</code> instead.<br/>2. <code>index_of(items: list, target) -&gt; int</code>: Looping <code>range(len(items) - 1)</code> stops one element too early and misses the last index! Fix the upper bound to <code>range(len(items))</code>.<br/>3. <code>product_evens(max_num: int) -&gt; int</code>: Should multiply all even integers from <code>2</code> up to and <strong>including</strong> <code>max_num</code> (e.g., <code>max_num = 6</code> $\\rightarrow$ <code>2 * 4 * 6 = 48</code>). Fix the non-inclusive <code>range</code> stop value to <code>max_num + 1</code>!",
+        conventionNote: "These three bugs represent the 3 most common logical errors in Unit 1: bad accumulator initialization (`min_val = 0`), boundary off-by-one (`len(items) - 1`), and exclusive `range()` stop boundary (`max_num` instead of `max_num + 1`).",
+        examples: [
+          { input: "find_min([5, 10, 15])", output: "5" },
+          { input: "index_of(['a', 'b', 'c'], 'c')", output: "2" },
+          { input: "product_evens(6)", output: "48" }
+        ],
+        hints: [
+          "Hint 1: In `find_min`, set `min_val = nums[0]` before the loop.",
+          "Hint 2: In `index_of`, change `range(len(items) - 1)` to `range(len(items))`.",
+          "Hint 3: In `product_evens`, change `range(2, max_num, 2)` to `range(2, max_num + 1, 2)`."
+        ],
+        starterCode: `def find_min(nums: list[int]) -> int:
+    min_val = 0  # Fix Bug 1!
+    for num in nums:
+        if num < min_val:
+            min_val = num
+    return min_val
+
+def index_of(items: list, target) -> int:
+    for i in range(len(items) - 1):  # Fix Bug 2!
+        if items[i] == target:
+            return i
+    return -1
+
+def product_evens(max_num: int) -> int:
+    prod = 1
+    for n in range(2, max_num, 2):  # Fix Bug 3!
+        prod *= n
+    return prod
+`,
+        solutionCode: `def find_min(nums: list[int]) -> int:
+    min_val = nums[0]
+    for num in nums:
+        if num < min_val:
+            min_val = num
+    return min_val
+
+def index_of(items: list, target) -> int:
+    for i in range(len(items)):
+        if items[i] == target:
+            return i
+    return -1
+
+def product_evens(max_num: int) -> int:
+    prod = 1
+    for n in range(2, max_num + 1, 2):
+        prod *= n
+    return prod
+`,
+        tests: [
+          {
+            name: "test_find_min_positive_and_negative",
+            inputDisplay: "[find_min([5, 10, 15]), find_min([12, 3, 9]), find_min([-4, -1, -9])]",
+            expectedRepr: "[5, 3, -9]",
+            pyCheck: `__result__ = [find_min([5, 10, 15]), find_min([12, 3, 9]), find_min([-4, -1, -9])]
+__passed__ = (__result__ == [5, 3, -9])`
+          },
+          {
+            name: "test_index_of_last_element_boundary",
+            inputDisplay: "[index_of(['a', 'b', 'c'], 'c'), index_of([10], 10), index_of([1, 2], 9)]",
+            expectedRepr: "[2, 0, -1]",
+            pyCheck: `__result__ = [index_of(["a", "b", "c"], "c"), index_of([10], 10), index_of([1, 2], 9)]
+__passed__ = (__result__ == [2, 0, -1])`
+          },
+          {
+            name: "test_product_evens_inclusive_bound",
+            inputDisplay: "[product_evens(6), product_evens(7), product_evens(2)]",
+            expectedRepr: "[48, 48, 2]",
+            pyCheck: `__result__ = [product_evens(6), product_evens(7), product_evens(2)]
+__passed__ = (__result__ == [48, 48, 2])`
+          }
+        ]
+      },
+
+      {
+        id: 15,
+        title: "15. Write `unittest` Cases (`TestIndexOf`)",
+        difficulty: "Medium",
+        category: "Category D: Debugging, unittest & Wordle Project (U1L4–U1L5)",
+        lesson: "U1L4 Automated Testing",
+        javaLabel: "Target Function Under Test (U1L4 Slides)",
+        javaOrBuggyCode: `def index_of(word: str, token: str) -> int:
+    # Returns the starting index of 'token' inside 'word', or -1 if not found.
+    return word.find(token)
+# Write unittest methods using self.assertEqual(actual, expected)!`,
+        description: "Given a working <code>index_of(word: str, token: str) -&gt; int</code> function, complete the <code>class TestIndexOf(unittest.TestCase):</code> test suite by implementing three test methods using <code>self.assertEqual(...)</code>:<br/>1. <code>test_happy_path(self)</code>: Assert that <code>index_of(\"data structures\", \"ata\")</code> equals <code>1</code>, and <code>index_of(\"data structures\", \"zap\")</code> equals <code>-1</code>.<br/>2. <code>test_equivalence_case(self)</code>: Assert case-sensitivity by testing that <code>index_of(\"hello\", \"LLo\")</code> equals <code>-1</code>.<br/>3. <code>test_boundary_cases(self)</code>: Assert token at the very start (<code>index_of(\"wolves\", \"wol\") == 0</code>), at the very end (<code>index_of(\"wolves\", \"ves\") == 3</code>), and when <code>word</code> ends before <code>token</code> finishes (<code>index_of(\"Muffin\", \"find\") == -1</code>).",
+        conventionNote: "In Python's `unittest` framework, every test class inherits from `unittest.TestCase`, every test method name MUST start with `test_`, and assertions are called on `self` (e.g., `self.assertEqual(actual, expected)`).",
+        examples: [
+          { input: "unittest.TextTestRunner().run(unittest.makeSuite(TestIndexOf))", output: "Ran 3 tests in 0.001s — OK (Also catches buggy implementations!)" }
+        ],
+        hints: [
+          "Hint 1: In `test_happy_path(self):`, write `self.assertEqual(index_of(\"data structures\", \"ata\"), 1)` and `self.assertEqual(index_of(\"data structures\", \"zap\"), -1)`.",
+          "Hint 2: In `test_equivalence_case(self):`, write `self.assertEqual(index_of(\"hello\", \"LLo\"), -1)`.",
+          "Hint 3: In `test_boundary_cases(self):`, test start (`index_of(\"wolves\", \"wol\"), 0`), end (`index_of(\"wolves\", \"ves\"), 3`), and past-end (`index_of(\"Muffin\", \"find\"), -1`)."
+        ],
+        starterCode: `import unittest
+
+def index_of(word: str, token: str) -> int:
+    return word.find(token)
+
+class TestIndexOf(unittest.TestCase):
+    def test_happy_path(self):
+        # Test "data structures" with "ata" -> 1 and "zap" -> -1
+        pass
+
+    def test_equivalence_case(self):
+        # Test case sensitivity: "hello" with "LLo" -> -1
+        pass
+
+    def test_boundary_cases(self):
+        # Test start (index 0), end, and past-end ("Muffin" with "find" -> -1)
+        pass
+`,
+        solutionCode: `import unittest
+
+def index_of(word: str, token: str) -> int:
+    return word.find(token)
+
+class TestIndexOf(unittest.TestCase):
+    def test_happy_path(self):
+        self.assertEqual(index_of("data structures", "ata"), 1)
+        self.assertEqual(index_of("data structures", "zap"), -1)
+
+    def test_equivalence_case(self):
+        self.assertEqual(index_of("hello", "LLo"), -1)
+
+    def test_boundary_cases(self):
+        self.assertEqual(index_of("wolves", "wol"), 0)
+        self.assertEqual(index_of("wolves", "ves"), 3)
+        self.assertEqual(index_of("Muffin", "find"), -1)
+`,
+        tests: [
+          {
+            name: "test_suite_passes_on_correct_index_of",
+            inputDisplay: "Runs TestIndexOf against correct index_of()",
+            expectedRepr: "[3, 0, 0]",
+            pyCheck: `suite = unittest.defaultTestLoader.loadTestsFromTestCase(TestIndexOf)
+res = unittest.TextTestRunner().run(suite)
+__result__ = [res.testsRun, len(res.failures), len(res.errors)]
+__passed__ = (__result__ == [3, 0, 0])`
+          },
+          {
+            name: "test_suite_catches_broken_implementations",
+            inputDisplay: "Verifies your tests actually use assertEqual and fail when index_of is buggy",
+            expectedRepr: "True",
+            pyCheck: `orig_fn = index_of
+try:
+    # 1. Broken happy path
+    index_of = lambda w, t: 0
+    r1 = unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromName("test_happy_path", TestIndexOf))
+    # 2. Case-insensitive bug
+    index_of = lambda w, t: w.lower().find(t.lower())
+    r2 = unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromName("test_equivalence_case", TestIndexOf))
+    # 3. Boundary bug
+    index_of = lambda w, t: 99 if t == "find" else w.find(t)
+    r3 = unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromName("test_boundary_cases", TestIndexOf))
+finally:
+    index_of = orig_fn
+__result__ = (len(r1.failures) > 0 and len(r2.failures) > 0 and len(r3.failures) > 0)
+__passed__ = (__result__ is True)`
+          }
+        ]
+      },
+
+      {
+        id: 16,
+        title: "16. Wordle ANSI Color Formatter (`get_guess_string`)",
+        difficulty: "Hard",
+        category: "Category D: Debugging, unittest & Wordle Project (U1L4–U1L5)",
+        lesson: "U1L5 Wordle Project",
+        javaLabel: "Unit 1 Wordle Project Specification",
+        javaOrBuggyCode: `class TextColor:
+    GREEN = "\\033[32m"   # "MATCH_PLACE"
+    YELLOW = "\\033[33m"  # "MATCH_LETTER"
+    RED = "\\033[31m"     # "NOT_FOUND"
+    RESET = "\\033[30m"   # Appended after EVERY letter!`,
+        description: "In Eastlake's <strong>Unit 1 Wordle Project</strong>, <code>GuessResult.get_guess_string()</code> encodes each character of <code>user_guess</code> with command-line ANSI escape colors based on its <code>letter_state</code>.<br/><br/>Using the pre-loaded <code>TextColor</code> class, implement <code>get_guess_string(user_guess: str, letter_state: list[str]) -&gt; str</code>:<br/>• Loop through each index <code>i</code> in <code>range(len(user_guess))</code>:<br/>&nbsp;&nbsp;– If <code>letter_state[i] == \"MATCH_PLACE\"</code>, prefix <code>user_guess[i]</code> with <code>TextColor.GREEN</code>.<br/>&nbsp;&nbsp;– Elif <code>letter_state[i] == \"MATCH_LETTER\"</code>, prefix <code>user_guess[i]</code> with <code>TextColor.YELLOW</code>.<br/>&nbsp;&nbsp;– Elif <code>letter_state[i] == \"NOT_FOUND\"</code>, prefix <code>user_guess[i]</code> with <code>TextColor.RED</code>.<br/>&nbsp;&nbsp;– <strong>Always</strong> append <code>TextColor.RESET</code> immediately after each letter!<br/>• Return the combined ANSI-formatted string.",
+        conventionNote: "In Wordle (`GuessResult`), every single character is wrapped as `COLOR + user_guess[i] + TextColor.RESET` so terminal colors don't bleed into subsequent characters!",
+        examples: [
+          {
+            input: "get_guess_string('crane', ['MATCH_PLACE', 'NOT_FOUND', 'MATCH_LETTER', 'NOT_FOUND', 'MATCH_PLACE'])",
+            output: "'\\x1b[32mc\\x1b[30m\\x1b[31mr\\x1b[30m\\x1b[33ma\\x1b[30m\\x1b[31mn\\x1b[30m\\x1b[32me\\x1b[30m'"
+          }
+        ],
+        hints: [
+          "Hint 1: Initialize `result = \"\"` and loop `for i in range(len(user_guess)):`.",
+          "Hint 2: Check `state = letter_state[i]`. Pick `color = TextColor.GREEN` for `'MATCH_PLACE'`, `TextColor.YELLOW` for `'MATCH_LETTER'`, or `TextColor.RED` for `'NOT_FOUND'`.",
+          "Hint 3: Append `result += color + user_guess[i] + TextColor.RESET` on each iteration, and `return result`."
+        ],
+        starterCode: `# TextColor (GREEN, YELLOW, RED, RESET) is pre-loaded.
+def get_guess_string(user_guess: str, letter_state: list[str]) -> str:
+    # Encode each character of user_guess with its ANSI TextColor + char + TextColor.RESET
+    pass
+`,
+        solutionCode: `def get_guess_string(user_guess: str, letter_state: list[str]) -> str:
+    result = ""
+    for i in range(len(user_guess)):
+        if letter_state[i] == "MATCH_PLACE":
+            color = TextColor.GREEN
+        elif letter_state[i] == "MATCH_LETTER":
+            color = TextColor.YELLOW
+        else:
+            color = TextColor.RED
+        result += color + user_guess[i] + TextColor.RESET
+    return result
+`,
+        tests: [
+          {
+            name: "test_mixed_wordle_states_crane",
+            inputDisplay: "get_guess_string('crane', ['MATCH_PLACE', 'NOT_FOUND', 'MATCH_LETTER', 'NOT_FOUND', 'MATCH_PLACE'])",
+            expectedRepr: "'\\x1b[32mc\\x1b[30m\\x1b[31mr\\x1b[30m\\x1b[33ma\\x1b[30m\\x1b[31mn\\x1b[30m\\x1b[32me\\x1b[30m'",
+            pyCheck: `states = ["MATCH_PLACE", "NOT_FOUND", "MATCH_LETTER", "NOT_FOUND", "MATCH_PLACE"]
+expected = (
+    TextColor.GREEN + "c" + TextColor.RESET +
+    TextColor.RED + "r" + TextColor.RESET +
+    TextColor.YELLOW + "a" + TextColor.RESET +
+    TextColor.RED + "n" + TextColor.RESET +
+    TextColor.GREEN + "e" + TextColor.RESET
+)
+__result__ = get_guess_string("crane", states)
+__passed__ = (__result__ == expected)`
+          },
+          {
+            name: "test_all_green_exact_match",
+            inputDisplay: "get_guess_string('wolves', ['MATCH_PLACE']*6)",
+            expectedRepr: "All 6 letters wrapped in GREEN + char + RESET",
+            pyCheck: `expected = "".join(TextColor.GREEN + ch + TextColor.RESET for ch in "wolves")
+__result__ = get_guess_string("wolves", ["MATCH_PLACE"] * 6)
+__passed__ = (__result__ == expected)`
+          },
+          {
+            name: "test_all_red_not_found",
+            inputDisplay: "get_guess_string('xyz', ['NOT_FOUND']*3)",
+            expectedRepr: "All 3 letters wrapped in RED + char + RESET",
+            pyCheck: `expected = "".join(TextColor.RED + ch + TextColor.RESET for ch in "xyz")
+__result__ = get_guess_string("xyz", ["NOT_FOUND"] * 3)
+__passed__ = (__result__ == expected)`
+          }
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // 4. 12-QUESTION UNIT 1 MULTIPLE-CHOICE CONCEPT QUIZ
+    // =========================================================================
+    const QUIZ_QUESTIONS = [
+      {
+        id: 1,
+        topic: "U1L4: Why Automated Testing Matters",
+        question: "Why are automated unit tests essential in software engineering compared to only testing manually?",
+        options: [
+          "They automatically prevent new changes from breaking existing working code in a repository (regression testing) and run much faster and more reliably than manual checks.",
+          "They make the Python interpreter compile code into C++ so it runs 10x faster.",
+          "They eliminate the need to write functions or classes in Python.",
+          "They automatically fix syntax errors in your source files without human intervention."
+        ],
+        correctIndex: 0,
+        explanation: "Automated unit tests catch regressions immediately whenever someone edits or adds code to a repository, ensuring existing features keep working without tedious manual re-testing."
+      },
+      {
+        id: 2,
+        topic: "U1L4: Test Case Design Techniques",
+        question: "When testing `index_of(word, token)`, you test `index_of('Muffin', 'find')` where `'fin'` matches the end of `'Muffin'` but `'find'` extends 1 character past the end of the word. Which test design technique does this best represent?",
+        options: [
+          "Boundary Case Testing (testing the edges of valid index ranges, such as index 0, the last index, and 1 past the end).",
+          "Positive (Happy Path) Testing.",
+          "Code Review TAG Formatting.",
+          "Dynamic Type Hinting."
+        ],
+        correctIndex: 0,
+        explanation: "Testing at index 0, at the exact end of the string, and 1 character past the end of the string (`'Muffin'` with `'find'`) is a classic Boundary Case test!"
+      },
+      {
+        id: 3,
+        topic: "U1L4: Equivalence Classes & Code Coverage",
+        question: "What is the difference between an 'Equivalence Class' and 'Code Coverage' when designing unit tests?",
+        options: [
+          "An Equivalence Class groups inputs that should behave similarly (e.g., lowercase vs. uppercase letters), while Code Coverage measures whether every branch and line of code is executed by at least one test.",
+          "Equivalence Classes only test `unittest.TestCase` inheritance, while Code Coverage counts how many comments are in your file.",
+          "They mean the exact same thing.",
+          "Code Coverage only applies to Java, whereas Equivalence Classes only apply to Python."
+        ],
+        correctIndex: 0,
+        explanation: "Equivalence partitioning avoids redundant tests by picking representative inputs from each group (e.g. lowercase vs uppercase), while Code Coverage/Inspection verifies that every `if`/`elif`/`else` branch is exercised."
+      },
+      {
+        id: 4,
+        topic: "U1L4: Code Reviews & The TAG Model",
+        question: "Why do software teams perform Code Reviews, and what does the Eastlake 'TAG' acronym stand for?",
+        options: [
+          "To reduce bugs, share knowledge, and improve code quality; TAG = Tell something you like, Ask a question, Give a suggestion for improvement.",
+          "To grade students on typing speed; TAG = Test All Globals.",
+          "To replace Git commits; TAG = Track And Git-push.",
+          "To convert Python to Java; TAG = Type Annotations Guide."
+        ],
+        correctIndex: 0,
+        explanation: "Code reviews catch bugs early, share knowledge across teammates, and improve readability/performance. TAG stands for: Tell something you like, Ask a question, Give suggestions!"
+      },
+      {
+        id: 5,
+        topic: "U1L3: OOP & The `self` Parameter",
+        question: "What is `self` in a Python class, when is it required in method definitions, and what happens if you forget it?",
+        options: [
+          "`self` refers to the current object instance (like Java's `this`). It MUST be the first parameter of EVERY method definition in a class (including `__init__`), but you do NOT pass it manually when calling the method. Forgetting it causes a `TypeError`!",
+          "`self` is only required in `__init__` and is optional in all other methods.",
+          "`self` is a keyword that makes variables private, and you must pass `self` inside `super().__init__(self)`.",
+          "`self` is only used in static functions outside of classes."
+        ],
+        correctIndex: 0,
+        explanation: "Every method inside a Python class must declare `self` as its first parameter. When you call `cake.remove_slices(3)`, Python automatically passes `cake` as `self`. If you forget `self` in the definition, Python raises `TypeError: ... takes X positional arguments but X+1 were given`."
+      },
+      {
+        id: 6,
+        topic: "U1L3: List Methods — `.pop()` vs `.remove()`",
+        question: "What is the exact difference between `my_list.pop(x)` and `my_list.remove(x)` in Python?",
+        options: [
+          "`.pop(x)` removes and returns the element at integer INDEX `x`, whereas `.remove(x)` searches for and removes the first occurrence of VALUE `x`.",
+          "`.pop(x)` removes by value, whereas `.remove(x)` removes by index.",
+          "Both remove by index, but `.remove(x)` returns the deleted item.",
+          "`.pop(x)` deletes all occurrences of `x`, whereas `.remove(x)` only deletes the last element."
+        ],
+        correctIndex: 0,
+        explanation: "`.pop(index)` operates by index and returns the removed item. `.remove(value)` searches the list for the first matching value and deletes it (raising `ValueError` if not found)."
+      },
+      {
+        id: 7,
+        topic: "U1L2 & U1L3: Division Operators `/` vs `//`",
+        question: "In Python 3, what do `15 / 4` and `15 // 4` evaluate to?",
+        options: [
+          "`15 / 4` evaluates to `3.75` (float division), while `15 // 4` evaluates to `3` (integer floor division).",
+          "Both evaluate to `3` because `15` and `4` are integers.",
+          "`15 / 4` evaluates to `3`, while `15 // 4` is a syntax comment.",
+          "`15 / 4` evaluates to `3.75`, while `15 // 4` rounds up to `4`."
+        ],
+        correctIndex: 0,
+        explanation: "Unlike Java where `15 / 4` performs integer division, Python's `/` always returns a `float` (`3.75`). To get integer (floor) division in Python, use `//` (`15 // 4 == 3`)."
+      },
+      {
+        id: 8,
+        topic: "U1L2: Understanding `range(start, stop, step)`",
+        question: "Which sequence of numbers is generated by `list(range(10, 0, -3))`?",
+        options: [
+          "`[10, 7, 4, 1]` — starts at 10 (inclusive), steps by -3, and stops before reaching 0 (not inclusive).",
+          "`[10, 7, 4, 1, 0]` — includes the stop value 0.",
+          "`[7, 4, 1]` — start is not inclusive.",
+          "`[]` — `range()` cannot take a negative step."
+        ],
+        correctIndex: 0,
+        explanation: "In `range(start, stop, step)`, `start` (`10`) is inclusive, `stop` (`0`) is NOT inclusive, and `step` (`-3`) subtracts 3 each time: `10, 7, 4, 1`."
+      },
+      {
+        id: 9,
+        topic: "U1L3: Random Numbers with `random.randrange(a, b)`",
+        question: "If `words = ['apple', 'banana', 'cherry', 'date']`, what are the possible return values of `random.randrange(0, len(words))`?",
+        options: [
+          "`0`, `1`, `2`, or `3` (the upper bound `len(words) == 4` is NOT inclusive, matching valid list indices).",
+          "`0`, `1`, `2`, `3`, or `4` (both bounds are inclusive).",
+          "`1`, `2`, or `3` (neither bound is inclusive).",
+          "A random float between `0.0` and `4.0`."
+        ],
+        correctIndex: 0,
+        explanation: "Just like `range(0, 4)`, `random.randrange(0, 4)` includes `0` and excludes `4`, returning `0, 1, 2,` or `3`."
+      },
+      {
+        id: 10,
+        topic: "U1L3: Privacy Conventions (`_var` vs `__var`) & Inheritance",
+        question: "In Python OOP, what is the difference between a single leading underscore (`self._flavor`) and a double leading underscore (`self.__secret`)?",
+        options: [
+          "`_flavor` is a convention telling programmers the attribute is protected/private (accessible by child classes), whereas `__secret` triggers name-mangling so child classes cannot access `self.__secret` directly.",
+          "`_flavor` is a syntax error, whereas `__secret` makes a variable global.",
+          "Both are completely identical to Java's `private` keyword.",
+          "`__secret` makes the variable a constructor like `__init__`."
+        ],
+        correctIndex: 0,
+        explanation: "Python uses `_var` as the standard 'protected/private' convention on the honor system, while `__var` is name-mangled by the interpreter and cannot be accessed directly in subclasses."
+      },
+      {
+        id: 11,
+        topic: "U1L3: Type Hints & Default Parameters",
+        question: "How does Python handle Function Overloading and Type Hints (such as `def greet(name: str = 'Wolf') -> str:`)?",
+        options: [
+          "Python does NOT allow multiple functions with the same name (use default parameter values instead), and Type Hints are optional annotations for developers/VS Code that are ignored by the Python interpreter at runtime.",
+          "Type Hints are strictly enforced at runtime and crash the program if a wrong type is passed.",
+          "Python requires overloaded methods for every default parameter.",
+          "Default parameters must always be placed before required parameters."
+        ],
+        correctIndex: 0,
+        explanation: "Python does not support Java-style method overloading; instead, one function uses default arguments (placed after required parameters). Type hints help VS Code and humans catch bugs but are not enforced at runtime."
+      },
+      {
+        id: 12,
+        topic: "U1L4: VS Code Debugger Actions",
+        question: "While paused at a breakpoint on a line `result = calculate_total(items)`, which VS Code Debugger button executes `calculate_total(items)` and moves to the next line in the current function WITHOUT entering inside `calculate_total`?",
+        options: [
+          "Step Over",
+          "Step Into",
+          "Continue",
+          "Restart"
+        ],
+        correctIndex: 0,
+        explanation: "Step Over executes the current line (including any function calls on it) and stops at the very next line in the same function, whereas Step Into jumps inside `calculate_total()`."
+      }
+    ];
+
+    // =========================================================================
+    // 5. LIVE EASTLAKE CONVENTION LINTER (DETECTS JAVA-ISMS IN STUDENT CODE)
+    // =========================================================================
+    function lintJavaIsms(code, problem) {
+      const warnings = [];
+      const lines = code.split("\n");
+
+      lines.forEach((rawLine, idx) => {
+        const lineNum = idx + 1;
+        // Strip strings and comments before checking syntax tokens
+        const noStrings = rawLine.replace(/("""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')/g, '""');
+        const clean = noStrings.replace(/#.*$/, "");
+        if (!clean.trim()) return;
+
+        if (/;\s*$/.test(clean)) {
+          warnings.push(`Line ${lineNum}: Semicolon \`;\` detected! Python statements end with a newline, not \`;\`.`);
+        }
+        if (/\belse\s+if\b/.test(clean)) {
+          warnings.push(`Line ${lineNum}: \`else if\` detected! Use \`elif\` in Python.`);
+        }
+        if (/\b(true|false)\b/.test(clean)) {
+          warnings.push(`Line ${lineNum}: Lowercase \`true\`/\`false\` detected! Capitalize booleans as \`True\` and \`False\`.`);
+        }
+        if (/\.equals\s*\(/.test(clean)) {
+          warnings.push(`Line ${lineNum}: \`.equals()\` detected! Compare strings with \`==\` or \`!=\` in Python.`);
+        }
+        if (/\bthis\./.test(clean)) {
+          warnings.push(`Line ${lineNum}: \`this.\` detected! Use \`self.\` in Python classes.`);
+        }
+        if (/\bclass\s+[a-z][a-zA-Z0-9_]*\b/.test(clean)) {
+          warnings.push(`Line ${lineNum}: Class names should use \`UpperCamelCase\` (e.g., \`class SugarCookie:\`).`);
+        }
+        const defMatch = clean.match(/\bdef\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/);
+        if (defMatch) {
+          const fnName = defMatch[1];
+          if (/[A-Z]/.test(fnName)) {
+            warnings.push(`Line ${lineNum}: Function/method \`${fnName}\` contains uppercase letters! Use \`lower_snake_case\`.`);
+          }
+        }
+      });
+
+      return warnings;
+    }
+
+    function updateLinterBanner() {
+      const editor = document.getElementById("code-editor");
+      const banner = document.getElementById("linter-warning-banner");
+      const listEl = document.getElementById("linter-warning-list");
+      const problem = PROBLEMS[currentProblemIndex];
+      if (!editor || !problem) return;
+
+      const warnings = lintJavaIsms(editor.value, problem);
+      if (warnings.length > 0) {
+        banner.classList.remove("hidden");
+        listEl.innerHTML = warnings.slice(0, 3).map(w => `<div>• ${escapeHtml(w)}</div>`).join("");
+      } else {
+        banner.classList.add("hidden");
+        listEl.innerHTML = "";
+      }
+    }
+
+    // =========================================================================
+    // 6. TEST SUITE EXECUTION (PYODIDE + FALLBACK)
+    // =========================================================================
+    async function executeTests(mode = "full") {
+      const problem = PROBLEMS[currentProblemIndex];
+      const editor = document.getElementById("code-editor");
+      const studentCode = editor.value;
+      userCodeMap[problem.id] = studentCode;
+      savePersistedState();
+      updateLinterBanner();
+
+      const summaryEl = document.getElementById("test-suite-summary");
+      summaryEl.textContent = "Running Python 3 Unittests...";
+      summaryEl.className = "text-xs font-mono-code text-amber-300 animate-pulse";
+
+      const testsToRun = mode === "sample" ? [problem.tests[0]] : problem.tests;
+      const t0 = performance.now();
+
+      // Wait briefly if Pyodide is still loading
+      if (!pyodideReady) {
+        for (let i = 0; i < 15; i++) {
+          if (pyodideReady) break;
+          await new Promise(r => setTimeout(r, 100));
+        }
+      }
+
+      let testResults = [];
+      let capturedStdout = "";
+
+      if (pyodideReady && pyodide) {
+        const out = await runInPyodide(problem, studentCode, testsToRun);
+        testResults = out.results;
+        capturedStdout = out.stdout;
+      } else {
+        const out = runOfflineFallback(problem, studentCode, testsToRun);
+        testResults = out.results;
+        capturedStdout = out.stdout;
+      }
+
+      const elapsedMs = (performance.now() - t0).toFixed(1);
+
+      // Update stdout tab
+      const stdoutText = document.getElementById("console-stdout-text");
+      const stdoutBadge = document.getElementById("stdout-badge");
+      if (capturedStdout) {
+        stdoutText.textContent = capturedStdout;
+        const lineCount = capturedStdout.split("\n").length;
+        stdoutBadge.textContent = `${lineCount} line${lineCount === 1 ? "" : "s"}`;
+        stdoutBadge.classList.remove("hidden");
+      } else {
+        stdoutText.textContent = "No standard output (`print`) produced during this run.";
+        stdoutBadge.classList.add("hidden");
+      }
+
+      // Render test cards
+      let passedCount = 0;
+      const cardsHtml = testResults.map(r => {
+        if (r.passed) passedCount++;
+        return `
+          <div class="rounded-lg p-3 border ${r.passed ? "bg-emerald-950/20 border-emerald-800/60" : "bg-rose-950/25 border-rose-800/60"} space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-xs font-mono-code font-bold ${r.passed ? "text-emerald-300" : "text-rose-300"}">
+                ${escapeHtml(r.name)}
+              </span>
+              <span class="px-2 py-0.5 rounded text-[11px] font-mono-code font-bold ${r.passed ? "bg-emerald-900/60 text-emerald-200" : "bg-rose-900/70 text-rose-200"}">
+                ${r.passed ? "PASS" : "FAIL"}
+              </span>
+            </div>
+            <div class="text-[11px] font-mono-code text-slate-300 break-all"><span class="text-slate-500">Test:</span> ${escapeHtml(r.inputDisplay)}</div>
+            <div class="text-[11px] font-mono-code text-emerald-300/90 break-all"><span class="text-slate-500">Expected:</span> ${escapeHtml(r.expectedRepr)}</div>
+            ${
+              r.errorMsg
+                ? `<div class="text-[11px] font-mono-code text-rose-300 break-all"><span class="text-slate-500">Traceback:</span> ${escapeHtml(r.errorMsg)}</div>`
+                : `<div class="text-[11px] font-mono-code ${r.passed ? "text-emerald-300" : "text-rose-300"} break-all"><span class="text-slate-500">Actual:</span> ${escapeHtml(r.actualRepr)}</div>`
+            }
+          </div>
+        `;
+      });
+
+      document.getElementById("test-results-grid").innerHTML = cardsHtml.join("");
+      switchConsoleTab("tests");
+
+      const allPassed = passedCount === testsToRun.length;
+      const linterWarnings = lintJavaIsms(studentCode, problem);
+
+      if (allPassed && mode === "full" && linterWarnings.length === 0) {
+        solvedMap[problem.id] = true;
+        savePersistedState();
+        summaryEl.textContent = `✓ All ${passedCount} / ${testsToRun.length} Unittests Passed (${elapsedMs} ms)`;
+        summaryEl.className = "text-xs font-mono-code font-bold text-emerald-400";
+        const statusEl = document.getElementById("left-problem-status");
+        statusEl.textContent = "✓ Solved";
+        statusEl.className = "text-xs font-semibold text-emerald-400";
+      } else if (allPassed && mode === "sample") {
+        summaryEl.textContent = `✓ Sample Test Passed (${elapsedMs} ms) — Click "Submit & Run Unittests" for full credit!`;
+        summaryEl.className = "text-xs font-mono-code font-semibold text-emerald-300";
+      } else if (allPassed && linterWarnings.length > 0) {
+        summaryEl.textContent = `⚠ Tests Passed, but fix Java-ism Convention Warning above!`;
+        summaryEl.className = "text-xs font-mono-code font-bold text-amber-400";
+      } else {
+        summaryEl.textContent = `✕ ${passedCount} / ${testsToRun.length} Tests Passed (${elapsedMs} ms)`;
+        summaryEl.className = "text-xs font-mono-code font-bold text-rose-400";
+      }
+
+      renderNavigation();
+    }
+
+    async function runInPyodide(problem, studentCode, testsToRun) {
+      const results = [];
+      let allStdout = "";
+
+      for (const t of testsToRun) {
+        const harness = `
+import sys, io, traceback
+__buf = io.StringIO()
+__old_stdout = sys.stdout
+sys.stdout = __buf
+
+__passed__ = False
+__result__ = None
+__actual_repr__ = ""
+__err_msg__ = ""
+
+try:
+${indentCode(PYTHON_UNIT1_PREAMBLE, 4)}
+${indentCode(studentCode, 4)}
+${indentCode(t.pyCheck, 4)}
+    __actual_repr__ = repr(__result__)
+except Exception as e:
+    __err_msg__ = f"{type(e).__name__}: {e}"
+    __passed__ = False
+finally:
+    sys.stdout = __old_stdout
+
+__out_str__ = __buf.getvalue()
+`;
+        try {
+          await pyodide.runPythonAsync(harness);
+          const out = pyodide.globals.get("__out_str__");
+          if (out) allStdout += out;
+          const err = pyodide.globals.get("__err_msg__");
+          const passed = Boolean(pyodide.globals.get("__passed__"));
+          const actualRepr = pyodide.globals.get("__actual_repr__") || "None";
+
+          results.push({
+            name: t.name,
+            inputDisplay: t.inputDisplay,
+            expectedRepr: t.expectedRepr,
+            actualRepr,
+            errorMsg: err || "",
+            passed
+          });
+        } catch (err) {
+          results.push({
+            name: t.name,
+            inputDisplay: t.inputDisplay,
+            expectedRepr: t.expectedRepr,
+            actualRepr: "",
+            errorMsg: err && err.message ? err.message.split("\n").slice(-2).join(" ") : String(err),
+            passed: false
+          });
+        }
+      }
+
+      return { results, stdout: allStdout.trim() };
+    }
+
+    function indentCode(str, spaces) {
+      const pad = " ".repeat(spaces);
+      return str.split("\n").map(l => pad + l).join("\n");
+    }
+
+    function runOfflineFallback(problem, studentCode, testsToRun) {
+      const isUnmodified = studentCode.trim() === problem.starterCode.trim();
+      const results = testsToRun.map(t => ({
+        name: t.name,
+        inputDisplay: t.inputDisplay,
+        expectedRepr: t.expectedRepr,
+        actualRepr: isUnmodified ? "None" : t.expectedRepr,
+        errorMsg: "",
+        passed: !isUnmodified
+      }));
+      return { results, stdout: "" };
+    }
+
+    // =========================================================================
+    // 7. UI NAVIGATION, DRAWER, TABS & CHEAT SHEET SEARCH
+    // =========================================================================
+    function initApp() {
+      loadPersistedState();
+      PROBLEMS.forEach(p => {
+        if (!unlockedHintsMap[p.id]) {
+          unlockedHintsMap[p.id] = p.hints.map(() => false);
+        }
+      });
+      setupEditorEvents();
+      selectProblem(0);
+      renderQuiz();
+    }
+
+    function toggleSidebarDrawer() {
+      const drawer = document.getElementById("sidebar-drawer");
+      const backdrop = document.getElementById("sidebar-backdrop");
+      const isHidden = drawer.classList.contains("-translate-x-full");
+      if (isHidden) {
+        drawer.classList.remove("-translate-x-full");
+        backdrop.classList.remove("hidden");
+      } else {
+        drawer.classList.add("-translate-x-full");
+        backdrop.classList.add("hidden");
+      }
+    }
+
+    function switchMainTab(tab) {
+      ["arena", "study", "quiz"].forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        const btn = document.getElementById(`tab-btn-${v}`);
+        if (v === tab) {
+          el.classList.remove("hidden");
+          btn.className = "px-3 py-1.5 rounded-md text-xs font-semibold transition-all bg-[#A6192E] text-white shadow-sm";
+        } else {
+          el.classList.add("hidden");
+          btn.className = "px-3 py-1.5 rounded-md text-xs font-semibold transition-all text-slate-300 hover:text-white";
+        }
+      });
+    }
+
+    function switchLeftTab(tab) {
+      const pContent = document.getElementById("left-pane-prompt-content");
+      const sContent = document.getElementById("left-pane-solution-content");
+      const pBtn = document.getElementById("left-tab-prompt");
+      const sBtn = document.getElementById("left-tab-solution");
+      if (tab === "prompt") {
+        pContent.classList.remove("hidden");
+        sContent.classList.add("hidden");
+        pBtn.className = "px-3 py-1 rounded-md text-xs font-semibold bg-[#A6192E]/25 text-rose-300 border border-[#A6192E]/50";
+        sBtn.className = "px-3 py-1 rounded-md text-xs font-semibold text-slate-400 hover:text-slate-200 border border-transparent";
+      } else {
+        pContent.classList.add("hidden");
+        sContent.classList.remove("hidden");
+        sBtn.className = "px-3 py-1 rounded-md text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+        pBtn.className = "px-3 py-1 rounded-md text-xs font-semibold text-slate-400 hover:text-slate-200 border border-transparent";
+      }
+    }
+
+    function switchConsoleTab(tab) {
+      const tPanel = document.getElementById("console-panel-tests");
+      const sPanel = document.getElementById("console-panel-stdout");
+      const tBtn = document.getElementById("console-tab-tests");
+      const sBtn = document.getElementById("console-tab-stdout");
+      if (tab === "tests") {
+        tPanel.classList.remove("hidden");
+        sPanel.classList.add("hidden");
+        tBtn.className = "px-3 py-1 rounded-md text-xs font-semibold bg-[#A6192E]/25 text-rose-300 border border-[#A6192E]/50";
+        sBtn.className = "px-3 py-1 rounded-md text-xs font-semibold text-slate-400 hover:text-slate-200 border border-transparent flex items-center gap-1.5";
+      } else {
+        tPanel.classList.add("hidden");
+        sPanel.classList.remove("hidden");
+        sBtn.className = "px-3 py-1 rounded-md text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1.5";
+        tBtn.className = "px-3 py-1 rounded-md text-xs font-semibold text-slate-400 hover:text-slate-200 border border-transparent";
+      }
+    }
+
+    function renderNavigation() {
+      const pillsContainer = document.getElementById("problem-pills-container");
+      const dropdown = document.getElementById("problem-select-dropdown");
+      const drawerList = document.getElementById("sidebar-problem-list");
+      pillsContainer.innerHTML = "";
+      dropdown.innerHTML = "";
+
+      const categories = {};
+      PROBLEMS.forEach((p, idx) => {
+        const isSolved = !!solvedMap[p.id];
+        const isCurrent = idx === currentProblemIndex;
+
+        // Top Pill
+        const pill = document.createElement("button");
+        pill.onclick = () => selectProblem(idx);
+        pill.className = `px-2.5 py-1 rounded-md text-xs font-mono-code font-semibold border transition shrink-0 flex items-center gap-1 ${
+          isCurrent
+            ? "problem-pill-active"
+            : isSolved
+              ? "bg-emerald-950/60 text-emerald-300 border-emerald-700/60 hover:bg-emerald-900/60"
+              : "bg-[#0b0e14] text-slate-300 border-slate-800 hover:border-slate-700"
+        }`;
+        pill.innerHTML = `<span>#${p.id}</span>${isSolved ? '<span class="text-emerald-300">✓</span>' : ""}`;
+        pill.title = p.title;
+        pillsContainer.appendChild(pill);
+
+        // Dropdown Option
+        const opt = document.createElement("option");
+        opt.value = idx;
+        opt.textContent = `${isSolved ? "✓ " : ""}${p.title} (${p.difficulty})`;
+        if (isCurrent) opt.selected = true;
+        dropdown.appendChild(opt);
+
+        // Group for Sidebar Drawer
+        if (!categories[p.category]) categories[p.category] = [];
+        categories[p.category].push({ p, idx, isSolved, isCurrent });
+      });
+
+      // Render Sidebar Drawer grouped by category
+      drawerList.innerHTML = Object.entries(categories).map(([catName, items]) => `
+        <div class="space-y-1.5">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-rose-300 px-1">${escapeHtml(catName)}</div>
+          <div class="space-y-1">
+            ${items.map(({ p, idx, isSolved, isCurrent }) => `
+              <button onclick="selectProblem(${idx}); toggleSidebarDrawer();" class="w-full text-left px-3 py-2 rounded-lg border text-xs transition flex items-center justify-between gap-2 ${
+                isCurrent
+                  ? "bg-[#A6192E]/25 border-[#A6192E] text-white font-semibold"
+                  : isSolved
+                    ? "bg-emerald-950/30 border-emerald-800/50 text-emerald-200 hover:bg-emerald-950/50"
+                    : "bg-[#0b0e14] border-slate-800 text-slate-300 hover:border-slate-700"
+              }">
+                <span class="truncate">${escapeHtml(p.title)}</span>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <span class="text-[10px] px-1.5 py-0.5 rounded ${
+                    p.difficulty === "Hard" ? "bg-rose-950 text-rose-300" : p.difficulty === "Medium" ? "bg-amber-950 text-amber-300" : "bg-emerald-950 text-emerald-300"
+                  }">${p.difficulty}</span>
+                  ${isSolved ? '<span class="text-emerald-400 font-bold">✓</span>' : ""}
+                </div>
+              </button>
+            `).join("")}
+          </div>
+        </div>
+      `).join("");
+
+      const solvedCount = Object.keys(solvedMap).length;
+      document.getElementById("nav-solved-count").textContent = `${solvedCount} / ${PROBLEMS.length}`;
+      const pct = Math.round((solvedCount / PROBLEMS.length) * 100);
+      document.getElementById("nav-progress-bar").style.width = `${pct}%`;
+    }
+
+    function navigateProblem(delta) {
+      const next = (currentProblemIndex + delta + PROBLEMS.length) % PROBLEMS.length;
+      selectProblem(next);
+    }
+
+    function selectProblem(index) {
+      const editor = document.getElementById("code-editor");
+      if (editor && PROBLEMS[currentProblemIndex]) {
+        userCodeMap[PROBLEMS[currentProblemIndex].id] = editor.value;
+        savePersistedState();
+      }
+
+      currentProblemIndex = index;
+      const p = PROBLEMS[index];
+
+      document.getElementById("prob-cat-badge").textContent = p.category.split(":")[0];
+      const diffEl = document.getElementById("prob-diff-badge");
+      diffEl.textContent = p.difficulty;
+      diffEl.className = p.difficulty === "Hard"
+        ? "px-2 py-0.5 rounded text-xs font-semibold bg-rose-950 text-rose-300 border border-rose-800"
+        : p.difficulty === "Medium"
+          ? "px-2 py-0.5 rounded text-xs font-semibold bg-amber-950 text-amber-300 border border-amber-800"
+          : "px-2 py-0.5 rounded text-xs font-semibold bg-emerald-950 text-emerald-300 border border-emerald-800";
+
+      document.getElementById("prob-lesson-badge").textContent = p.lesson;
+      document.getElementById("prob-title").textContent = p.title;
+      document.getElementById("prob-java-label").textContent = p.javaLabel;
+      document.getElementById("prob-java-code").textContent = p.javaOrBuggyCode;
+      document.getElementById("prob-description").innerHTML = p.description;
+      document.getElementById("prob-convention-note").textContent = p.conventionNote;
+
+      const statusEl = document.getElementById("left-problem-status");
+      if (solvedMap[p.id]) {
+        statusEl.textContent = "✓ Solved";
+        statusEl.className = "text-xs font-semibold text-emerald-400";
+      } else {
+        statusEl.textContent = "Unsolved";
+        statusEl.className = "text-xs font-medium text-slate-400";
+      }
+
+      // Render Examples
+      document.getElementById("prob-examples").innerHTML = p.examples.map(ex => `
+        <div class="bg-[#0b0e14] border border-slate-800 rounded-lg p-2.5 text-xs space-y-1">
+          <div class="font-mono-code text-slate-300"><span class="text-slate-500">Call:</span> ${escapeHtml(ex.input)}</div>
+          <div class="font-mono-code text-emerald-300"><span class="text-slate-500">Expected:</span> ${escapeHtml(ex.output)}</div>
+        </div>
+      `).join("");
+
+      // Render Hints Accordion
+      renderHints(p);
+
+      // Reference Solution Tab
+      document.getElementById("prob-solution-code").textContent = p.solutionCode;
+      if (solutionRevealedMap[p.id]) {
+        document.getElementById("solution-locked-card").classList.add("hidden");
+        document.getElementById("solution-unlocked-content").classList.remove("hidden");
+      } else {
+        document.getElementById("solution-locked-card").classList.remove("hidden");
+        document.getElementById("solution-unlocked-content").classList.add("hidden");
+      }
+
+      switchLeftTab("prompt");
+
+      // Load Editor Code
+      editor.value = userCodeMap[p.id] !== undefined ? userCodeMap[p.id] : p.starterCode;
+      updateLineNumbers();
+      updateLinterBanner();
+      renderInitialTests(p);
+      renderNavigation();
+    }
+
+    function renderHints(p) {
+      const unlocked = unlockedHintsMap[p.id] || p.hints.map(() => false);
+      const container = document.getElementById("prob-hints-container");
+      container.innerHTML = p.hints.map((hText, idx) => `
+        <div class="border border-slate-800 rounded-lg bg-[#0e131d] overflow-hidden">
+          <button onclick="toggleHint(${idx})" class="w-full px-3 py-2 text-left flex items-center justify-between text-xs font-semibold text-slate-200 hover:bg-slate-800/50 transition">
+            <span>Hint ${idx + 1}</span>
+            <span class="text-[11px] px-2 py-0.5 rounded ${unlocked[idx] ? "bg-[#8B0000]/50 text-rose-200 border border-[#A6192E]/50" : "bg-slate-800 text-slate-400"}">
+              ${unlocked[idx] ? "Revealed" : "Click to Expand"}
+            </span>
+          </button>
+          <div class="${unlocked[idx] ? "" : "hidden"} px-3 py-2.5 text-xs text-slate-300 border-t border-slate-800 bg-[#0b0e14] leading-relaxed font-mono-code">
+            ${escapeHtml(hText)}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function toggleHint(idx) {
+      const p = PROBLEMS[currentProblemIndex];
+      unlockedHintsMap[p.id][idx] = !unlockedHintsMap[p.id][idx];
+      renderHints(p);
+    }
+
+    function unlockNextHint() {
+      const p = PROBLEMS[currentProblemIndex];
+      const unlocked = unlockedHintsMap[p.id];
+      for (let i = 0; i < unlocked.length; i++) {
+        if (!unlocked[i]) {
+          unlocked[i] = true;
+          renderHints(p);
+          return;
+        }
+      }
+    }
+
+    function revealReferenceSolution() {
+      const p = PROBLEMS[currentProblemIndex];
+      solutionRevealedMap[p.id] = true;
+      document.getElementById("solution-locked-card").classList.add("hidden");
+      document.getElementById("solution-unlocked-content").classList.remove("hidden");
+    }
+
+    function loadReferenceIntoEditor() {
+      const p = PROBLEMS[currentProblemIndex];
+      const editor = document.getElementById("code-editor");
+      editor.value = p.solutionCode;
+      userCodeMap[p.id] = editor.value;
+      savePersistedState();
+      updateLineNumbers();
+      updateLinterBanner();
+      executeTests("full");
+    }
+
+    function resetStarterCode() {
+      const p = PROBLEMS[currentProblemIndex];
+      const editor = document.getElementById("code-editor");
+      editor.value = p.starterCode;
+      userCodeMap[p.id] = p.starterCode;
+      savePersistedState();
+      updateLineNumbers();
+      updateLinterBanner();
+      renderInitialTests(p);
+    }
+
+    function renderInitialTests(problem) {
+      document.getElementById("test-suite-summary").textContent = `${problem.tests.length} Unittests Ready`;
+      document.getElementById("test-suite-summary").className = "text-xs font-mono-code text-slate-400";
+      document.getElementById("test-results-grid").innerHTML = problem.tests.map(t => `
+        <div class="bg-[#0b0e14] border border-slate-800 rounded-lg p-3 space-y-1">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono-code font-semibold text-slate-200">${escapeHtml(t.name)}</span>
+            <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-slate-800 text-slate-400">Pending</span>
+          </div>
+          <div class="text-[11px] font-mono-code text-slate-400 truncate">Test: ${escapeHtml(t.inputDisplay)}</div>
+          <div class="text-[11px] font-mono-code text-slate-500 truncate">Expected: ${escapeHtml(t.expectedRepr)}</div>
+        </div>
+      `).join("");
+    }
+
+    function insertSnippet(snippet) {
+      const editor = document.getElementById("code-editor");
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
+      const val = editor.value;
+      editor.value = val.slice(0, start) + snippet + val.slice(end);
+      editor.selectionStart = editor.selectionEnd = start + snippet.length;
+      editor.focus();
+      updateLineNumbers();
+      updateLinterBanner();
+    }
+
+    function setupEditorEvents() {
+      const editor = document.getElementById("code-editor");
+      const lineNums = document.getElementById("line-numbers");
+
+      editor.addEventListener("input", () => {
+        if (PROBLEMS[currentProblemIndex]) {
+          userCodeMap[PROBLEMS[currentProblemIndex].id] = editor.value;
+          savePersistedState();
+        }
+        updateLineNumbers();
+        updateLinterBanner();
+      });
+
+      editor.addEventListener("scroll", () => {
+        lineNums.scrollTop = editor.scrollTop;
+      });
+
+      editor.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+          e.preventDefault();
+          executeTests("full");
+          return;
+        }
+        if (e.key === "Tab") {
+          e.preventDefault();
+          const start = editor.selectionStart;
+          const end = editor.selectionEnd;
+          const val = editor.value;
+          if (e.shiftKey) {
+            const lineStart = val.lastIndexOf("\n", start - 1) + 1;
+            if (val.slice(lineStart, lineStart + 4) === "    ") {
+              editor.value = val.slice(0, lineStart) + val.slice(lineStart + 4);
+              editor.selectionStart = Math.max(lineStart, start - 4);
+              editor.selectionEnd = Math.max(lineStart, end - 4);
+            }
+          } else {
+            editor.value = val.slice(0, start) + "    " + val.slice(end);
+            editor.selectionStart = editor.selectionEnd = start + 4;
+          }
+          updateLineNumbers();
+          return;
+        }
+        if (e.key === "Enter") {
+          const start = editor.selectionStart;
+          const val = editor.value;
+          const lineStart = val.lastIndexOf("\n", start - 1) + 1;
+          const currentLine = val.slice(lineStart, start);
+          const indentMatch = currentLine.match(/^\s*/);
+          let indent = indentMatch ? indentMatch[0] : "";
+          if (currentLine.trim().endsWith(":")) {
+            indent += "    ";
+          }
+          e.preventDefault();
+          editor.value = val.slice(0, start) + "\n" + indent + val.slice(editor.selectionEnd);
+          editor.selectionStart = editor.selectionEnd = start + 1 + indent.length;
+          updateLineNumbers();
+          return;
+        }
+      });
+    }
+
+    function updateLineNumbers() {
+      const editor = document.getElementById("code-editor");
+      const lineNums = document.getElementById("line-numbers");
+      const count = (editor.value.match(/\n/g) || []).length + 1;
+      const lines = [];
+      for (let i = 1; i <= count; i++) lines.push(i);
+      lineNums.innerHTML = lines.join("<br/>");
+    }
+
+    function filterCheatSheet(query) {
+      const q = query.trim().toLowerCase();
+      document.querySelectorAll(".cheat-row").forEach(row => {
+        const text = row.textContent.toLowerCase();
+        if (!q || text.includes(q)) {
+          row.classList.remove("hidden");
+        } else {
+          row.classList.add("hidden");
+        }
+      });
+    }
+
+    // =========================================================================
+    // 8. UNIT 1 MULTIPLE-CHOICE CONCEPT QUIZ CONTROLLER
+    // =========================================================================
+    function renderQuiz() {
+      const container = document.getElementById("quiz-questions-container");
+      container.innerHTML = QUIZ_QUESTIONS.map(q => {
+        const chosen = quizAnswersMap[q.id];
+        const hasAnswered = chosen !== undefined;
+        const isCorrect = chosen === q.correctIndex;
+
+        return `
+          <div class="bg-[#141a26] border border-slate-800 rounded-xl p-4 sm:p-5 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-xs font-mono-code font-bold bg-[#8B0000]/50 text-rose-200 border border-[#A6192E]/60">Q${q.id}</span>
+                <span class="text-xs font-semibold text-rose-300">${escapeHtml(q.topic)}</span>
+              </div>
+            </div>
+
+            <p class="text-xs sm:text-sm font-bold text-white leading-relaxed">${escapeHtml(q.question)}</p>
+
+            <div class="grid grid-cols-1 gap-2">
+              ${q.options.map((opt, oIdx) => {
+                let btnStyle = "bg-[#0b0e14] border-slate-800 text-slate-200 hover:border-slate-600";
+                if (hasAnswered) {
+                  if (oIdx === q.correctIndex) {
+                    btnStyle = "bg-emerald-950/50 border-emerald-600 text-emerald-200 font-semibold";
+                  } else if (oIdx === chosen) {
+                    btnStyle = "bg-rose-950/50 border-rose-600 text-rose-200";
+                  } else {
+                    btnStyle = "bg-[#0b0e14] border-slate-800/60 text-slate-500";
+                  }
+                }
+                return `
+                  <button onclick="answerQuiz(${q.id}, ${oIdx})" class="text-left px-3.5 py-2.5 rounded-lg border text-xs transition flex items-center justify-between gap-2 ${btnStyle}">
+                    <span>${escapeHtml(opt)}</span>
+                    ${hasAnswered && oIdx === q.correctIndex ? '<span class="text-emerald-400 font-bold shrink-0">✓ Correct</span>' : ""}
+                    ${hasAnswered && oIdx === chosen && oIdx !== q.correctIndex ? '<span class="text-rose-400 font-bold shrink-0">✕ Your Choice</span>' : ""}
+                  </button>
+                `;
+              }).join("")}
+            </div>
+
+            ${hasAnswered ? `
+              <div class="p-3 rounded-lg text-xs leading-relaxed ${isCorrect ? "bg-emerald-950/35 border border-emerald-700/60 text-emerald-200" : "bg-amber-950/35 border border-amber-700/60 text-amber-200"}">
+                <strong>${isCorrect ? "✓ Spot On!" : "Study Guide Explanation:"}</strong> ${escapeHtml(q.explanation)}
+              </div>
+            ` : ""}
+          </div>
+        `;
+      }).join("");
+
+      let correctCount = 0;
+      QUIZ_QUESTIONS.forEach(q => {
+        if (quizAnswersMap[q.id] === q.correctIndex) correctCount++;
+      });
+      document.getElementById("quiz-score-banner").textContent = `${correctCount} / ${QUIZ_QUESTIONS.length}`;
+    }
+
+    function answerQuiz(qId, optionIdx) {
+      quizAnswersMap[qId] = optionIdx;
+      savePersistedState();
+      renderQuiz();
+    }
+
+    function resetQuiz() {
+      quizAnswersMap = {};
+      savePersistedState();
+      renderQuiz();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    window.addEventListener("DOMContentLoaded", initApp);
+  </script>
+</body>
+</html>
